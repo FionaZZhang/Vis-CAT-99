@@ -1,0 +1,34 @@
+@import url("https://fonts.googleapis.com/css2?family=Jua:wght@400&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inder:wght@400&display=swap");
+
+body {
+  margin: 0;
+  line-height: normal;
+  /* Set a base font size, 16px is usually the browser default */
+  font-size: 16px;
+}
+
+:root {
+  /* fonts */
+  --font-inder: 'Inder', sans-serif;
+  --font-jua: 'Jua', sans-serif;
+
+  /* font sizes */
+  --font-size-21xl: 2.5rem;  /* 40/16 = 2.5rem (if base size is 16px) */
+  --font-size-77xl: 6rem;
+  --font-size-21xl: 2.5rem;
+  --font-size-6xl: 1.56rem;
+
+  /* Colors */
+  --color-black: #000;
+  --color-white: #fff;
+  --color-palegoldenrod: #feeaa5;
+  --color-plum: #a478b8;
+  --color-peachpuff: #f1c5ae;
+
+  /* border radiuses */
+  --br-21xl: 2.5rem;  /* 40/16 = 2.5rem (if base size is 16px) */
+  --br-11xl: 1.875rem;  /* 30/16 = 1.875rem (if base size is 16px) */
+  --br-xl: 20px;
+  --br-11xl: 30px;
+}
