@@ -4,6 +4,8 @@ import App from "./App.vue";
 
 import AppLobby from "./pages/Lobby.vue";
 import AppSettings from "./pages/Settings.vue";
+import AppPlayground from "./pages/Playground.vue";
+import AppStart from "./pages/Start.vue";
 import "./global.css";
 
 const routes = [
@@ -21,6 +23,16 @@ const routes = [
     name: "Settings",
     component: AppSettings,
   },
+  {
+    path: "/Playground",
+    name: "Playground",
+    component: AppPlayground,
+  },
+  {
+    path: "/Start",
+    name: "Start",
+    component: AppStart,
+  }
 ];
 
 const router = createRouter({
