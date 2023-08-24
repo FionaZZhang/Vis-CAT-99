@@ -11,9 +11,10 @@
           @mouseover="handleMouseOver"
         ></div>
       </div>
+      <div class="larger-font">Pattern: {{ pattern.join(' -> ') }}</div>
+      <div class="larger-font">Path: {{ path.join(' -> ') }}</div>
     </div>
-    <div class="larger-font">Pattern: {{ pattern.join(' -> ') }}</div>
-    <div class="larger-font">Path: {{ path.join(' -> ') }}</div>
+    
   </div>
 </template>
 
@@ -33,8 +34,16 @@ export default defineComponent ({
     this.svg = this.$el.querySelector('.connector');
   },
   methods: {
-    startDrawing() {
+    // startDrawing() {
+    //   this.isDrawing = true;
+    // },
+    startDrawing(event) {
       this.isDrawing = true;
+      const cell = event.target;
+      const id = cell.dataset.id;
+      this.pattern.push(id);
+      this.path.push([Math.ceil(id / 4), (id % 4 == 0 ? 4 : id % 4)]);
+      cell.classList.add('active');
     },
     handleMouseOver(event) {
       const cell = event.target;
@@ -100,7 +109,7 @@ export default defineComponent ({
 .cell {
   width: 35px;
   height: 35px;
-  background-color: #ddd;
+  background-color: black;
   border-radius: 50%;
   transition: background-color 0.2s;
   position: relative;
