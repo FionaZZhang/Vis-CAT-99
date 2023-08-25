@@ -1,16 +1,16 @@
 <template>
-    <body id = "InsPage">
+    <body id="InsPage">
         <nav>
-            <p class ="Icon">
-                <img src="../assets/button_home.png" alt="Button Home" id = "buttonHome">
-                <img src="../assets/button_restart.png" alt="Button Restart" id = "buttonRestart">
+            <p class="Icon">
+                <img src="../assets/button_home.png" alt="Button Home" id="buttonHome">
+                <img src="../assets/button_restart.png" alt="Button Restart" id="buttonRestart">
             </p>
 
-            <img src="../assets/cat@2x.png" alt="Cat Icon" id = "catPink" >
+            <img src="../assets/cat@2x.png" alt="Cat Icon" id="catPink">
         </nav>
         <main>
             <header>
-                <img src="../assets/text_goal.png" alt="Goal Text">
+                <img src="../assets/text_goal.png" alt="Goal Text" id="textGoal">
             </header>
             <section>
                 <div><img src="../assets/left_pattern.png" alt="Instruction Pattern"></div>
@@ -163,68 +163,86 @@ export default defineComponent({
 });
 </script>
 <style scoped>
-    #InsPage {
-        background-color: #fff0e6;
-    }
+#InsPage {
+    background-color: #fff0e6;
+}
 
-    nav{
-        padding: 0px;
-        display: flex;
-        flex-direction: row;
-        width:100%;
-        justify-content: space-between;
-    }
+nav {
+    padding: 0px;
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-between;
+}
 
-    #catPink{
-        position: relative;
-        right:3%;
-        top:3%;
-        width:100px;
-        height:100px;
-    }
-    .Icon{
-        display: flex;
-        position: relative;
-        flex-direction: row;
-        left: 3%;
-        top:3%;
-        width:100px;
-        height:100px;
-    }
+#catPink {
+    position: relative;
+    right: 3%;
+    top: 3%;
+    width: 100px;
+    height: 100px;
+}
 
-    .grid-wrapper {
-        position: relative;
-    }
+.Icon {
+    display: flex;
+    position: relative;
+    flex-direction: row;
+    left: 3%;
+    top: 3%;
+    width: 100px;
+    height: 100px;
+}
 
-    .connector {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-    }
+main {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    gap: 20%;
+}
 
-    .grid {
-        display: grid;
-        grid-template-columns: repeat(4, 50px);
-        gap: 50px;
-    }
+#textGoal {
+    position: relative;
 
-    .cell {
-        width: 35px;
-        height: 35px;
-        background-color: black;
-        border-radius: 50%;
-        transition: background-color 0.2s;
-        position: relative;
-        z-index: 1;
-    }
+}
 
-    .cell.active {
-        background-color: #3498db;
-    }
+section {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
 
-    .larger-font {
-        font-size: 40px;
-    }
-</style>
+.grid-wrapper {
+    position: relative;
+}
+
+.connector {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(4, 50px);
+    gap: 50px;
+}
+
+.cell {
+    width: 35px;
+    height: 35px;
+    background-color: black;
+    border-radius: 50%;
+    transition: background-color 0.2s;
+    position: relative;
+    z-index: 1;
+}
+
+.cell.active {
+    background-color: #3498db;
+}
+
+.larger-font {
+    font-size: 40px;
+}</style>
