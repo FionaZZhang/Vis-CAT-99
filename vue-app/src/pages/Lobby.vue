@@ -26,12 +26,12 @@
       <div :class="$style.viscatIcon" />
       <div :class="$style.viscatLogo">Vis-CAT</div>
     </div>
-    <div :class="$style.buttonStart">
+    <div :class="$style.buttonStart" @click="navigateToStart">
       <img :class="$style.buttonStartIcon" alt="" src="../assets/button-start.svg" />
       <div :class="$style.startButtonText">Start</div>
       <img :class="$style.playIcon" alt="" src="../assets/play-icon@2x.png" />
     </div>
-    <div :class="$style.buttonPlayground">
+    <div :class="$style.buttonPlayground" @click="navigateToPlayground">
       <img
         :class="$style.buttonPlaygroundIcon"
         alt=""
@@ -54,6 +54,12 @@
     methods: {
       navigateToSettings() {
         this.$router.push("/Settings");
+      },
+      navigateToPlayground() {
+        this.$router.push("/Playground");
+      },
+      navigateToStart() {
+        this.$router.push("/Start");
       }
     }
   });
