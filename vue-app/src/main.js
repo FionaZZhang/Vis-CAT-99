@@ -5,6 +5,8 @@ import App from "./App.vue";
 import AppLobby from "./pages/Lobby.vue";
 import AppSettings from "./pages/Settings.vue";
 import "./global.css";
+import AppInstruction from "./pages/Instruction.vue"
+import AppPlayground from "./pages/Playground.vue";
 
 const routes = [
   {
@@ -20,6 +22,16 @@ const routes = [
     path: "/Settings",
     name: "Settings",
     component: AppSettings,
+  },
+  {
+    path: "/Playground",
+    name: "Playground",
+    component: AppPlayground,
+  },
+  {
+    path: "/Instruction",
+    name: "Instruction",
+    component: AppInstruction,
   },
 ];
 
