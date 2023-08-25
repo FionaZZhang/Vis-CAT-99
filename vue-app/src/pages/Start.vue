@@ -17,6 +17,7 @@
     </div>
     <img :class="$style.buttonStopIcon" alt="" src="../assets/button-stop.svg" />
   </div>
+
 </template>
 <script>
   import { defineComponent } from "vue";

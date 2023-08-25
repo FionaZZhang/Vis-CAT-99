@@ -18,7 +18,9 @@
       <div class="larger-font">Pattern: {{ pattern.join(' -> ') }}</div>
       <div class="larger-font">Path: {{ path.join(' -> ') }}</div>
     </div>
-    
+    <button @click="clearPattern">Clear Pattern</button>
+    <button @click="revertPattern" v-if="pattern.length > 0">Revert Last Dot</button>
+
   </div>
 </template>
 
@@ -49,9 +51,11 @@ export default defineComponent ({
       this.isDrawing = true;
       const cell = event.target;
       const id = cell.dataset.id;
-      this.pattern.push(id);
-      this.path.push([Math.ceil(id / 4), (id % 4 == 0 ? 4 : id % 4)]);
-      cell.classList.add('active');
+      if (!this.pattern.includes(id)) {
+        this.pattern.push(id);
+        this.path.push([Math.ceil(id / 4), (id % 4 == 0 ? 4 : id % 4)]);
+        cell.classList.add('active');
+      }
     },
     handleMouseOver(event) {
       const cell = event.target;
@@ -98,19 +102,49 @@ export default defineComponent ({
       line.setAttribute('stroke-width', '5');
       this.svg.appendChild(line);
     },
+    // endDrawing() {
+    //   this.isDrawing = false;
+    //   setTimeout(() => {
+    //     this.pattern = [];
+    //     this.path = [];
+    //     const cells = this.$el.querySelectorAll('.cell.active');
+    //     cells.forEach(cell => {
+    //       cell.classList.remove('active');
+    //     });
+    //     while (this.svg.firstChild) {
+    //       this.svg.removeChild(this.svg.lastChild);
+    //     }
+    //   }, 1000);
+    // },
     endDrawing() {
       this.isDrawing = false;
-      setTimeout(() => {
-        this.pattern = [];
-        this.path = [];
-        const cells = this.$el.querySelectorAll('.cell.active');
-        cells.forEach(cell => {
-          cell.classList.remove('active');
-        });
-        while (this.svg.firstChild) {
-          this.svg.removeChild(this.svg.lastChild);
-        }
-      }, 1000);
+    },
+    clearPattern() {
+      this.pattern = [];
+      this.path = [];
+      const cells = this.$el.querySelectorAll('.cell.active');
+      cells.forEach(cell => {
+        cell.classList.remove('active');
+      });
+      while (this.svg.firstChild) {
+        this.svg.removeChild(this.svg.lastChild);
+      }
+    },
+    revertPattern() {
+      if (this.pattern.length === 0) return;
+
+      // Remove the last item from the pattern and path arrays
+      const lastId = this.pattern.pop();
+      this.path.pop();
+
+      // Revert the UI change for the last cell
+      const lastCell = this.$el.querySelector(`.cell[data-id="${lastId}"]`);
+      lastCell.classList.remove('active');
+
+      // Remove the last SVG line
+      if (this.svg.lastChild) {
+        this.svg.removeChild(this.svg.lastChild);
+      }
     },
   },
 });
