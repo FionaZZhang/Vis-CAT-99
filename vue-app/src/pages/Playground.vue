@@ -2,14 +2,18 @@
   <div>
     <div class="grid-wrapper">
       <svg class="connector"></svg>
-      <div class="grid" @mousedown="startDrawing" @mouseup="endDrawing">
+      <div class="grid" 
+        @mousedown="startDrawing" 
+        @mouseup="endDrawing" 
+        @touchstart="startDrawing" 
+        @touchmove="handleTouchMove">
         <div
           v-for="n in 16"
           :key="n"
           class="cell"
           :data-id="n"
           @mouseover="handleMouseOver"
-        ></div>
+          @touchend="endDrawing"></div>
       </div>
       <div class="larger-font">Pattern: {{ pattern.join(' -> ') }}</div>
       <div class="larger-font">Path: {{ path.join(' -> ') }}</div>
@@ -32,11 +36,15 @@ export default defineComponent ({
   },
   mounted() {
     this.svg = this.$el.querySelector('.connector');
+    document.addEventListener('touchmove', this.preventScroll, { passive: false });
+  },
+  beforeUnmount() {
+    document.removeEventListener('touchmove', this.preventScroll);
   },
   methods: {
-    // startDrawing() {
-    //   this.isDrawing = true;
-    // },
+    preventScroll(e) {
+      e.preventDefault();
+    },
     startDrawing(event) {
       this.isDrawing = true;
       const cell = event.target;
@@ -57,6 +65,24 @@ export default defineComponent ({
             `.cell[data-id="${this.pattern[this.pattern.length - 2]}"]`
           );
           this.drawLine(prevCell, cell);
+        }
+      }
+    },
+    handleTouchMove(event) {
+      const touch = event.touches[0];
+      const element = document.elementFromPoint(touch.clientX, touch.clientY);
+      if (element && element.classList.contains('cell')) {
+        const id = element.dataset.id;
+        if (this.isDrawing && !this.pattern.includes(id)) {
+          this.pattern.push(id);
+          this.path.push([Math.ceil(id / 4), (id % 4 === 0 ? 4 : id % 4)]);
+          element.classList.add('active');
+          if (this.pattern.length > 1) {
+            const prevCell = this.$el.querySelector(
+              `.cell[data-id="${this.pattern[this.pattern.length - 2]}"]`
+            );
+            this.drawLine(prevCell, element);
+          }
         }
       }
     },
@@ -91,6 +117,9 @@ export default defineComponent ({
 </script>
 
 <style scoped>
+body {
+  overflow-y: hidden;
+}
 .grid-wrapper {
   position: relative;
 }
