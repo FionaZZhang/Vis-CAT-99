@@ -155,12 +155,12 @@
 
   .buttonHome:hover {
     opacity: 0.7;
-    transition: opacity 0.3s;
+    transition: opacity 0.2s;
   }
 
   .buttonHome:hover .ButtonHomeIcon {
     transform: scale(1.1);
-    transition: transform 0.3s;
+    transition: transform 0.2s;
   }
 
 </style>
