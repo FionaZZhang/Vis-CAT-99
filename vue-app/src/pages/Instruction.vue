@@ -255,4 +255,8 @@ section {
   opacity: 0.7; 
 }
 
+footer {
+  justify-content: center;
+}
+
 </style>

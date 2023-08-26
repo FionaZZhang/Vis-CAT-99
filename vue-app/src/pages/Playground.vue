@@ -13,14 +13,14 @@
           class="cell"
           :data-id="n"
           @mouseover="handleMouseOver"
-          @touchend="endDrawing"></div>
+          @touchend="endDrawing">
+        </div>
       </div>
       <div class="larger-font">Pattern: {{ pattern.join(' -> ') }}</div>
       <div class="larger-font">Path: {{ path.join(' -> ') }}</div>
     </div>
     <button @click="clearPattern">Clear Pattern</button>
     <button @click="revertPattern" v-if="pattern.length > 0">Revert Last Dot</button>
-
   </div>
 </template>
 

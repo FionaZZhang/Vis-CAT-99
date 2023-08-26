@@ -1,50 +1,60 @@
 <template>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <div :class="$style.ipadPro111">
-    <div :class="$style.navigation" />
     <img :class="$style.mapIcon" alt="" src="../assets/map.svg" />
-    <img :class="$style.brownCatIcon" alt="" src="../assets/brown-cat@2x.png" />
-    <img :class="$style.yellowCatIcon" alt="" src="../assets/yellow-cat@2x.png" />
-    <div :class="$style.welcomeText">
-      <p :class="$style.welcome">Welcome!</p>
-      <p :class="$style.welcome">Click ‘Start’ to take the test!</p>
-    </div>
-    <img :class="$style.ipadPro111Child" alt="" src="../assets/line-1.svg" />
-    <div :class="$style.iconSettings" @click="navigateToSettings">
-      <div :class="$style.buttonSettings" />
-      <img :class="$style.settingsIcon" alt="" src="../assets/settings-icon@2x.png" />
-    </div>
-    <div :class="$style.iconUser">
-      <div :class="$style.buttonSettings" />
-      <img :class="$style.userIcon" alt="" src="../assets/user-icon@2x.png" />
-    </div>
-    <div :class="$style.iconHome">
-      <div :class="$style.homeIconText">Home</div>
-      <div :class="$style.buttonHome" />
-      <img :class="$style.homeIcon" alt="" src="../assets/home-icon@2x.png" />
-    </div>
-    <div :class="$style.iconViscat">
-      <div :class="$style.viscatIcon" />
-      <div :class="$style.viscatLogo">Vis-CAT</div>
-    </div>
-    <div :class="$style.buttonStart">
-      <img :class="$style.buttonStartIcon" alt="" src="../assets/button-start.svg" />
-      <div :class="$style.startButtonText">Start</div>
-      <img :class="$style.playIcon" alt="" src="../assets/play-icon@2x.png" 
-      @click="navigateToInstruction" />
-    </div>
-    <div :class="$style.buttonPlayground" @click="navigateToPlayground">
-      <img
-        :class="$style.buttonPlaygroundIcon"
-        alt=""
-        src="../assets/button-playground.svg"
-      />
-      <div :class="$style.playgroundButtonText">Playground</div>
-      <img
-        :class="$style.playgroundPlayButtonIcon"
-        alt=""
-        src="../assets/playground-play-button@2x.png"
-      />
-    </div>
+
+    <nav>
+      <div :class="$style.iconViscat">
+        <div :class="$style.viscatIcon" />
+        <div :class="$style.viscatLogo">Vis-CAT</div>
+      </div>
+    </nav>
+
+    <main>
+      <img :class="$style.brownCatIcon" alt="" src="../assets/brown-cat@2x.png" />
+      <img :class="$style.yellowCatIcon" alt="" src="../assets/yellow-cat@2x.png" />
+      <div :class="$style.welcomeText">
+        <p :class="$style.welcome">Welcome!</p>
+        <p :class="$style.welcome">Click ‘Start’ to take the test!</p>
+      </div>
+      <img :class="$style.ipadPro111Child" alt="" src="../assets/line-1.svg" />
+      <div :class="$style.buttonStart">
+        <img :class="$style.buttonStartIcon" alt="" src="../assets/button-start.svg" />
+        <div :class="$style.startButtonText">Start</div>
+        <img :class="$style.playIcon" alt="" src="../assets/play-icon@2x.png" 
+        @click="navigateToInstruction" />
+      </div>
+      <div :class="$style.buttonPlayground" @click="navigateToPlayground">
+        <img
+          :class="$style.buttonPlaygroundIcon"
+          alt=""
+          src="../assets/button-playground.svg"
+        />
+        <div :class="$style.playgroundButtonText">Playground</div>
+        <img
+          :class="$style.playgroundPlayButtonIcon"
+          alt=""
+          src="../assets/playground-play-button@2x.png"
+        />
+      </div>
+    </main>
+
+    <footer>
+      <div :class="$style.navigation" />
+      <div :class="$style.iconSettings" @click="navigateToSettings">
+        <div :class="$style.buttonSettings" />
+        <img :class="$style.settingsIcon" alt="" src="../assets/settings-icon@2x.png" />
+      </div>
+      <div :class="$style.iconUser">
+        <div :class="$style.buttonSettings" />
+        <img :class="$style.userIcon" alt="" src="../assets/user-icon@2x.png" />
+      </div>
+      <div :class="$style.iconHome">
+        <div :class="$style.homeIconText">Home</div>
+        <div :class="$style.buttonHome" />
+        <img :class="$style.homeIcon" alt="" src="../assets/home-icon@2x.png" />
+      </div>
+    </footer>
   </div>
 </template>
 <script>
@@ -91,19 +101,25 @@
     right: 0rem;
     width: 47.55rem;
     height: 53.31rem;
+    /* width: 50%;
+    height: 100%; */
   }
   .brownCatIcon {
     position: absolute;
-    top: 22rem;
-    left: 4rem;
+    /* top: 22rem;
+    left: 4rem; */
+    top: 42%;
+    left: 4%;
     width: 11.81rem;
     height: 11.19rem;
     object-fit: cover;
   }
   .yellowCatIcon {
     position: absolute;
-    top: 22.5rem;
-    right: 24rem;
+    /* top: 22.5rem;
+    right: 24rem; */
+    top: 42%;
+    right: 25%;
     width: 11.88rem;
     height: 11.06rem;
     object-fit: cover;
@@ -113,16 +129,20 @@
   }
   .welcomeText {
     position: absolute;
-    top: 14rem;
-    left: 16rem;
+    /* top: 14rem;
+    left: 16rem; */
+    top: 28%;
+    left: 17%;
     font-size: 2.25rem;
     display: inline-block;
     width: 17.13rem;
   }
   .ipadPro111Child {
     position: absolute;
-    top: 23rem;
-    left: 15rem;
+    /* top: 23rem;
+    left: 15rem; */
+    top: 46.5%;
+    left: 16.7%;
     width: 3.57rem;
     height: 4.12rem;
   }
@@ -238,10 +258,10 @@
   }
   .iconViscat {
     position: absolute;
-    top: 2.63rem;
-    left: 1.88rem;
-    width: 24.5rem;
-    height: 8.44rem;
+    top: 2%;
+    left: 2%;
+    width: 27%;
+    height: 15%;
     font-size: 6rem;
     color: #a478b8;
   }
@@ -280,8 +300,10 @@
   }
   .buttonStart {
     position: absolute;
-    top: 24.81rem;
-    right: 36rem;
+    /* top: 24.81rem;
+    right: 36rem; */
+    top: 47%;
+    right: 37%;
     width: 16.59rem;
     height: 7.31rem;
     font-family: var(--font-inder);
@@ -321,8 +343,10 @@
   }
   .buttonPlayground {
     position: absolute;
-    top: 10.81rem;
-    right: 20rem;
+    /* top: 10.81rem;
+    right: 20rem; */
+    top: 20%;
+    right: 22%;
     width: 24.81rem;
     height: 7.38rem;
     font-family: var(--font-inder);
@@ -355,5 +379,142 @@
   .buttonPlayground:hover .playgroundPlayButtonIcon {
     transform: scale(1.1);
     transition: transform 0.3s;
+  }
+
+
+  nav {
+    padding: 0px;
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-between;
+  }
+  main {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    gap: 20%;
+  }
+  footer {
+    display: flex;
+    flex-direction: row;
+  }
+
+  @media only screen and (max-width: 768px) {
+    .mapIcon {
+      position: absolute;
+      top: 0rem;
+      right: 0rem;
+      width: 23.75rem;
+      height: 26.65rem;
+    }
+    .iconViscat {
+      position: absolute;
+      top: 2%;
+      left: 2%;
+      width: 28%;
+      height: 17%;
+      font-size: 3rem;
+      color: #a478b8;
+    }
+    .navigation {
+      position: absolute;
+      bottom: 3rem;
+      left: 4.44rem;
+      border-radius: var(--br-21xl);
+      background-color: var(--color-white);
+      box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+      width: 13.5rem;
+      height: 5rem;
+    }
+    .iconSettings {
+      position: absolute;
+      bottom: 4rem;
+      left: 5.19rem;
+      width: 3.75rem;
+      height: 3.75rem;
+    }
+    .iconHome {
+      position: absolute;
+      bottom: 6rem;
+      left: 8.94rem;
+      width: 4.375rem;
+      height: 4.375rem;
+    }
+    .homeIconText {
+      position: absolute;
+      top: 5rem;
+      left: 0.6rem;
+      font-size: 24px;
+    }
+    .iconUser {
+      position: absolute;
+      left: 13.315rem;
+      bottom: 4rem;
+      width: 3.75rem;
+      height: 3.75rem;
+    }
+    .brownCatIcon {
+      position: absolute;
+      /* top: 22rem;
+      left: 4rem; */
+      top: 42%;
+      left: 4%;
+      width: 5.9rem;
+      height: 5.6rem;
+      object-fit: cover;
+    }
+    .yellowCatIcon {
+      position: absolute;
+      /* top: 22.5rem;
+      right: 24rem; */
+      top: 42%;
+      right: 25%;
+      width: 5.9rem;
+      height: 5.53rem;
+      object-fit: cover;
+    }
+    .buttonPlayground {
+      position: absolute;
+      /* top: 10.81rem;
+      right: 20rem; */
+      top: 23%;
+      right: 22%;
+      width: 12.4rem;
+      height: 3.69rem;
+      font-family: var(--font-inder);
+      font-size: 20px;
+    }
+    .buttonStart {
+      position: absolute;
+      /* top: 24.81rem;
+      right: 36rem; */
+      top: 47%;
+      right: 37%;
+      width: 8.3rem;
+      height: 3.65rem;
+      font-family: var(--font-inder);
+      font-size: 20px;
+    }
+    .ipadPro111Child {
+      position: absolute;
+      /* top: 23rem;
+      left: 15rem; */
+      top: 46.5%;
+      left: 16.7%;
+      width: 1.8rem;
+      height: 2.06rem;
+    }
+    .welcomeText {
+      position: absolute;
+      /* top: 14rem;
+      left: 16rem; */
+      top: 28%;
+      left: 17%;
+      font-size: 1.1rem;
+      display: inline-block;
+      width: 8.56rem;
+    }
+    
   }
 </style>
