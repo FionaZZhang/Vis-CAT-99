@@ -26,10 +26,11 @@
       <div :class="$style.viscatIcon" />
       <div :class="$style.viscatLogo">Vis-CAT</div>
     </div>
-    <div :class="$style.buttonStart" @click="navigateToStart">
+    <div :class="$style.buttonStart">
       <img :class="$style.buttonStartIcon" alt="" src="../assets/button-start.svg" />
       <div :class="$style.startButtonText">Start</div>
-      <img :class="$style.playIcon" alt="" src="../assets/play-icon@2x.png" />
+      <img :class="$style.playIcon" alt="" src="../assets/play-icon@2x.png" 
+      @click="navigateToInstruction" />
     </div>
     <div :class="$style.buttonPlayground" @click="navigateToPlayground">
       <img
@@ -51,16 +52,25 @@
 
   export default defineComponent({
     name: "AppLobby",
+    mounted() {
+      document.addEventListener('touchmove', this.preventScroll, { passive: false });
+    },
+    beforeUnmount() {
+      document.removeEventListener('touchmove', this.preventScroll);
+    },
     methods: {
+      preventScroll(e) {
+        e.preventDefault();
+      },
       navigateToSettings() {
         this.$router.push("/Settings");
       },
       navigateToPlayground() {
         this.$router.push("/Playground");
       },
-      navigateToStart() {
-        this.$router.push("/Start");
-      }
+      navigateToInstruction(){	
+        this.$router.push("/Instruction");	
+      },
     }
   });
 </script>

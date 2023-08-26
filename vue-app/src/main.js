@@ -6,6 +6,7 @@ import AppLobby from "./pages/Lobby.vue";
 import AppSettings from "./pages/Settings.vue";
 import AppPlayground from "./pages/Playground.vue";
 import AppStart from "./pages/Start.vue";
+import AppInstruction from "./pages/Instruction.vue";
 import "./global.css";
 
 const routes = [
@@ -32,7 +33,12 @@ const routes = [
     path: "/Start",
     name: "Start",
     component: AppStart,
-  }
+  },
+  {	
+    path: "/Instruction",	
+    name: "Instruction",	
+    component: AppInstruction,	
+  },
 ];
 
 const router = createRouter({
