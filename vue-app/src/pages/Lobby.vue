@@ -1,5 +1,4 @@
 <template>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <div :class="$style.ipadPro111">
     <img :class="$style.mapIcon" alt="" src="../assets/map.svg" />
 
@@ -18,11 +17,10 @@
         <p :class="$style.welcome">Click ‘Start’ to take the test!</p>
       </div>
       <img :class="$style.ipadPro111Child" alt="" src="../assets/line-1.svg" />
-      <div :class="$style.buttonStart">
+      <div :class="$style.buttonStart" @click="navigateToInstruction" >
         <img :class="$style.buttonStartIcon" alt="" src="../assets/button-start.svg" />
         <div :class="$style.startButtonText">Start</div>
-        <img :class="$style.playIcon" alt="" src="../assets/play-icon@2x.png" 
-        @click="navigateToInstruction" />
+        <img :class="$style.playIcon" alt="" src="../assets/play-icon@2x.png"/>
       </div>
       <div :class="$style.buttonPlayground" @click="navigateToPlayground">
         <img
@@ -64,14 +62,19 @@
     name: "AppLobby",
     mounted() {
       document.addEventListener('touchmove', this.preventScroll, { passive: false });
+      // window.addEventListener('orientationchange', this.preventRotation);
     },
     beforeUnmount() {
       document.removeEventListener('touchmove', this.preventScroll);
+      // window.removeEventListener('orientationchange', this.preventRotation);
     },
     methods: {
       preventScroll(e) {
         e.preventDefault();
       },
+      // preventRotation(e) {
+      //   e.preventDefault();
+      // },
       navigateToSettings() {
         this.$router.push("/Settings");
       },
@@ -106,20 +109,20 @@
   }
   .brownCatIcon {
     position: absolute;
-    /* top: 22rem;
-    left: 4rem; */
-    top: 42%;
-    left: 4%;
+    top: 22rem;
+    left: 4rem;
+    /* top: 42%;
+    left: 4%; */
     width: 11.81rem;
     height: 11.19rem;
     object-fit: cover;
   }
   .yellowCatIcon {
     position: absolute;
-    /* top: 22.5rem;
-    right: 24rem; */
-    top: 42%;
-    right: 25%;
+    top: 22.5rem;
+    right: 24rem;
+    /* top: 42%;
+    right: 25%; */
     width: 11.88rem;
     height: 11.06rem;
     object-fit: cover;
@@ -129,20 +132,20 @@
   }
   .welcomeText {
     position: absolute;
-    /* top: 14rem;
-    left: 16rem; */
-    top: 28%;
-    left: 17%;
+    top: 14rem;
+    left: 16rem;
+    /* top: 28%;
+    left: 17%; */
     font-size: 2.25rem;
     display: inline-block;
     width: 17.13rem;
   }
   .ipadPro111Child {
     position: absolute;
-    /* top: 23rem;
-    left: 15rem; */
-    top: 46.5%;
-    left: 16.7%;
+    top: 23rem;
+    left: 15rem;
+    /* top: 46.5%;
+    left: 16.7%; */
     width: 3.57rem;
     height: 4.12rem;
   }
@@ -258,11 +261,16 @@
   }
   .iconViscat {
     position: absolute;
-    top: 2%;
+    top: 2.63rem;	
+    left: 1.88rem;	
+    width: 24.5rem;	
+    height: 8.44rem;	
+    font-size: 6rem;
+    /* top: 2%;
     left: 2%;
     width: 27%;
     height: 15%;
-    font-size: 6rem;
+    font-size: 5rem; */
     color: #a478b8;
   }
   .buttonStartIcon {
@@ -300,10 +308,10 @@
   }
   .buttonStart {
     position: absolute;
-    /* top: 24.81rem;
-    right: 36rem; */
-    top: 47%;
-    right: 37%;
+    top: 24.81rem;
+    right: 36rem;
+    /* top: 47%;
+    right: 37%; */
     width: 16.59rem;
     height: 7.31rem;
     font-family: var(--font-inder);
@@ -343,10 +351,10 @@
   }
   .buttonPlayground {
     position: absolute;
-    /* top: 10.81rem;
-    right: 20rem; */
-    top: 20%;
-    right: 22%;
+    top: 10.81rem;
+    right: 20rem;
+    /* top: 20%;
+    right: 22%; */
     width: 24.81rem;
     height: 7.38rem;
     font-family: var(--font-inder);
@@ -399,6 +407,7 @@
     display: flex;
     flex-direction: row;
   }
+  
 
   @media only screen and (max-width: 768px) {
     .mapIcon {
@@ -456,8 +465,6 @@
     }
     .brownCatIcon {
       position: absolute;
-      /* top: 22rem;
-      left: 4rem; */
       top: 42%;
       left: 4%;
       width: 5.9rem;
@@ -466,8 +473,6 @@
     }
     .yellowCatIcon {
       position: absolute;
-      /* top: 22.5rem;
-      right: 24rem; */
       top: 42%;
       right: 25%;
       width: 5.9rem;
@@ -476,8 +481,6 @@
     }
     .buttonPlayground {
       position: absolute;
-      /* top: 10.81rem;
-      right: 20rem; */
       top: 23%;
       right: 22%;
       width: 12.4rem;
@@ -487,8 +490,6 @@
     }
     .buttonStart {
       position: absolute;
-      /* top: 24.81rem;
-      right: 36rem; */
       top: 47%;
       right: 37%;
       width: 8.3rem;
@@ -498,8 +499,6 @@
     }
     .ipadPro111Child {
       position: absolute;
-      /* top: 23rem;
-      left: 15rem; */
       top: 46.5%;
       left: 16.7%;
       width: 1.8rem;
@@ -507,8 +506,6 @@
     }
     .welcomeText {
       position: absolute;
-      /* top: 14rem;
-      left: 16rem; */
       top: 28%;
       left: 17%;
       font-size: 1.1rem;
