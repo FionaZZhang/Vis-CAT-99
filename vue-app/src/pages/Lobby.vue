@@ -43,7 +43,7 @@
         <div :class="$style.buttonSettings" />
         <img :class="$style.settingsIcon" alt="" src="../assets/settings-icon@2x.png" />
       </div>
-      <div :class="$style.iconUser">
+      <div :class="$style.iconUser" @click="navigateToAccount">
         <div :class="$style.buttonSettings" />
         <img :class="$style.userIcon" alt="" src="../assets/user-icon@2x.png" />
       </div>
@@ -83,6 +83,9 @@
       },
       navigateToInstruction(){	
         this.$router.push("/Instruction");	
+      },
+      navigateToAccount(){
+        this.$router.push("/Account");
       },
     }
   });
