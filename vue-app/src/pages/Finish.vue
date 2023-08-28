@@ -33,7 +33,7 @@
 </script>
 <style module>
   .grassIcon {
-    position: relative;
+    position: fixed;
     height: 22.36%;
     width: 100%;
     top: 77.64%;
@@ -45,14 +45,13 @@
     max-height: 100%;
   }
   .yellowCatIcon {
-    position: absolute;
-    height: 21.22%;
-    width: 15.91%;
-    scale: 1;
-    top: 56.47%;
-    right: 39.45%;
-    bottom: 22.3%;
-    left: 44.64%;
+    position: fixed;
+    height: 18.5vw;
+    width: 18vw;
+    top: 58.91%;
+    right: 57.85%;
+    bottom: 25.14%;
+    left: 44%;
     max-width: 100%;
     overflow: hidden;
     max-height: 100%;
@@ -88,7 +87,7 @@
     width: 97.7%;
     top: 8.15%;
     left: 5.1%;
-    font-size: inherit;
+    font-size: 8vw;
     font-weight: 400;
     font-family: inherit;
     display: inline-block;
@@ -97,18 +96,13 @@
   }
   .iconViscat {
     position: absolute;
-    height: 16.19%;
+    height: 11vw;
     width: 32.83%;
     top: 5.04%;
     right: 64.66%;
     bottom: 78.78%;
     left: 2.51%;
     color: var(--color-plum);
-  }
-  .homeIconText {
-    position: absolute;
-    top: 142px;
-    left: 26px;
   }
   .buttonHome {
     position: absolute;
@@ -124,42 +118,41 @@
   }
   .homeIcon {
     position: absolute;
-    height: 52.86%;
-    width: 57.86%;
-    top: 18.57%;
+    height: 7.1vw;
+    width: 7.8vw;
+    top: 2vw;
     right: 20.71%;
     bottom: 28.57%;
-    left: 21.43%;
-    max-width: 100%;
+    left: 2.1vw;
+    max-width: 10vw;
     overflow: hidden;
-    max-height: 100%;
+    max-height: 10vw;
     object-fit: cover;
   }
   .iconHome {
     position: absolute;
-    height: 16.07%;
-    width: 11.22%;
+    height: 11vw;
+    width: 12vw;
     top: 5.16%;
     right: 50.5%;
     bottom: 78.78%;
     left: 38.27%;
-    font-size: var(--font-size-21xl);
   }
   .wellDone {
-    position: absolute;
-    height: 7.07%;
-    width: 18.43%;
-    top: 52.52%;
-    left: 22.19%;
-    font-size: 48px;
+    position: fixed;
+    height: 7vw;
+    width: 20w;
+    top: 60.52%;
+    left: 20%;
+    font-size: 4.2vw;
     display: inline-block;
     text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     -webkit-text-stroke: 1px #000;
   }
   .finishLine1 {
-    position: absolute;
-    height: 5.96%;
-    width: 25.65%;
+    position: fixed;
+    height: 6vw;
+    width: 25vw;
     top: 68.91%;
     right: 57.85%;
     bottom: 25.14%;
@@ -169,9 +162,9 @@
     max-height: 100%;
   }
   .finishLine2 {
-    position: absolute;
-    height: 6.41%;
-    width: 21.01%;
+    position: fixed;
+    height: 6vw;
+    width: 23vw;
     top: 64.69%;
     right: 16.62%;
     bottom: 28.9%;
@@ -181,7 +174,7 @@
     max-height: 100%;
   }
   .flagPole1 {
-    position: absolute;
+    position: fixed;
     height: 62.59%;
     width: 3.35%;
     top: 26.92%;
@@ -193,7 +186,7 @@
     max-height: 100%;
   }
   .flagPole2 {
-    position: absolute;
+    position: fixed;
     height: 56.71%;
     width: 3.43%;
     top: 27.04%;
@@ -205,17 +198,16 @@
     max-height: 100%;
   }
   .finishFlagIcon {
-    position: absolute;
-    height: 16.91%;
-    width: 66.65%;
+    position: fixed;
+    height: 17vw;
+    width: 66.2vw;
     top: 30.28%;
-    right: 16.59%;
+    right: 17.38%;
     bottom: 52.82%;
-    left: 16.76%;
+    left: 16.88%;
     max-width: 100%;
     overflow: hidden;
     max-height: 100%;
-    object-fit: cover;
   }
   .appfinish {
     position: relative;
@@ -243,6 +235,22 @@
     opacity: 0.7;
     transition: opacity 0.3s;
   }
+
+  @media (min-width: 1000px) {
+  .grassIcon {
+    flex-direction: row;
+  }
+  .component {
+    flex: 1;
+    max-width: 50%;
+  }
+}
+
+@media (min-width: 1024px) {
+  .component {
+    padding: 30px;
+  }
+}
 
 </style>
 
