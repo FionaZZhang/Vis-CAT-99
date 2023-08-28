@@ -5,24 +5,24 @@
         <img src="../assets/button_home.png" alt="Button Home" id="buttonHome" @click="navigateToLobby">
         <img src="../assets/button_restart.png" alt="Button Restart" id="buttonRestart" @click="clearPattern">
       </div>
-      <img src="../assets/cat@2x.png" alt="Cat Icon" id="catPink">
+      <img src="../assets/pink-cat@2x.png" alt="Cat Icon" id="catPink">
     </nav>
     <main>
       <header>
         <img src="../assets/text_goal.png" alt="Goal Text" id="textGoal">
       </header>
       <section>
-        <div><img src="../assets/left_pattern.png" alt="Instruction Pattern"></div>
-        <div>
+        <div><img src="../assets/left_pattern.png" alt="Instruction Pattern" id="instruction"></div>
+        <div id="drawArea">
           <div class="grid-wrapper">
             <svg class="connector"></svg>
             <div class="grid" @mousedown="startDrawing" @mouseup="endDrawing" @touchstart="startDrawing"
               @touchmove="handleTouchMove">
-              <div v-for="n in 16" :key="n" class="cell" :data-id="n" @mouseover="handleMouseOver"
-                @touchend="endDrawing"></div>
+              <div v-for="n in 16" :key="n" class="cell" :data-id="n" @mouseover="handleMouseOver" @touchend="endDrawing">
+              </div>
             </div>
-            <div class="larger-font">Pattern: {{ pattern.join(' -> ') }}</div>
-            <div class="larger-font">Path: {{ path.join(' -> ') }}</div>
+            <!-- <div class="larger-font">Pattern: </div>
+            <div class="larger-font">Path: </div> -->
           </div>
           <!-- <button @click="clearPattern">Clear Pattern</button> -->
           <button @click="revertPattern" v-if="pattern.length > 0">Revert Last Dot</button>
@@ -31,7 +31,7 @@
       </section>
     </main>
     <footer>
-      <img src="../assets/button_confirm.png" alt="Confirm Button"  @click="navigateToStart">
+      <img src="../assets/button_confirm.png" alt="Confirm Button" @click="navigateToStart" id="buttonConfirm">
     </footer>
   </body>
 </template>
@@ -62,9 +62,9 @@ export default defineComponent({
     navigateToLobby() {
       this.$router.push("/Lobby");
     },
-    preventScroll(e) {
-      e.preventDefault();
-    },
+    // preventScroll(e) {
+    //   e.preventDefault();
+    // },
     startDrawing(event) {
       this.isDrawing = true;
       const cell = event.target;
@@ -108,6 +108,24 @@ export default defineComponent({
         }
       }
     },
+
+    // getCellPosition(cell) {
+    //   var rect = cell.getBoundingClientRect();
+    //     return {
+    //         x: window.scrollX + rect.left + rect.width / 2,
+    //         y: window.scrollY + rect.top + rect.height / 2
+    //     };
+    // },
+
+    // drawLineBetweenCells(cell1,cell2) {
+    //   var pos1 = getCellPosition(cell1);
+    //   var pos2 = getCellPosition(cell2);
+    //   var svg = document.getElementById('svgRoot');
+    //   svg.innerHTML = '<line x1="' + pos1.x + '" y1="' + pos1.y + '" x2="' + pos2.x + '" y2="' + pos2.y + '" style="stroke:black;stroke-width:2" />';
+    //   svg.style.width = window.innerWidth + 'px';
+    //   svg.style.height = window.innerHeight + 'px';
+    // },
+
     drawLine(cell1, cell2) {
       const rect1 = cell1.getBoundingClientRect();
       const rect2 = cell2.getBoundingClientRect();
@@ -167,9 +185,12 @@ export default defineComponent({
   },
 });
 </script>
+
 <style scoped>
 #InsPage {
   background-color: #fff0e6;
+  width: 100vw;
+  height: 100vh;
 }
 
 nav {
@@ -178,14 +199,14 @@ nav {
   flex-direction: row;
   width: 100%;
   justify-content: space-between;
+  height: 13%;
 }
 
 #catPink {
   position: relative;
   right: 3%;
   top: 3%;
-  width: 100px;
-  height: 100px;
+  height: 100%;
 }
 
 .Icon {
@@ -194,25 +215,63 @@ nav {
   flex-direction: row;
   left: 3%;
   top: 3%;
-  width: 100px;
-  height: 100px;
+  width: 20%;
+  height: 100%;
 }
+
 
 main {
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
-  gap: 20%;
+  justify-content: start;
+  gap: 10%;
+  height: 70%;
+}
+
+#instruction {
+  display: flex;
+  width: 100%;
+}
+
+#drawArea {
+  display: flex;
+  width: 100%;
+}
+
+header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
 }
 
 #textGoal {
   position: relative;
+  width: 40%;
+  height: 100%;
 }
 
 section {
   display: flex;
   flex-direction: row;
-  justify-content: space-evenly;
+  justify-content: space-between;
+  padding-left: 15%;
+  padding-right: 15%;
+}
+
+#buttonConfirm {
+  display: flex;
+  flex-direction: row;
+  margin-left: auto;
+  padding-right: 3%;
+  height: 75%;
+}
+
+
+
+footer {
+  display: flex;
+  height: 15%;
 }
 
 .grid-wrapper {
@@ -229,13 +288,13 @@ section {
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(4, 50px);
-  gap: 50px;
+  grid-template-columns: repeat(4, 4vw);
+  gap: 4vw;
 }
 
 .cell {
-  width: 35px;
-  height: 35px;
+  width: 2vw;
+  height: 2vw;
   background-color: black;
   border-radius: 50%;
   transition: background-color 0.2s;
@@ -251,12 +310,8 @@ section {
   font-size: 40px;
 }
 
-#buttonHome:hover, #buttonRestart:hover {
-  opacity: 0.7; 
+#buttonHome:hover,
+#buttonRestart:hover {
+  opacity: 0.7;
 }
-
-footer {
-  justify-content: center;
-}
-
 </style>
