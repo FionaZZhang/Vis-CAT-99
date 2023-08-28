@@ -10,7 +10,7 @@
     </nav>
 
     <main>
-      <img :class="$style.brownCatIcon" alt="" src="../assets/brown-cat@2x.png" />
+      <img :class="$style.brownCatIcon" alt="" src="../assets/brown-cat@2x.png" @click="navigateToFinish"/>
       <img :class="$style.yellowCatIcon" alt="" src="../assets/yellow-cat@2x.png" />
       <div :class="$style.welcomeText">
         <p :class="$style.welcome">Welcome!</p>
