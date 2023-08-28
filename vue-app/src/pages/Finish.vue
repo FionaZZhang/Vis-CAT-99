@@ -210,10 +210,10 @@
     max-height: 100%;
   }
   .appfinish {
-    position: relative;
+    position: fixed;
     background-color: #b8e3ff;
     width: 100%;
-    height: 834px;
+    height: 100%;
     overflow: hidden;
     text-align: left;
     font-size: var(--font-size-77xl);
