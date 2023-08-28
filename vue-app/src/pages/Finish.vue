@@ -33,7 +33,7 @@
 </script>
 <style module>
   .grassIcon {
-    position: absolute;
+    position: relative;
     height: 22.36%;
     width: 100%;
     top: 77.64%;
@@ -48,6 +48,7 @@
     position: absolute;
     height: 21.22%;
     width: 15.91%;
+    scale: 1;
     top: 56.47%;
     right: 39.45%;
     bottom: 22.3%;
@@ -237,6 +238,10 @@
   .iconHome:hover .homeIcon {
     transform: scale(1.1);
     transition: transform 0.3s;
+  }
+  .iconHome:hover .buttonHome {
+    opacity: 0.7;
+    transition: opacity 0.3s;
   }
 
 </style>

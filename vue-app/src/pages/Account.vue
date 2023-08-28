@@ -20,6 +20,7 @@
       <div :class="$style.viscatIcon" />
       <div :class="$style.viscatLogo">Vis-CAT</div>
     </div>
+    <div id="result"></div>
     <div :class="$style.selected" />
     <img
       :class="$style.elephantsHeadIcon"
@@ -59,7 +60,7 @@
     <div :class="$style.dotDecor" />
     <img :class="$style.dotLineIcon" alt="" src="../assets/dot-line.svg" />
     <div :class="$style.class">Class 1(3)</div>
-    <div :class="$style.scanButton">
+    <div :class="$style.scanButton" @click="openQrScanner">
       <div :class="$style.scanButtonBg" />
       <div :class="$style.scanText">Scan</div>
       <img :class="$style.scanIcon" alt="" src="../assets/scan-icon@2x.png" />
@@ -67,9 +68,43 @@
     <img :class="$style.houseIcon" alt="" src="../assets/house@2x.png" />
   </div>
 </template>
+
 <script>
   import { defineComponent} from "vue";
+  // import { jsQR } from './node_modules/jsqr/dist/jsQR.mjs';
+    function parseQRCodeData(qrData) {
+      const lines = qrData.split('\n');
+      const schoolName = lines[0].split(': ')[1];
+      const className = lines[1].split(': ')[1];
+      const teacherName = lines[2].split(': ')[1];
+      const studentsData = lines.slice(3);
 
+      const students = [];
+      for (const studentData of studentsData) {
+        const [name, age] = studentData.split(', ');
+        students.push({ name, age: parseInt(age) });
+      }
+
+      return {
+        schoolName,
+        className,
+        teacherName,
+        students,
+      };
+    }
+
+    // function displayResult(qrData) {
+    //   const resultDiv = document.getElementById('result');
+    //   resultDiv.innerHTML = `
+    //     <p>School Name: ${qrData.schoolName}</p>
+    //     <p>Class: ${qrData.className}</p>
+    //     <p>Teacher: ${qrData.teacherName}</p>
+    //     <p>Students:</p>
+    //     <ul>
+    //       ${qrData.students.map(student => `<li>${student.name}, Age: ${student.age}</li>`).join('')}
+    //     </ul>
+    //   `;
+    // }
   export default defineComponent({
     name: "AppAccount",
     methods: {
@@ -79,6 +114,37 @@
       navigateToLobby() {
         this.$router.push("/Lobby");
       },
+      async openQrScanner() {
+        try {
+          const stream = await navigator.mediaDevices.getUserMedia({video: true});
+          const video = document.createElement('video');
+          document.body.appendChild(video);
+          video.srcObject = stream;
+          await video.play();
+
+          const canvas = document.createElement('canvas');
+          const context = canvas.getContext('2d');
+          canvas.width = video.videoWidth;
+          canvas.height = video.videoHeight;
+          context.clearRect(0, 0, canvas.width, canvas.height);
+
+          const scanInterval = setInterval(() => {
+            context.drawImage(video, 0, 0, canvas.width, canvas.height);
+            // const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+            // const code = jsQR(imageData.data, imageData.width, imageData.height);
+            const code = 0;
+            if (code) {
+              clearInterval(scanInterval);
+              const qrData = parseQRCodeData(code.data);
+              this.displayResult(qrData);
+              video.srcObject.getTracks().forEach(track => track.stop());
+              document.body.removeChild(video);
+            }
+          }, 100);
+        } catch (error) {
+          console.error('Error accessing camera:', error);
+        }
+      }
     }
   });
 </script>
