@@ -18,8 +18,8 @@
             <svg class="connector"></svg>
             <div class="grid" @mousedown="startDrawing" @mouseup="endDrawing" @touchstart="startDrawing"
               @touchmove="handleTouchMove">
-              <div v-for="n in 16" :key="n" class="cell" :data-id="n" @mouseover="handleMouseOver"
-                @touchend="endDrawing"></div>
+              <div v-for="n in 16" :key="n" class="cell" :data-id="n" @mouseover="handleMouseOver" @touchend="endDrawing">
+              </div>
             </div>
             <div class="larger-font">Pattern: {{ pattern.join(' -> ') }}</div>
             <div class="larger-font">Path: {{ path.join(' -> ') }}</div>
@@ -31,7 +31,7 @@
       </section>
     </main>
     <footer>
-      <img src="../assets/button_confirm.png" alt="Confirm Button"  @click="navigateToStart">
+      <img src="../assets/button_confirm.png" alt="Confirm Button" @click="navigateToStart" id="buttonConfirm">
     </footer>
   </body>
 </template>
@@ -205,14 +205,38 @@ main {
   gap: 20%;
 }
 
+header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 #textGoal {
   position: relative;
+  padding-bottom: 5%;
+  width: 50%;
+  height: 50%;
 }
 
 section {
   display: flex;
   flex-direction: row;
-  justify-content: space-evenly;
+  justify-content: space-between;
+  padding-left: 15%;
+  padding-right: 15%;
+}
+
+#buttonConfirm {
+  display: flex;
+  flex-direction: row;
+  margin-left: auto;
+  padding-right: 5%;
+  padding-bottom: 3%;
+}
+
+footer {
+  display: flex;
+  height: 10%;
 }
 
 .grid-wrapper {
@@ -251,12 +275,8 @@ section {
   font-size: 40px;
 }
 
-#buttonHome:hover, #buttonRestart:hover {
-  opacity: 0.7; 
+#buttonHome:hover,
+#buttonRestart:hover {
+  opacity: 0.7;
 }
-
-footer {
-  justify-content: center;
-}
-
 </style>
