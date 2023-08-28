@@ -21,8 +21,8 @@
               <div v-for="n in 16" :key="n" class="cell" :data-id="n" @mouseover="handleMouseOver"
                 @touchend="endDrawing"></div>
             </div>
-            <div class="larger-font">Pattern: {{ pattern.join(' -> ') }}</div>
-            <div class="larger-font">Path: {{ path.join(' -> ') }}</div>
+            <div class="larger-font">Pattern: </div>
+            <div class="larger-font">Path: </div>
           </div>
           <!-- <button @click="clearPattern">Clear Pattern</button> -->
           <button @click="revertPattern" v-if="pattern.length > 0">Revert Last Dot</button>
@@ -108,6 +108,24 @@ export default defineComponent({
         }
       }
     },
+
+    // getCellPosition(cell) {
+    //   var rect = cell.getBoundingClientRect();
+    //     return {
+    //         x: window.scrollX + rect.left + rect.width / 2,
+    //         y: window.scrollY + rect.top + rect.height / 2
+    //     };
+    // },
+
+    // drawLineBetweenCells(cell1,cell2) {
+    //   var pos1 = getCellPosition(cell1);
+    //   var pos2 = getCellPosition(cell2);
+    //   var svg = document.getElementById('svgRoot');
+    //   svg.innerHTML = '<line x1="' + pos1.x + '" y1="' + pos1.y + '" x2="' + pos2.x + '" y2="' + pos2.y + '" style="stroke:black;stroke-width:2" />';
+    //   svg.style.width = window.innerWidth + 'px';
+    //   svg.style.height = window.innerHeight + 'px';
+    // },
+
     drawLine(cell1, cell2) {
       const rect1 = cell1.getBoundingClientRect();
       const rect2 = cell2.getBoundingClientRect();
