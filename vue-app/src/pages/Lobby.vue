@@ -69,9 +69,9 @@
       // window.removeEventListener('orientationchange', this.preventRotation);
     },
     methods: {
-      // preventScroll(e) {
-      //   e.preventDefault();
-      // },
+      preventScroll(e) {
+        e.preventDefault();
+      },
       // preventRotation(e) {
       //   e.preventDefault();
       // },
@@ -264,8 +264,8 @@
   }
   .iconViscat {
     position: absolute;
-    top: 2.44rem;	
-    left: 3.5rem;	
+    top: 2.63rem;	
+    left: 1.88rem;	
     width: 24.5rem;	
     height: 8.44rem;	
     font-size: 6rem;
@@ -412,8 +412,7 @@
   }
   
 
-  @media only screen and (max-width:800px) {
-    
+  @media only screen and (max-width:768px) {
     .mapIcon {
       position: absolute;
       top: 0rem;
@@ -423,8 +422,8 @@
     }
     .iconViscat {
       position: absolute;
-      top: 0.8rem;
-      left: 1rem;
+      top: 2%;
+      left: 2%;
       width: 28%;
       height: 17%;
       font-size: 3rem;
@@ -432,8 +431,8 @@
     }
     .navigation {
       position: absolute;
-      bottom: 0.8rem;
-      left: 1rem;
+      bottom: 3rem;
+      left: 4.44rem;
       border-radius: var(--br-21xl);
       background-color: var(--color-white);
       box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
@@ -442,38 +441,30 @@
     }
     .iconSettings {
       position: absolute;
-      bottom: 1.6rem;
-      left: 1.7rem;
+      bottom: 4rem;
+      left: 5.19rem;
       width: 3.75rem;
       height: 3.75rem;
-    }
-    .homeIconText {
-      position: absolute;
-      top: 4.5rem;
-      left: 0.6rem;
-      font-size: 24px;
     }
     .iconHome {
       position: absolute;
-      bottom: 2.7rem;
-      left: 5.55rem;
+      bottom: 6rem;
+      left: 8.94rem;
       width: 4.375rem;
       height: 4.375rem;
     }
+    .homeIconText {
+      position: absolute;
+      top: 5rem;
+      left: 0.6rem;
+      font-size: 24px;
+    }
     .iconUser {
       position: absolute;
-      left: 10rem;
-      bottom: 1.6rem;
+      left: 13.315rem;
+      bottom: 4rem;
       width: 3.75rem;
       height: 3.75rem;
-    }
-    .welcomeText {
-      position: absolute;
-      top: 25%;
-      left: 13%;
-      font-size: 1rem;
-      display: inline-block;
-      width: 8.56rem;
     }
     .brownCatIcon {
       position: absolute;
@@ -520,7 +511,7 @@
       position: absolute;
       top: 28%;
       left: 17%;
-      font-size: 1rem;
+      font-size: 1.1rem;
       display: inline-block;
       width: 8.56rem;
     }
