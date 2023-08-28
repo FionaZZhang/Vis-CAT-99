@@ -12,8 +12,8 @@
         <img src="../assets/text_goal.png" alt="Goal Text" id="textGoal">
       </header>
       <section>
-        <div><img src="../assets/left_pattern.png" alt="Instruction Pattern"></div>
-        <div>
+        <div><img src="../assets/left_pattern.png" alt="Instruction Pattern" id="instruction"></div>
+        <div id="drawArea">
           <div class="grid-wrapper">
             <svg class="connector"></svg>
             <div class="grid" @mousedown="startDrawing" @mouseup="endDrawing" @touchstart="startDrawing"
@@ -21,8 +21,8 @@
               <div v-for="n in 16" :key="n" class="cell" :data-id="n" @mouseover="handleMouseOver" @touchend="endDrawing">
               </div>
             </div>
-            <div class="larger-font">Pattern: {{ pattern.join(' -> ') }}</div>
-            <div class="larger-font">Path: {{ path.join(' -> ') }}</div>
+            <!-- <div class="larger-font">Pattern: {{ pattern.join(' -> ') }}</div>
+            <div class="larger-font">Path: {{ path.join(' -> ') }}</div> -->
           </div>
           <!-- <button @click="clearPattern">Clear Pattern</button> -->
           <button @click="revertPattern" v-if="pattern.length > 0">Revert Last Dot</button>
@@ -167,9 +167,12 @@ export default defineComponent({
   },
 });
 </script>
+
 <style scoped>
 #InsPage {
   background-color: #fff0e6;
+  width: 100vw;
+  height: 100vh;
 }
 
 nav {
@@ -178,14 +181,14 @@ nav {
   flex-direction: row;
   width: 100%;
   justify-content: space-between;
+  height: 13%;
 }
 
 #catPink {
   position: relative;
   right: 3%;
   top: 3%;
-  width: 100px;
-  height: 100px;
+  height: 100%;
 }
 
 .Icon {
@@ -194,28 +197,40 @@ nav {
   flex-direction: row;
   left: 3%;
   top: 3%;
-  width: 100px;
-  height: 100px;
+  width: 20%;
+  height: 100%;
 }
+
 
 main {
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
-  gap: 20%;
+  justify-content: start;
+  gap: 10%;
+  height: 70%;
+}
+
+#instruction {
+  display: flex;
+  width: 100%;
+}
+
+#drawArea {
+  display: flex;
+  width: 100%;
 }
 
 header {
   display: flex;
   justify-content: center;
   align-items: center;
+
 }
 
 #textGoal {
   position: relative;
-  padding-bottom: 5%;
-  width: 50%;
-  height: 50%;
+  width: 40%;
+  height: 100%;
 }
 
 section {
@@ -230,13 +245,15 @@ section {
   display: flex;
   flex-direction: row;
   margin-left: auto;
-  padding-right: 5%;
-  padding-bottom: 3%;
+  padding-right: 3%;
+  height: 75%;
 }
+
+
 
 footer {
   display: flex;
-  height: 10%;
+  height: 15%;
 }
 
 .grid-wrapper {
