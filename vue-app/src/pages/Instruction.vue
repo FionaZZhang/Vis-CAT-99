@@ -270,13 +270,13 @@ footer {
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(4, 50px);
-  gap: 50px;
+  grid-template-columns: repeat(4, 4vw);
+  gap: 4vw;
 }
 
 .cell {
-  width: 35px;
-  height: 35px;
+  width: 2vw;
+  height: 2vw;
   background-color: black;
   border-radius: 50%;
   transition: background-color 0.2s;
