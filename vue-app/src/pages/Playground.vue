@@ -2,10 +2,10 @@
   <div>
     <div class="grid-wrapper">
       <svg class="connector"></svg>
-      <div class="grid" 
-        @mousedown="startDrawing" 
-        @mouseup="endDrawing" 
-        @touchstart="startDrawing" 
+      <div class="grid" id = "noScrollArea"
+        @mousedown="startDrawing"
+        @mouseup="endDrawing"
+        @touchstart="startDrawing"
         @touchmove="handleTouchMove">
         <div
           v-for="n in 16"
@@ -26,6 +26,7 @@
 
 <script>
 import { defineComponent } from "vue";
+
 export default defineComponent ({
   name: "AppPlayground",
   data() {
@@ -43,19 +44,32 @@ export default defineComponent ({
   beforeUnmount() {
     document.removeEventListener('touchmove', this.preventScroll);
   },
+
   methods: {
-    preventScroll(e) {
-      e.preventDefault();
+    preventScroll() {
+      document.getElementById('noScrollArea').addEventListener('touchmove', function(event) {
+      event.preventDefault();}, { passive: false });
     },
+    
+
     startDrawing(event) {
-      this.isDrawing = true;
       const cell = event.target;
-      const id = cell.dataset.id;
-      if (!this.pattern.includes(id)) {
-        this.pattern.push(id);
-        this.path.push([Math.ceil(id / 4), (id % 4 == 0 ? 4 : id % 4)]);
-        cell.classList.add('active');
+      var lastId = -1;
+      if (this.pattern.length != 0){
+        lastId = this.pattern[this.pattern.length-1];
       }
+
+      if (this.pattern.length == 0 || lastId == cell.dataset.id){
+        this.isDrawing = true;
+        const id = cell.dataset.id;
+        if (!this.pattern.includes(id)) {
+          this.pattern.push(id);
+          this.path.push([Math.ceil(id / 4), (id % 4 == 0 ? 4 : id % 4)]);
+          cell.classList.add('active');
+        }
+      }
+
+      
     },
     handleMouseOver(event) {
       const cell = event.target;

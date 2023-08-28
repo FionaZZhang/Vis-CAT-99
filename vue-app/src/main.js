@@ -7,6 +7,9 @@ import AppSettings from "./pages/Settings.vue";
 import AppPlayground from "./pages/Playground.vue";
 import AppStart from "./pages/Start.vue";
 import AppInstruction from "./pages/Instruction.vue";
+import AppAccount from "./pages/Account.vue";
+import AppFinish from "./pages/Finish.vue";
+
 import "./global.css";
 
 const routes = [
@@ -18,6 +21,11 @@ const routes = [
     path: "/Lobby",
     name: "Lobby",
     component: AppLobby,
+  },
+  {
+    path: "/Account",
+    name: "Account",
+    component: AppAccount,
   },
   {
     path: "/Settings",
@@ -38,6 +46,11 @@ const routes = [
     path: "/Instruction",	
     name: "Instruction",	
     component: AppInstruction,	
+  },
+  {	
+    path: "/Finish",	
+    name: "Finish",	
+    component: AppFinish,	
   },
 ];
 
