@@ -112,10 +112,16 @@
             const code = jsQR(imageData.data, imageData.width, imageData.height);
             if (code) {
               clearInterval(scanInterval);
-              const qrData = this.parseQRCodeData(code.data);
-              this.displayResult(qrData); // Call the new displayResult method
-              video.srcObject.getTracks().forEach(track => track.stop());
-              document.body.removeChild(video);
+              try {
+                const qrData = this.parseQRCodeData(code.data);
+                this.displayResult(qrData);
+                video.srcObject.getTracks().forEach(track => track.stop());
+                document.body.removeChild(video);
+              } catch (error) {
+                console.error('QR code not in correct format', error);
+                video.srcObject.getTracks().forEach(track => track.stop());
+                document.body.removeChild(video);
+              }
             }
           }, 100);
         } catch (error) {
