@@ -5,7 +5,7 @@
         <img src="../assets/button_home.png" alt="Button Home" id="buttonHome" @click="navigateToLobby">
         <img src="../assets/button_restart.png" alt="Button Restart" id="buttonRestart" @click="clearPattern">
       </div>
-      <img src="../assets/cat@2x.png" alt="Cat Icon" id="catPink">
+      <img src="../assets/pink-cat@2x.png" alt="Cat Icon" id="catPink">
     </nav>
     <main>
       <header>
@@ -21,8 +21,8 @@
               <div v-for="n in 16" :key="n" class="cell" :data-id="n" @mouseover="handleMouseOver" @touchend="endDrawing">
               </div>
             </div>
-            <div class="larger-font">Pattern: </div>
-            <div class="larger-font">Path: </div>
+            <!-- <div class="larger-font">Pattern: </div>
+            <div class="larger-font">Path: </div> -->
           </div>
           <!-- <button @click="clearPattern">Clear Pattern</button> -->
           <button @click="revertPattern" v-if="pattern.length > 0">Revert Last Dot</button>

@@ -1,6 +1,6 @@
 <template>
   <div :class="$style.ipadPro111">
-    <img :class="$style.catIcon" alt="" src="../assets/cat@2x.png" />
+    <img :class="$style.catIcon" alt="" src="../assets/pink-cat@2x.png" />
     <img :class="$style.gridRightIcon" alt="" src="../assets/grid-right.svg" />
     <img :class="$style.patternLeftIcon" alt="" src="../assets/pattern-left.svg" />
     <div :class="$style.buttonConfirm">
