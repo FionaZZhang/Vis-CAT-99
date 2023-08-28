@@ -10,7 +10,7 @@
     </nav>
 
     <main>
-      <img :class="$style.brownCatIcon" alt="" src="../assets/brown-cat@2x.png" />
+      <img :class="$style.brownCatIcon" alt="" src="../assets/brown-cat@2x.png" @click="navigateToFinish"/>
       <img :class="$style.yellowCatIcon" alt="" src="../assets/yellow-cat@2x.png" />
       <div :class="$style.welcomeText">
         <p :class="$style.welcome">Welcome!</p>
@@ -69,9 +69,9 @@
       // window.removeEventListener('orientationchange', this.preventRotation);
     },
     methods: {
-      preventScroll(e) {
-        e.preventDefault();
-      },
+      // preventScroll(e) {
+      //   e.preventDefault();
+      // },
       // preventRotation(e) {
       //   e.preventDefault();
       // },
@@ -86,6 +86,9 @@
       },
       navigateToAccount(){
         this.$router.push("/Account");
+      },
+      navigateToFinish(){
+        this.$router.push("/Finish");
       },
     }
   });
@@ -264,8 +267,8 @@
   }
   .iconViscat {
     position: absolute;
-    top: 2.63rem;	
-    left: 1.88rem;	
+    top: 2.44rem;	
+    left: 3.5rem;	
     width: 24.5rem;	
     height: 8.44rem;	
     font-size: 6rem;
@@ -412,7 +415,8 @@
   }
   
 
-  @media only screen and (max-width:768px) {
+  @media only screen and (max-width:800px) {
+    
     .mapIcon {
       position: absolute;
       top: 0rem;
@@ -422,8 +426,8 @@
     }
     .iconViscat {
       position: absolute;
-      top: 2%;
-      left: 2%;
+      top: 0.8rem;
+      left: 1rem;
       width: 28%;
       height: 17%;
       font-size: 3rem;
@@ -431,8 +435,8 @@
     }
     .navigation {
       position: absolute;
-      bottom: 3rem;
-      left: 4.44rem;
+      bottom: 0.8rem;
+      left: 1rem;
       border-radius: var(--br-21xl);
       background-color: var(--color-white);
       box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
@@ -441,30 +445,38 @@
     }
     .iconSettings {
       position: absolute;
-      bottom: 4rem;
-      left: 5.19rem;
+      bottom: 1.6rem;
+      left: 1.7rem;
       width: 3.75rem;
       height: 3.75rem;
-    }
-    .iconHome {
-      position: absolute;
-      bottom: 6rem;
-      left: 8.94rem;
-      width: 4.375rem;
-      height: 4.375rem;
     }
     .homeIconText {
       position: absolute;
-      top: 5rem;
+      top: 4.5rem;
       left: 0.6rem;
       font-size: 24px;
     }
+    .iconHome {
+      position: absolute;
+      bottom: 2.7rem;
+      left: 5.55rem;
+      width: 4.375rem;
+      height: 4.375rem;
+    }
     .iconUser {
       position: absolute;
-      left: 13.315rem;
-      bottom: 4rem;
+      left: 10rem;
+      bottom: 1.6rem;
       width: 3.75rem;
       height: 3.75rem;
+    }
+    .welcomeText {
+      position: absolute;
+      top: 25%;
+      left: 13%;
+      font-size: 1rem;
+      display: inline-block;
+      width: 8.56rem;
     }
     .brownCatIcon {
       position: absolute;
@@ -511,7 +523,7 @@
       position: absolute;
       top: 28%;
       left: 17%;
-      font-size: 1.1rem;
+      font-size: 1rem;
       display: inline-block;
       width: 8.56rem;
     }
