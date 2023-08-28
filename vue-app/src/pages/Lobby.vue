@@ -165,7 +165,7 @@
   .homeIconText {
     position: absolute;
     bottom: -38%;
-    left: 16%;
+    left: 14%;
     font-size: 3vw;
   }
   .buttonHome {
@@ -196,9 +196,9 @@
   .iconHome {
     position: absolute;
     bottom: 30%;
-    left: 33%;
-    width: 9.5vw;
-    height: 9.5vw;
+    left: 34%;
+    width: 9vw;
+    height: 9vw;
   }
 
   .buttonStartIcon {

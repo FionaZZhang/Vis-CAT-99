@@ -142,6 +142,40 @@ body {
   height: 8.2vw;
 }
 
+.buttonHome {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  top: 0%;
+  right: 0%;
+  bottom: 0%;
+  left: 0%;
+  border-radius: var(--br-11xl);
+  background-color: var(--color-peachpuff);
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+.homeIcon {
+  position: absolute;
+  height: 52.86%;
+  width: 57.86%;
+  top: 18.57%;
+  right: 20.71%;
+  bottom: 28.57%;
+  left: 21.43%;
+  max-width: 100%;
+  overflow: hidden;
+  max-height: 100%;
+  object-fit: cover;
+}
+.iconHome {
+  position: absolute;
+  bottom: 10%;
+  right: 35%;
+  width: 8.2vw;
+  height: 8.2vw;
+  font-size: var(--font-size-21xl);
+}
+
 
 .iconSettings:hover .settingsIcon {
   transform: scale(1.1);
@@ -150,6 +184,10 @@ body {
 .iconUser:hover .userIcon {
   transform: scale(1.1);
   transition: 0.3s;
+}
+.iconHome:hover .homeIcon {
+  transform: scale(1.1);
+  transition: transform 0.3s;
 }
 
 
