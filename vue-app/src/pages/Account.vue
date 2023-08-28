@@ -1,6 +1,21 @@
 <template>
   <div :class="$style.frame">
-    <div :class="$style.frameChild" />
+    <div :class="$style.frameChild" >
+      <div :class="$style.studentsContainer">
+        <div v-for="(student, index) in students" :key="index" :class="$style.student" @click="selectStudent(index)">
+          <img :class="$style.animalHeadIcon" alt="" :src="student.iconSrc" ref="selectedRef"/>
+          <div :class="$style.studentName">{{ student.studentName }}</div>
+        </div>
+        <div v-if="selectedStudentIndex !== -1" :class="$style.selectedSheet" :style="selectedSheetPosition">
+          <img :class="$style.selectedSheetChild" alt="" src="../assets/rectangle-1.svg" />
+          <div :class="$style.age">Age: {{ selectedStudent.studentAge }}</div>
+          <div :class="$style.name">{{ selectedStudent.studentName }}</div>
+          <img :class="$style.selectLine1Icon" alt="" src="../assets/select-line2.svg" />
+          <img :class="$style.selectLine2Icon" alt="" src="../assets/select-line2.svg" />
+          <img :class="$style.selectLine3Icon" alt="" src="../assets/select-line2.svg" />
+        </div>
+      </div>
+    </div>
     <div :class="$style.navigation" />
     <div :class="$style.iconSettings" @click="navigateToSettings">
       <div :class="$style.buttonSettings" />
@@ -20,46 +35,11 @@
       <div :class="$style.viscatIcon" />
       <div :class="$style.viscatLogo">Vis-CAT</div>
     </div>
-    <div id="result"></div>
-    <div :class="$style.selected" />
-    <img
-      :class="$style.elephantsHeadIcon"
-      alt=""
-      src="../assets/elephants-head@2x.png"
-    />
-    <div :class="$style.monica">
-      <img :class="$style.sheepsHeadIcon" alt="" src="../assets/sheeps-head@2x.png" />
-      <div :class="$style.monica1">Monica</div>
-    </div>
-    <div :class="$style.joey">
-      <img :class="$style.sheepsHeadIcon" alt="" src="../assets/bears-head@2x.png" />
-      <div :class="$style.joey1">Joey</div>
-    </div>
-    <div :class="$style.chandler">
-      <img :class="$style.sheepsHeadIcon" alt="" src="../assets/badgers-head@2x.png" />
-      <div :class="$style.chandler1">Chandler</div>
-    </div>
-    <div :class="$style.rachel">
-      <img :class="$style.giraffeHeadIcon" alt="" src="../assets/giraffe-head@2x.png" />
-      <div :class="$style.rachel1">Rachel</div>
-    </div>
-    <div :class="$style.pheobe">
-      <img :class="$style.sheepsHeadIcon" alt="" src="../assets/cheetahs-head@2x.png" />
-      <div :class="$style.pheobe1">Pheobe</div>
-    </div>
-    <div :class="$style.selectedSheet">
-      <img :class="$style.selectedSheetChild" alt="" src="../assets/rectangle-1.svg" />
-      <div :class="$style.grade">Grade: 1</div>
-      <div :class="$style.age">Age: 5</div>
-      <div :class="$style.name">Ross Geller</div>
-      <img :class="$style.selectLine1Icon" alt="" src="../assets/select-line1.svg" />
-      <img :class="$style.selectLine2Icon" alt="" src="../assets/select-line2.svg" />
-      <img :class="$style.selectLine3Icon" alt="" src="../assets/select-line2.svg" />
-    </div>
-    <div :class="$style.schoolName">Central Perk Primary School</div>
+    <div id="result" :class="$style.results"></div>
+    <div id="schoolname" :class="$style.schoolName"></div>
     <div :class="$style.dotDecor" />
     <img :class="$style.dotLineIcon" alt="" src="../assets/dot-line.svg" />
-    <div :class="$style.class">Class 1(3)</div>
+    <div id="classnum" :class="$style.class"></div>
     <div :class="$style.scanButton" @click="openQrScanner">
       <div :class="$style.scanButtonBg" />
       <div :class="$style.scanText">Scan</div>
@@ -71,42 +51,20 @@
 
 <script>
   import { defineComponent} from "vue";
-  // import { jsQR } from './node_modules/jsqr/dist/jsQR.mjs';
-    function parseQRCodeData(qrData) {
-      const lines = qrData.split('\n');
-      const schoolName = lines[0].split(': ')[1];
-      const className = lines[1].split(': ')[1];
-      const teacherName = lines[2].split(': ')[1];
-      const studentsData = lines.slice(3);
+  import jsQR from 'jsqr';
 
-      const students = [];
-      for (const studentData of studentsData) {
-        const [name, age] = studentData.split(', ');
-        students.push({ name, age: parseInt(age) });
-      }
-
-      return {
-        schoolName,
-        className,
-        teacherName,
-        students,
-      };
-    }
-
-    // function displayResult(qrData) {
-    //   const resultDiv = document.getElementById('result');
-    //   resultDiv.innerHTML = `
-    //     <p>School Name: ${qrData.schoolName}</p>
-    //     <p>Class: ${qrData.className}</p>
-    //     <p>Teacher: ${qrData.teacherName}</p>
-    //     <p>Students:</p>
-    //     <ul>
-    //       ${qrData.students.map(student => `<li>${student.name}, Age: ${student.age}</li>`).join('')}
-    //     </ul>
-    //   `;
-    // }
   export default defineComponent({
     name: "AppAccount",
+    data() {
+      return {
+        school: "",
+        class: "",
+        teacher: "",
+        students: [], // Initialize students array
+        selectedStudent: [],
+        selectedStudentIndex: -1,
+      };
+    },
     methods: {
       navigateToSettings() {
         this.$router.push("/Settings");
@@ -116,8 +74,28 @@
       },
       async openQrScanner() {
         try {
-          const stream = await navigator.mediaDevices.getUserMedia({video: true});
+          this.selectedStudentIndex = -1;
+          this.students = [];
+          this.selectedStudent = [];
+          this.school = "";
+          this.class = "";
+
+          const schoolNameDiv = document.getElementById('schoolname');
+          schoolNameDiv.textContent = this.school;
+          const classDiv = document.getElementById('classnum');
+          classDiv.textContent = this.class;
+
+          const stream = await navigator.mediaDevices.getUserMedia({ video: true });
           const video = document.createElement('video');
+
+          video.style.position = 'fixed';
+          video.style.top = '50%';
+          video.style.left = '60%';
+          video.style.width = '30%';
+          video.style.height = 'auto';
+          video.style.transform = 'translate(-50%, -50%)';
+          video.style.border = '4px solid pink';
+          video.style.borderRadius = '10px';
           document.body.appendChild(video);
           video.srcObject = stream;
           await video.play();
@@ -130,13 +108,12 @@
 
           const scanInterval = setInterval(() => {
             context.drawImage(video, 0, 0, canvas.width, canvas.height);
-            // const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
-            // const code = jsQR(imageData.data, imageData.width, imageData.height);
-            const code = 0;
+            const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+            const code = jsQR(imageData.data, imageData.width, imageData.height);
             if (code) {
               clearInterval(scanInterval);
-              const qrData = parseQRCodeData(code.data);
-              this.displayResult(qrData);
+              const qrData = this.parseQRCodeData(code.data);
+              this.displayResult(qrData); // Call the new displayResult method
               video.srcObject.getTracks().forEach(track => track.stop());
               document.body.removeChild(video);
             }
@@ -144,11 +121,122 @@
         } catch (error) {
           console.error('Error accessing camera:', error);
         }
+      },
+      parseQRCodeData(qrData) {
+        const lines = qrData.split('\n');
+        const schoolName = lines[0].split(': ')[1];
+        const className = lines[1].split(': ')[1];
+        const teacherName = lines[2].split(': ')[1];
+        const studentsData = lines.slice(4);
+        this.school = schoolName;
+        this.class = className;
+        this.teacher = teacherName;
+
+        const students = [];
+        for (const studentData of studentsData) {
+          const [name, age] = studentData.split(', ');
+          students.push({ name, age: parseInt(age) });
+        }
+
+        return {
+          schoolName,
+          className,
+          teacherName,
+          students,
+        };
+      },
+      displayResult(qrData) {
+        const schoolNameDiv = document.getElementById('schoolname');
+        schoolNameDiv.textContent = this.school;
+        const classDiv = document.getElementById('classnum');
+        classDiv.textContent = this.class;
+
+        const animalHeadIcons = [
+          'elephant.png',
+          'sheep.png',
+          'bear.png',
+          'badger.png',
+          'giraffe.png',
+          'cheetah.png',
+        ];
+
+        let iconIndex = 0;
+
+        this.students = qrData.students.map((student) => {
+          const iconSrc = require(`@/assets/animals/${animalHeadIcons[iconIndex]}`);
+          iconIndex = (iconIndex + 1) % animalHeadIcons.length;
+          return {
+            iconSrc,
+            studentName: student.name,
+            studentAge: student.age,
+          };
+        });
+      },
+      selectStudent(index) {
+        if (this.selectedStudentIndex === index) {
+          this.selectedStudentIndex = -1;
+        } else {
+          this.selectedStudentIndex = index;
+          this.selectedStudent = this.students[index];
+        }
       }
-    }
+    },
+    computed: {
+      selectedSheetPosition() {
+        if (this.selectedStudentIndex !== -1) {
+          const selectedStudentIcon = this.$refs.selectedRef[this.selectedStudentIndex];
+          if (selectedStudentIcon) {
+            const iconPosition = selectedStudentIcon.offsetTop;
+            const sheetLeftPosition = selectedStudentIcon.offsetLeft - 230; // Adjust the value as needed
+            console.log(selectedStudentIcon)
+            return {
+              top: `${iconPosition}px`,
+              left: `${sheetLeftPosition}px`,
+            };
+          }
+        }
+        return {};
+      },
+    },
   });
 </script>
 <style module>
+
+  .studentsContainer {
+    margin-top: 5rem;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between; /* Adjust as needed */
+    max-width: 90%; /* Ensure the containers fit within the available space */
+    padding: 2rem; /* Adjust padding as needed */
+    box-sizing: border-box; /* Include padding and border in the element's total width and height */
+  }
+
+  .student {
+    flex: 0 0 calc(33.33% - 2rem); /* Adjust the width and margin as needed */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 1rem;
+    box-sizing: border-box; /* Include padding and border in the element's total width and height */
+  }
+
+  .animalHeadIcon {
+    max-width: 100%; /* Ensure the image fits within the container */
+    height: auto; /* Auto-adjust the height to maintain aspect ratio */
+    margin-bottom: 0.5rem;
+  }
+
+  .studentName {
+    font-size: 16px;
+    font-weight: bold;
+  }
+
+  .results {
+    position: absolute;
+    top: -0.56rem;
+    left: 32.5rem;
+  }
   .frameChild {
     position: absolute;
     top: -0.56rem;
@@ -306,102 +394,15 @@
     width: 15rem;
     height: 15rem;
   }
-  .elephantsHeadIcon {
-    position: absolute;
-    top: 2.63rem;
-    left: 47.94rem;
-    width: 15.44rem;
-    height: 13.44rem;
-    object-fit: cover;
-  }
-  .sheepsHeadIcon {
-    position: absolute;
-    top: 0rem;
-    left: -0.25rem;
-    width: 9.88rem;
-    height: 9.88rem;
-    object-fit: cover;
-  }
-  .monica1 {
-    position: absolute;
-    top: 10.06rem;
-    left: 1.25rem;
-  }
-  .monica {
-    position: absolute;
-    top: 27.19rem;
-    left: 63.13rem;
-    width: 9.38rem;
-    height: 12.88rem;
-  }
-  .joey1 {
-    position: absolute;
-    top: 10.19rem;
-    left: 2.25rem;
-  }
-  .joey {
-    position: absolute;
-    top: 35.5rem;
-    left: 44rem;
-    width: 9.38rem;
-    height: 13rem;
-  }
-  .chandler1 {
-    position: absolute;
-    top: 10.19rem;
-    left: 0rem;
-  }
-  .chandler {
-    position: absolute;
-    top: 22rem;
-    left: 35.44rem;
-    width: 9.38rem;
-    height: 13rem;
-  }
-  .giraffeHeadIcon {
-    position: absolute;
-    top: 0rem;
-    left: -0.25rem;
-    width: 9.63rem;
-    height: 9.88rem;
-    object-fit: cover;
-  }
-  .rachel1 {
-    position: absolute;
-    top: 9.38rem;
-    left: 1.5rem;
-  }
-  .rachel {
-    position: absolute;
-    top: 10.25rem;
-    left: 65.25rem;
-    width: 9.38rem;
-    height: 12.19rem;
-  }
-  .pheobe1 {
-    position: absolute;
-    top: 9.56rem;
-    left: 1.19rem;
-  }
-  .pheobe {
-    position: absolute;
-    top: 21.25rem;
-    left: 51.38rem;
-    width: 9.38rem;
-    height: 12.38rem;
-  }
   .selectedSheetChild {
-    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     top: 0rem;
     left: -0.25rem;
     border-radius: 12px;
     width: 14.19rem;
     height: 12.44rem;
-  }
-  .grade {
-    position: absolute;
-    top: 7.94rem;
-    left: 2.25rem;
   }
   .age {
     position: absolute;
@@ -440,12 +441,13 @@
     left: 33.75rem;
     width: 14.19rem;
     height: 11.94rem;
+    z-index: 9999;
     font-size: var(--font-size-xl);
   }
   .schoolName {
     position: absolute;
     top: 25.5rem;
-    left: 1.13rem;
+    left: 9.94rem;
   }
   .dotDecor {
     position: absolute;
