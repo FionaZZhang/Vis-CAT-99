@@ -1,11 +1,9 @@
 <template>
   <div class="appAccounts">
-
     <div class="iconViscat">
       <div class="viscatIcon" />
       <div class="viscatLogo">Vis-CAT</div>
     </div>
-
     <div>
       <div class="navigationBar">
         <div class="iconSettings" @click="navigateToSettings">
@@ -41,20 +39,21 @@
       </div>
     </div>
 
-
-
-
-    <div id="result" class="results"></div>
-    <div id="schoolname" class="schoolName"></div>
-    <div class="dotDecor" />
-    <img class="dotLineIcon" alt="" src="../assets/dot-line.svg" />
-    <div id="classnum" class="class"></div>
-    <div class="scanButton" @click="openQrScanner">
-      <div class="scanButtonBg" />
-      <div class="scanText">Scan</div>
-      <img class="scanIcon" alt="" src="../assets/scan-icon@2x.png" />
+    <div class="container">
+      <!-- <div id="result" class="results"></div> -->
+      <div id="schoolname" class="schoolName"></div>
+      
+      <img class="dotLineIcon" alt="" src="../assets/dot-line.svg" />
+      <div class="dotLineIcon">
+        <div class="dotDecor" />
+      </div>
+      <div id="classnum" class="class"></div>
+      <div class="scanButton" @click="openQrScanner">
+        <div class="scanText">Scan</div>
+        <img class="scanIcon" alt="" src="../assets/scan-icon@2x.png" />
+      </div>
+      <img class="houseIcon" alt="" src="../assets/house@2x.png" />
     </div>
-    <img class="houseIcon" alt="" src="../assets/house@2x.png" />
   </div>
 </template>
 
@@ -217,13 +216,25 @@
 </script>
 <style scoped>
 
+  .container {
+    position: fixed;
+    top: 20%;
+    bottom: 20%;
+    left: 0%;
+    right: 45%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    gap: 20%;
+  }
+
   .studentsContainer {
-    margin-top: 5rem;
+    margin-top: 1vw;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between; /* Adjust as needed */
     max-width: 90%; /* Ensure the containers fit within the available space */
-    padding: 2rem; /* Adjust padding as needed */
+    padding: 2vw; /* Adjust padding as needed */
     box-sizing: border-box; /* Include padding and border in the element's total width and height */
   }
 
@@ -247,20 +258,26 @@
     font-weight: bold;
   }
 
-  .results {
+  /* .results {
     position: absolute;
     top: -0.56rem;
     left: 32.5rem;
-  }
+  } */
   .frameChild {
-    position: absolute;
-    top: -0.56rem;
-    left: 32.5rem;
+    position: fixed;
+    display: block;
+    top: 0%;
+    right: 0%;
+    bottom: 0%;
     border-radius: 76px;
     background-color: #90cf8e;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-    width: 47.69rem;
-    height: 53.06rem;
+    width: 55vw;
+    height: 100vh;
+    overflow: hidden;
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: cover;
   }
 
   .userIcon {
@@ -357,72 +374,78 @@
   }
   .schoolName {
     position: absolute;
-    top: 25.5rem;
-    left: 9.94rem;
+    top: 52%;
+    left: 22%;
+    font-size: 1.8vw;
   }
   .dotDecor {
     position: absolute;
-    top: 21.56rem;
-    left: 21.94rem;
+    top: -160%;
+    left: -20%;
     border-radius: 50%;
     background-color: #6a9a68;
-    width: 0.94rem;
-    height: 0.94rem;
+    width: 1.3vw;
+    height: 1.3vw;
   }
   .dotLineIcon {
     position: absolute;
-    top: 21.91rem;
-    left: 23.91rem;
-    width: 8.69rem;
-    height: 0.19rem;
+    top: 25.5%;
+    left: 54%;
+    width: 11vw;
+    height: 0.3vw;
+    object-fit: cover;
+    max-width: 100%;
+    /* overflow: hidden; */
+    max-height: 100%;
   }
   .class {
     position: absolute;
-    top: 28.75rem;
-    left: 9.94rem;
+    top: 59%;
+    left: 22%;
+    font-size: 1.8vw;
     text-decoration: underline;
     color: var(--color-plum);
   }
-  .scanButtonBg {
-    position: absolute;
-    top: 0.25rem;
-    left: 0rem;
-    border-radius: 34px;
-    background-color: var(--color-white);
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-    width: 13.88rem;
-    height: 6.13rem;
-  }
   .scanText {
     position: absolute;
-    top: 1.56rem;
-    left: 6.94rem;
+    top: 25%;
+    left: 50%;
+    font-size: 3vw;
     text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     -webkit-text-stroke: 1px #000;
   }
   .scanIcon {
     position: absolute;
-    top: 0rem;
-    left: 1.44rem;
-    width: 4.25rem;
-    height: 6.38rem;
+    top: 5%;
+    left: 10%;
+    width: 5vw;
+    height: 7.2vw;
     object-fit: cover;
+    max-width: 100%;
+    overflow: hidden;
+    max-height: 100%;
   }
   .scanButton {
     position: absolute;
-    top: 32.31rem;
-    left: 8.13rem;
-    width: 13.88rem;
-    height: 6.38rem;
+    left: 18%;
+    bottom: 5%;
+    width: 15vw;
+    height: 8vw;
     font-size: var(--font-size-21xl);
     font-family: var(--font-inder);
+    border-radius: 34px;
+    background-color: var(--color-white);
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   }
   .houseIcon {
     position: absolute;
-    top: 14.81rem;
-    left: 9.81rem;
-    width: 10.75rem;
-    height: 10.19rem;
+    top: 8%;
+    left: 19%;
+    width: 14vw;
+    height: 13.5vw;
+    max-width: 100%;
+    overflow: hidden;
+    max-height: 100%;
     object-fit: cover;
   }
   .appAccounts {
