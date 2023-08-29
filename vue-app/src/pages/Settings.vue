@@ -1,5 +1,5 @@
 <template>
-  <div :class="$style.appSettings">
+  <div class="appSettings">
 
     <div class="iconViscat">
       <div class="viscatIcon" />
@@ -8,10 +8,10 @@
 
     <div>
       <div class="navigationBar">
-        <div :class="$style.iconSettings">
-          <div :class="$style.settingsIconText">Settings</div>
+        <div class="iconSettings">
+          <div class="settingsIconText">Settings</div>
           <div class="buttonYellow" />
-          <img :class="$style.settingsIcon" alt="" src="../assets/settings-icon1@2x.png" />
+          <img class="settingsIcon" alt="" src="../assets/settings-icon1@2x.png" />
         </div>
         <div class="iconUser" @click="navigateToAccount">
           <div class="buttonYellow" />
@@ -25,71 +25,69 @@
     </div>
 
     
-    <div :class="$style.welcomeText">
-      <img :class="$style.brownCatIcon" alt="" src="../assets/brown-cat@2x.png" />
-      <img :class="$style.line" alt="" src="../assets/line-3.svg" />
+    <div class="welcomeText">
+      <img class="brownCatIcon" alt="" src="../assets/brown-cat@2x.png" />
+      <img class="line" alt="" src="../assets/line-3.svg" />
       <span>Turn on </span>
-      <span :class="$style.partialMode1">Partial Mode</span>
+      <span class="partialMode1">Partial Mode</span>
       <span> if you only want to play the first level.</span>
     </div>
     
-    <img :class="$style.settingsboard" alt="" src="../assets/settingsboard.svg" />
-    <div :class="$style.settingsboard">
+    <img class="settingsboard" alt="" src="../assets/settingsboard.png" />
+    <div class="settingsboard">
       
-      <img :class="$style.settingsIcon1" alt="" src="../assets/settings-icon2@2x.png" />
+      <img class="settingsIcon1" alt="" src="../assets/settings-icon2@2x.png" />
 
-      <div :class="$style.line1">
-        <img alt="" src="../assets/line-2.svg" />
-        <div :class="$style.settingText">Voice Instructions</div>
-      </div>
-
-      <div :class="$style.line2">
-        <img alt="" src="../assets/line-2.svg" />
-        <div :class="$style.settingText">Display Results</div>
-      </div>
-
-      <div :class="$style.line3">
-        <img alt="" src="../assets/line-2.svg" />
-        <div :class="$style.settingText">Send Results</div>
+      <div class="line1">
+        <img alt="" src="../assets/line-2.png" />
+        <div class="settingText">Voice Instructions</div>
+        <div class="buttonon">
+          <img class="buttonlanguageIcon1" alt="" src="../assets/buttonlanguage.svg"/>
+          <div class="on">ON</div>
+        </div>
+        <div class="buttonoff">
+          <img class="buttonlanguageIcon1" alt="" src="../assets/buttonlanguage1.svg"/>
+          <div class="off">OFF</div>
+        </div>
       </div>
 
-      <div :class="$style.line4">
-        <img alt="" src="../assets/line-2.svg" />
-        <div :class="$style.settingText">Partial Mode</div>
+      <div class="line2">
+        <img alt="" src="../assets/line-2.png" />
+        <div class="settingText">Display Results</div>
+        <div class="buttonon">
+          <img class="buttonlanguageIcon1" alt="" src="../assets/buttonlanguage.svg"/>
+          <div class="on">ON</div>
+        </div>
+        <div class="buttonoff">
+          <img class="buttonlanguageIcon1" alt="" src="../assets/buttonlanguage1.svg"/>
+          <div class="off">OFF</div>
+        </div>
       </div>
 
-      <div :class="$style.buttonon">
-        <img :class="$style.buttonlanguageIcon1" alt="" src="../assets/buttonlanguage.svg"/>
-        <div :class="$style.on">ON</div>
-      </div>
-      <div :class="$style.buttonon1">
-        <img :class="$style.buttonlanguageIcon1" alt="" src="../assets/buttonlanguage.svg"/>
-        <div :class="$style.on">ON</div>
-      </div>
-      <div :class="$style.buttonon2">
-        <img :class="$style.buttonlanguageIcon1" alt="" src="../assets/buttonlanguage.svg"/>
-        <div :class="$style.on">ON</div>
-      </div>
-      <div :class="$style.buttonon3">
-        <img :class="$style.buttonlanguageIcon1" alt="" src="../assets/buttonlanguage1.svg" />
-        <div :class="$style.on">ON</div>
+      <div class="line3">
+        <img alt="" src="../assets/line-2.png" />
+        <div class="settingText">Send Results</div>
+        <div class="buttonon">
+          <img class="buttonlanguageIcon1" alt="" src="../assets/buttonlanguage.svg"/>
+          <div class="on">ON</div>
+        </div>
+        <div class="buttonoff">
+          <img class="buttonlanguageIcon1" alt="" src="../assets/buttonlanguage1.svg"/>
+          <div class="off">OFF</div>
+        </div>
       </div>
 
-      <div :class="$style.buttonoff">
-        <img :class="$style.buttonlanguageIcon1" alt="" src="../assets/buttonlanguage1.svg"/>
-        <div :class="$style.off">OFF</div>
-      </div>
-      <div :class="$style.buttonoff1">
-        <img :class="$style.buttonlanguageIcon1" alt="" src="../assets/buttonlanguage1.svg"/>
-        <div :class="$style.off">OFF</div>
-      </div>
-      <div :class="$style.buttonoff2">
-        <img :class="$style.buttonlanguageIcon1" alt="" src="../assets/buttonlanguage1.svg"/>
-        <div :class="$style.off">OFF</div>
-      </div>
-      <div :class="$style.buttonoff3">
-        <img :class="$style.buttonlanguageIcon1" alt="" src="../assets/buttonlanguage.svg"/>
-        <div :class="$style.off">OFF</div>
+      <div class="line4">
+        <img alt="" src="../assets/line-2.png" />
+        <div class="settingText">Partial Mode</div>
+        <div class="buttonon">
+          <img class="buttonlanguageIcon1" alt="" src="../assets/buttonlanguage1.svg"/>
+          <div class="on">ON</div>
+        </div>
+        <div class="buttonoff">
+          <img class="buttonlanguageIcon1" alt="" src="../assets/buttonlanguage.svg"/>
+          <div class="off">OFF</div>
+        </div>
       </div>
 
     </div>
@@ -110,7 +108,7 @@
     }
   });
 </script>
-<style module>
+<style scoped>
   .settingsIcon {
     position: absolute;
     height: 79.17%;
@@ -131,20 +129,18 @@
     width: 9vw;
     height: 9vw;
   }
-
   .settingsboard {
-    position: absolute;
+    position: fixed;
     top: 0%;
     bottom: 0%;
     right: 0%;
-    left: 56.3%;
+    left: 49.8%;
     width: 50vw;
-    height: 55vw;
+    height: 100vh;
     max-width: 100%;
     overflow: hidden;
     max-height: 100%;
   }
-
   .buttonlanguageIcon1 {
     position: absolute;
     height: 119.05%;
@@ -158,44 +154,19 @@
     max-height: 100%;
   }
   .on {
-    position: absolute;
-    top: 7%;
-    left: 15%;
+    position: relative;
+    top: 3%;
+    left: 14%;
+    font-size: 3vw;
   }
   .buttonon {
-    position: absolute;
-    top: 30%;
-    /* left: 70rem; */
-    right: 25%;
-    width: 5.06rem;
-    height: 2.63rem;
+    position: relative;
+    top: -1200%;
+    /* left: 80%; */
+    right: -90%;
+    width: 6vw;
+    height: 3vw;
   }
-
-  .buttonon1 {
-    position: absolute;
-    top: 40%;
-    /* left: 70rem; */
-    right: 25%;
-    width: 5.06rem;
-    height: 2.63rem;
-  }
-  .buttonon2 {
-    position: absolute;
-    top: 50%;
-    /* left: 70rem; */
-    right: 25%;
-    width: 5.06rem;
-    height: 2.63rem;
-  }
-  .buttonon3 {
-    position: absolute;
-    top: 60%;
-    /* left: 70rem; */
-    right: 25%;
-    width: 5.06rem;
-    height: 2.63rem;
-  }
-
   .settingsIcon1 {
     position: absolute;
     height: 12vw;
@@ -209,55 +180,27 @@
     object-fit: cover;
   }
   .off {
-    position: absolute;
-    top: 7%;
-    left: 15%;
+    position: relative;
+    top: 3%;
+    left: 14%;
+    font-size: 3vw;
   }
   .buttonoff {
-    position: absolute;
-    top: 30%;
-    /* left: 77.5rem; */
-    right: 8%;
-    width: 5.06rem;
-    height: 2.63rem;
+    position: relative;
+    top: -1800%;
+    right: -110%;
+    width: 6vw;
+    height: 3vw;
   }
-
-  .buttonoff1 {
-    position: absolute;
-    top: 40%;
-    /* left: 77.5rem; */
-    right: 8%;
-    width: 5.06rem;
-    height: 2.63rem;
-  }
-  .buttonoff2 {
-    position: absolute;
-    top: 50%;
-    /* left: 77.5rem; */
-    right: 8%;
-    width: 5.06rem;
-    height: 2.63rem;
-  }
-  .buttonoff3 {
-    position: absolute;
-    top: 60%;
-    /* left: 77.5rem; */
-    right: 8%;
-    width: 5.06rem;
-    height: 2.63rem;
-  }
-
   .settingText {
-    position: absolute;
-    top: -150%;
+    position: relative;
+    top: -1150%;
     left: 2%;
     font-size: 2.5vw;
     max-width: 100%;
     max-height: 100%;
     object-fit: cover;
   }
-
-
   .brownCatIcon {
     position: absolute;
     top: 100%;
@@ -290,35 +233,29 @@
   .line1 {
     position: absolute;
     top: 33%;
-    /* left: 48rem; */
-    left: 15%;
-    width: 34vw;
+    left: 4%;
+    width: 32vw;
     height: 0.5vw;
-    max-width: 100%;
-    max-height: 100%;
   }
   .line2 {
     position: absolute;
     top: 44%;
-    /* left: 48rem; */
-    left: 15%;
-    width: 34vw;
+    left: 4%;
+    width: 32vw;
     height: 0.5vw;
   }
   .line3 {
     position: absolute;
     top: 55%;
-    /* left: 48rem; */
-    left: 15%;
-    width: 34vw;
+    left: 4%;
+    width: 32vw;
     height: 0.5vw;
   }
   .line4 {
     position: absolute;
     top: 66%;
-    /* left: 48rem; */
-    left: 15%;
-    width: 34vw;
+    left: 4%;
+    width: 32vw;
     height: 0.5vw;
   }
   .settingsIconText {
@@ -338,19 +275,11 @@
     color: var(--color-black);
     font-family: var(--font-jua);
   }
-
-
     /* Hover effects for buttons */
 
   .iconSettings:hover .settingsIcon,
   .buttonon:hover,
-  .buttonoff:hover,
-  .buttonon1:hover,
-  .buttonon2:hover,
-  .buttonon3:hover,
-  .buttonoff1:hover,
-  .buttonoff2:hover,
-  .buttonoff3:hover {
+  .buttonoff:hover {
     transform: scale(1.25);
     transition: transform 0.3s ease;
   }
