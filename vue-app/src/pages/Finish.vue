@@ -2,7 +2,7 @@
   <div :class="$style.appfinish">
     <img :class="$style.grassIcon" alt="" src="../assets/grass.png" />
     <img :class="$style.yellowCatIcon" alt="" src="../assets/yellow-cat@2x.png" />
-    <img :class="$style.appfinishChild" alt="" src="/line-1.svg" />
+    <!-- <img :class="$style.appfinishChild" alt="" src="/line-1.svg" /> -->
     <div :class="$style.iconViscat">
       <div :class="$style.viscatIcon" />
       <h1 :class="$style.viscatLogo">Vis-CAT</h1>

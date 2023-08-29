@@ -1,35 +1,39 @@
 <template>
-  <div :class="$style.appLobby">
+  <div class="appLobby">
+
+    <img class="mapIcon" alt="" src="../assets/map.png" />
+
+    <div class="mapIcon">
+      
+    </div>
 
     <div class="iconViscat">
       <div class="viscatIcon" />
       <div class="viscatLogo">Vis-CAT</div>
     </div>
 
-    <img :class="$style.mapIcon" alt="" src="../assets/map.svg" />
+    <div class="main">
 
-    <div :class="$style.main">
-
-      <img :class="$style.pinkCatIcon" alt="" src="../assets/pink-cat@2x.png">
-      <img :class="$style.yellowCatIcon" alt="" src="../assets/yellow-cat@2x.png" />
+      <img class="pinkCatIcon" alt="" src="../assets/pink-cat@2x.png">
+      <img class="yellowCatIcon" alt="" src="../assets/yellow-cat@2x.png" />
       
-      <div :class="$style.buttonStart" @click="navigateToInstruction" >
-        <img :class="$style.buttonStartIcon" alt="" src="../assets/button-start.svg" />
-        <div :class="$style.startButtonText">Start</div>
-        <img :class="$style.playIcon" alt="" src="../assets/play-icon@2x.png"/>
+      <div class="buttonStart" @click="navigateToInstruction" >
+        <img class="buttonStartIcon" alt="" src="../assets/button-start.svg" />
+        <div class="startButtonText">Start</div>
+        <img class="playIcon" alt="" src="../assets/play-icon@2x.png"/>
       </div>
 
-      <div :class="$style.buttonPlayground" @click="navigateToPlayground">
-        <img :class="$style.buttonPlaygroundIcon" alt="" src="../assets/button-playground.svg"/>
-        <div :class="$style.playgroundButtonText">Playground</div>
-        <img :class="$style.playgroundPlayButtonIcon" alt="" src="../assets/playground-play-button@2x.png"/>
+      <div class="buttonPlayground" @click="navigateToPlayground">
+        <img class="buttonPlaygroundIcon" alt="" src="../assets/button-playground.svg"/>
+        <div class="playgroundButtonText">Playground</div>
+        <img class="playgroundPlayButtonIcon" alt="" src="../assets/playground-play-button@2x.png"/>
       </div>
 
-      <div :class="$style.welcomeText">
-        <img :class="$style.brownCatIcon" alt="" src="../assets/brown-cat@2x.png" @click="navigateToFinish"/>
-        <p :class="$style.welcome">Welcome!</p>
-        <p :class="$style.welcome">Click ‘Start’ to take the test!</p>
-        <img :class="$style.line" alt="" src="../assets/line-1.svg" />
+      <div class="welcomeText">
+        <img class="brownCatIcon" alt="" src="../assets/brown-cat@2x.png" @click="navigateToFinish"/>
+        <p class="welcome">Welcome!</p>
+        <p class="welcome">Click ‘Start’ to take the test!</p>
+        <img class="line" alt="" src="../assets/line-1.svg" />
       </div>
     </div>
 
@@ -43,10 +47,10 @@
           <div class="buttonYellow" />
           <img class="userIcon" alt="" src="../assets/user-icon@2x.png" />
         </div>
-        <div :class="$style.iconHome">
-          <div :class="$style.homeIconText">Home</div>
-          <div :class="$style.buttonHome" />
-          <img :class="$style.homeIcon" alt="" src="../assets/home-icon@2x.png" />
+        <div class="iconHome">
+          <div class="homeIconText">Home</div>
+          <div class="buttonHome" />
+          <img class="homeIcon" alt="" src="../assets/home-icon@2x.png" />
         </div>
       </div>
     </div>
@@ -90,23 +94,24 @@
     }
   });
 </script>
-<style module>
+<style scoped>
   .mapIcon {
-    position: absolute;
+    position: fixed;
+    display: block;
     top: 0%;
+    right: 0;
     bottom: 0%;
-    left: 50%;
-    right: 0%;
-    width: 54%;
+    width: auto;
     height: 100%;
     overflow: hidden;
     max-width: 100%;
     max-height: 100%;
+    object-fit: cover;
   }
   .pinkCatIcon{
     position: absolute;
     top: 1%;
-    left: 79%;
+    left: 75%;
     bottom: 80%;
     right: 15%;
     width: 12vw;
@@ -132,7 +137,7 @@
     width: 12vw;
     height: 12vw;
     top: 45%;
-    right: 30%;
+    right: 25%;
     bottom: 30.14%;
     left: 65%;
     max-width: 100%;
@@ -165,7 +170,7 @@
   .homeIconText {
     position: absolute;
     bottom: -38%;
-    left: 16%;
+    left: 14%;
     font-size: 3vw;
   }
   .buttonHome {
@@ -196,9 +201,9 @@
   .iconHome {
     position: absolute;
     bottom: 30%;
-    left: 33%;
-    width: 9.5vw;
-    height: 9.5vw;
+    left: 34%;
+    width: 9vw;
+    height: 9vw;
   }
 
   .buttonStartIcon {
@@ -237,7 +242,7 @@
   }
   .buttonStart {
     position: absolute;
-    top: 47%;
+    top: 49%;
     right: 34.4%;
     width: 20vw;
     height: 10vw;
@@ -282,14 +287,15 @@
   }
   .buttonPlayground {
     position: absolute;
-    top: 1.5%;
-    right: 20%;
+    top: 1.9%;
+    right: 25%;
     width: 30vw;
     height: 10vw;
     font-family: var(--font-inder);
   }
   .appLobby {
     position: fixed;
+    display: flex;
     background-color: #b8e3ff;
     width: 100%;
     height: 100%;
