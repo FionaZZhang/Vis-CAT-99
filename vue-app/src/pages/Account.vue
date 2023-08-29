@@ -1,51 +1,60 @@
 <template>
-  <div :class="$style.frame">
-    <div :class="$style.frameChild" >
-      <div :class="$style.studentsContainer">
-        <div v-for="(student, index) in students" :key="index" :class="$style.student" @click="selectStudent(index)">
-          <img :class="$style.animalHeadIcon" alt="" :src="student.iconSrc" ref="selectedRef"/>
-          <div :class="$style.studentName">{{ student.studentName }}</div>
+  <div class="appAccounts">
+
+    <div class="iconViscat">
+      <div class="viscatIcon" />
+      <div class="viscatLogo">Vis-CAT</div>
+    </div>
+
+    <div>
+      <div class="navigationBar">
+        <div class="iconSettings" @click="navigateToSettings">
+          <div class="buttonYellow" />
+          <img class="settingsIcon" alt="" src="../assets/settings-icon@2x.png" />
         </div>
-        <div v-if="selectedStudentIndex !== -1" :class="$style.selectedSheet" :style="selectedSheetPosition">
-          <img :class="$style.selectedSheetChild" alt="" src="../assets/rectangle-1.svg" />
-          <div :class="$style.age">Age: {{ selectedStudent.studentAge }}</div>
-          <div :class="$style.name">{{ selectedStudent.studentName }}</div>
-          <img :class="$style.selectLine1Icon" alt="" src="../assets/select-line2.svg" />
-          <img :class="$style.selectLine2Icon" alt="" src="../assets/select-line2.svg" />
-          <img :class="$style.selectLine3Icon" alt="" src="../assets/select-line2.svg" />
+        <div class="iconHome" @click="navigateToLobby">
+          <div class="buttonHome" />
+          <img class="homeIcon" alt="" src="../assets/home-icon1@2x.png" />
+        </div>
+        <div class="iconUser">
+          <div class="accountsIconText">Accounts</div>
+          <div class="buttonYellow" />
+          <img class="userIcon" alt="" src="../assets/user-icon1@2x.png" />
         </div>
       </div>
     </div>
-    <div :class="$style.navigation" />
-    <div :class="$style.iconSettings" @click="navigateToSettings">
-      <div :class="$style.buttonSettings" />
-      <img :class="$style.settingsIcon" alt="" src="../assets/settings-icon@2x.png" />
+
+    <div class="frameChild" >
+      <div class="studentsContainer">
+        <div v-for="(student, index) in students" :key="index" class="student" @click="selectStudent(index)">
+          <img class="animalHeadIcon" alt="" :src="student.iconSrc" ref="selectedRef"/>
+          <div class="studentName">{{ student.studentName }}</div>
+        </div>
+        <div v-if="selectedStudentIndex !== -1" class="selectedSheet" :style="selectedSheetPosition">
+          <img class="selectedSheetChild" alt="" src="../assets/rectangle-1.svg" />
+          <div class="age">Age: {{ selectedStudent.studentAge }}</div>
+          <div class="name">{{ selectedStudent.studentName }}</div>
+          <img class="selectLine1Icon" alt="" src="../assets/select-line2.svg" />
+          <img class="selectLine2Icon" alt="" src="../assets/select-line2.svg" />
+          <img class="selectLine3Icon" alt="" src="../assets/select-line2.svg" />
+        </div>
+      </div>
     </div>
-    <div :class="$style.iconUser">
-      <div :class="$style.buttonSettings" />
-      <img :class="$style.userIcon" alt="" src="../assets/user-icon1@2x.png" />
+
+
+
+
+    <div id="result" class="results"></div>
+    <div id="schoolname" class="schoolName"></div>
+    <div class="dotDecor" />
+    <img class="dotLineIcon" alt="" src="../assets/dot-line.svg" />
+    <div id="classnum" class="class"></div>
+    <div class="scanButton" @click="openQrScanner">
+      <div class="scanButtonBg" />
+      <div class="scanText">Scan</div>
+      <img class="scanIcon" alt="" src="../assets/scan-icon@2x.png" />
     </div>
-    <div :class="$style.homeIconText">Accounts</div>
-    <div :class="$style.iconHome" @click="navigateToLobby">
-      <div :class="$style.homeIconText1">Home</div>
-      <div :class="$style.buttonHome" />
-      <img :class="$style.homeIcon" alt="" src="../assets/home-icon1@2x.png" />
-    </div>
-    <div :class="$style.iconViscat">
-      <div :class="$style.viscatIcon" />
-      <div :class="$style.viscatLogo">Vis-CAT</div>
-    </div>
-    <div id="result" :class="$style.results"></div>
-    <div id="schoolname" :class="$style.schoolName"></div>
-    <div :class="$style.dotDecor" />
-    <img :class="$style.dotLineIcon" alt="" src="../assets/dot-line.svg" />
-    <div id="classnum" :class="$style.class"></div>
-    <div :class="$style.scanButton" @click="openQrScanner">
-      <div :class="$style.scanButtonBg" />
-      <div :class="$style.scanText">Scan</div>
-      <img :class="$style.scanIcon" alt="" src="../assets/scan-icon@2x.png" />
-    </div>
-    <img :class="$style.houseIcon" alt="" src="../assets/house@2x.png" />
+    <img class="houseIcon" alt="" src="../assets/house@2x.png" />
   </div>
 </template>
 
@@ -206,7 +215,7 @@
     },
   });
 </script>
-<style module>
+<style scoped>
 
   .studentsContainer {
     margin-top: 5rem;
@@ -253,48 +262,7 @@
     width: 47.69rem;
     height: 53.06rem;
   }
-  .navigation {
-    position: absolute;
-    top: 41.06rem;
-    left: 4.75rem;
-    border-radius: 40px;
-    background-color: var(--color-white);
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-    width: 26rem;
-    height: 9.94rem;
-  }
-  .buttonSettings {
-    position: absolute;
-    height: 100%;
-    width: 100%;
-    top: 0%;
-    right: 0%;
-    bottom: 0%;
-    left: 0%;
-    border-radius: var(--br-11xl);
-    background-color: var(--color-palegoldenrod);
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-  }
-  .settingsIcon {
-    position: absolute;
-    height: 79.17%;
-    width: 75%;
-    top: 8.33%;
-    right: 12.5%;
-    bottom: 12.5%;
-    left: 12.5%;
-    max-width: 100%;
-    overflow: hidden;
-    max-height: 100%;
-    object-fit: cover;
-  }
-  .iconSettings {
-    position: absolute;
-    top: 42.31rem;
-    left: 6.19rem;
-    width: 7.5rem;
-    height: 7.5rem;
-  }
+
   .userIcon {
     position: absolute;
     height: 97.5%;
@@ -310,85 +278,22 @@
   }
   .iconUser {
     position: absolute;
-    top: 39.31rem;
-    left: 21.81rem;
-    width: 8.75rem;
-    height: 8.75rem;
+    bottom: 30%;
+    right: 3%;
+    width: 9vw;
+    height: 9vw;
   }
-  .homeIconText {
+  .accountsIconText {
     position: absolute;
-    top: 48.06rem;
-    left: 22.69rem;
-    font-size: 1.88rem;
+    bottom: -38%;
+    left: 0%;
+    font-size: 2.5vw;
   }
   .homeIconText1 {
     position: absolute;
     top: 8.88rem;
     left: 1.63rem;
     display: none;
-  }
-  .buttonHome {
-    position: absolute;
-    height: 100%;
-    width: 100%;
-    top: 0%;
-    right: 0%;
-    bottom: 0%;
-    left: 0%;
-    border-radius: var(--br-11xl);
-    background-color: var(--color-peachpuff);
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-  }
-  .homeIcon {
-    position: absolute;
-    height: 52.86%;
-    width: 57.86%;
-    top: 18.57%;
-    right: 20.71%;
-    bottom: 28.57%;
-    left: 21.43%;
-    max-width: 100%;
-    overflow: hidden;
-    max-height: 100%;
-    object-fit: cover;
-  }
-  .iconHome {
-    position: absolute;
-    top: 42.31rem;
-    left: 14rem;
-    width: 7.5rem;
-    height: 7.5rem;
-    font-size: var(--font-size-21xl);
-  }
-  .viscatIcon {
-    position: absolute;
-    height: 100%;
-    width: 100%;
-    top: 0%;
-    right: 0%;
-    bottom: 0%;
-    left: 0%;
-    border-radius: var(--br-xl);
-    background-color: var(--color-white);
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-  }
-  .viscatLogo {
-    position: absolute;
-    width: 97.7%;
-    top: 8.15%;
-    left: 5.1%;
-    display: inline-block;
-    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-    -webkit-text-stroke: 2px #fff;
-  }
-  .iconViscat {
-    position: absolute;
-    top: 2.63rem;
-    left: 1.88rem;
-    width: 24.5rem;
-    height: 8.44rem;
-    font-size: var(--font-size-77xl);
-    color: var(--color-plum);
   }
   .selected {
     position: absolute;
@@ -520,11 +425,11 @@
     height: 10.19rem;
     object-fit: cover;
   }
-  .frame {
-    position: relative;
+  .appAccounts {
+    position: fixed;
     background-color: #b8e3ff;
-    width: 74.63rem;
-    height: 52.13rem;
+    width: 100%;
+    height: 100%;
     overflow: hidden;
     text-align: left;
     font-size: var(--font-size-17xl);

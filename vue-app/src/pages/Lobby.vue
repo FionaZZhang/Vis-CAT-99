@@ -3,10 +3,6 @@
 
     <img class="mapIcon" alt="" src="../assets/map.png" />
 
-    <div class="mapIcon">
-      
-    </div>
-
     <div class="iconViscat">
       <div class="viscatIcon" />
       <div class="viscatLogo">Vis-CAT</div>
