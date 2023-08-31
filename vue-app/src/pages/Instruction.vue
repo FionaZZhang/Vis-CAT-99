@@ -4,12 +4,13 @@
       <div class="Icon">
         <img src="../assets/button_home.png" alt="Button Home" id="buttonHome" @click="navigateToLobby">
         <img src="../assets/button_restart.png" alt="Button Restart" id="buttonRestart" @click="clearPattern">
+
       </div>
       <img src="../assets/pink-cat@2x.png" alt="Cat Icon" id="catPink">
     </nav>
     <main>
       <header>
-        <img src="../assets/text_goal.png" alt="Goal Text" id="textGoal">
+        <img src="../assets/text_goal1.png" alt="Goal Text" id="textGoal">
       </header>
       <section>
         <div><img src="../assets/left_pattern.png" alt="Instruction Pattern" id="instruction"></div>
@@ -18,6 +19,7 @@
             <svg class="connector"></svg>
             <div class="grid" @mousedown="startDrawing" @mouseup="endDrawing" @touchstart="startDrawing"
               @touchmove="handleTouchMove">
+
               <div v-for="n in 16" :key="n" class="cell" :data-id="n" @mouseover="handleMouseOver" @touchend="endDrawing">
               </div>
             </div>
@@ -25,12 +27,15 @@
             <div class="larger-font">Path: </div> -->
           </div>
           <!-- <button @click="clearPattern">Clear Pattern</button> -->
-          <button @click="revertPattern" v-if="pattern.length > 0">Revert Last Dot</button>
+
 
         </div>
       </section>
     </main>
     <footer>
+      <button @click="revertPattern" v-if="pattern.length > 0" id="buttonReverse"><span id="textReverse"> Reverse
+        </span></button>
+
       <img src="../assets/button_confirm.png" alt="Confirm Button" @click="navigateToStart" id="buttonConfirm">
     </footer>
   </body>
@@ -38,6 +43,7 @@
 
 <script>
 import { defineComponent } from "vue";
+import * as checker from ".//Checker.js";
 export default defineComponent({
   name: "AppInstruction",
   data() {
@@ -57,7 +63,12 @@ export default defineComponent({
   },
   methods: {
     navigateToStart() {
-      this.$router.push("/Start");
+      if (checker.checkCorrectness([[1,1],[1,2],[1,3],[1,4],[2,3],[3,2],[4,1]], "copy", this.path)) {
+        this.$router.push("/instruction2");
+      } 
+      else {
+        this.clearPattern();
+      }     
     },
     navigateToLobby() {
       this.$router.push("/Lobby");
@@ -235,7 +246,6 @@ main {
 
 #drawArea {
   display: flex;
-  width: 100%;
 }
 
 header {
@@ -254,9 +264,23 @@ header {
 section {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: space-evenly;
   padding-left: 15%;
   padding-right: 15%;
+}
+
+#buttonReverse {
+  display: flex;
+  position: relative;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin-left: 65%;
+  height: 70%;
+  width: 15%;
+  border-radius: 20px;
+  border-width: 0px;
+  box-shadow: 1px 2px 3px #bebdbd;
 }
 
 #buttonConfirm {
@@ -267,11 +291,18 @@ section {
   height: 75%;
 }
 
+#textReverse {
+  font-weight: bold;
+  font-size: 2em;
+  font-family: sans-serif;
+  display: flex;
 
+}
 
 footer {
   display: flex;
   height: 15%;
+
 }
 
 .grid-wrapper {
@@ -279,17 +310,20 @@ footer {
 }
 
 .connector {
-  position: absolute;
+  position: fixed;
+  pointer-events: none;
   top: 0;
   left: 0;
-  width: 100%;
   height: 100%;
+  width: 100%;
 }
 
 .grid {
   display: grid;
+  height: 100%;
+  width: 100%;
   grid-template-columns: repeat(4, 4vw);
-  gap: 4vw;
+  gap: 21%;
 }
 
 .cell {
@@ -299,7 +333,6 @@ footer {
   border-radius: 50%;
   transition: background-color 0.2s;
   position: relative;
-  z-index: 1;
 }
 
 .cell.active {
