@@ -41,12 +41,12 @@
       <div class="line1">
         <img alt="" src="../assets/line-2.png" />
         <div class="settingText">Voice Instructions</div>
-        <div class="buttonon">
-          <img class="buttonlanguageIcon1" alt="" src="../assets/buttonlanguage.svg"/>
+        <div class="buttonon1" @click="switch1('buttonon1')">
+          <img class="buttonlanguageIcon1" alt="" :src="buttononSrc1" />
           <div class="on">ON</div>
         </div>
-        <div class="buttonoff">
-          <img class="buttonlanguageIcon1" alt="" src="../assets/buttonlanguage1.svg"/>
+        <div class="buttonoff1" @click="switch1('buttonoff1')">
+          <img class="buttonlanguageIcon1" alt="" :src="buttonoffSrc1" />
           <div class="off">OFF</div>
         </div>
       </div>
@@ -54,12 +54,12 @@
       <div class="line2">
         <img alt="" src="../assets/line-2.png" />
         <div class="settingText">Display Results</div>
-        <div class="buttonon">
-          <img class="buttonlanguageIcon1" alt="" src="../assets/buttonlanguage.svg"/>
+        <div class="buttonon2" @click="switch2('buttonon2')">
+          <img class="buttonlanguageIcon1" alt="" :src="buttononSrc2" />
           <div class="on">ON</div>
         </div>
-        <div class="buttonoff">
-          <img class="buttonlanguageIcon1" alt="" src="../assets/buttonlanguage1.svg"/>
+        <div class="buttonoff2" @click="switch2('buttonoff2')">
+          <img class="buttonlanguageIcon1" alt="" :src="buttonoffSrc2" />
           <div class="off">OFF</div>
         </div>
       </div>
@@ -67,12 +67,12 @@
       <div class="line3">
         <img alt="" src="../assets/line-2.png" />
         <div class="settingText">Send Results</div>
-        <div class="buttonon">
-          <img class="buttonlanguageIcon1" alt="" src="../assets/buttonlanguage.svg"/>
+        <div class="buttonon3" @click="switch3('buttonon3')">
+          <img class="buttonlanguageIcon1" alt="" :src="buttononSrc3" />
           <div class="on">ON</div>
         </div>
-        <div class="buttonoff">
-          <img class="buttonlanguageIcon1" alt="" src="../assets/buttonlanguage1.svg"/>
+        <div class="buttonoff3" @click="switch3('buttonoff3')">
+          <img class="buttonlanguageIcon1" alt="" :src="buttonoffSrc3" />
           <div class="off">OFF</div>
         </div>
       </div>
@@ -80,15 +80,16 @@
       <div class="line4">
         <img alt="" src="../assets/line-2.png" />
         <div class="settingText">Partial Mode</div>
-        <div class="buttonon">
-          <img class="buttonlanguageIcon1" alt="" src="../assets/buttonlanguage1.svg"/>
+        <div class="buttonon4" @click="switch4('buttonon4')">
+          <img class="buttonlanguageIcon1" alt="" :src="buttononSrc4" />
           <div class="on">ON</div>
         </div>
-        <div class="buttonoff">
-          <img class="buttonlanguageIcon1" alt="" src="../assets/buttonlanguage.svg"/>
+        <div class="buttonoff4" @click="switch4('buttonoff4')">
+          <img class="buttonlanguageIcon1" alt="" :src="buttonoffSrc4" />
           <div class="off">OFF</div>
         </div>
       </div>
+
 
     </div>
   </div>
@@ -98,13 +99,93 @@
 
   export default defineComponent({
     name: "AppSettings",
+    data() {
+      return {
+        isButtonOn1: true,
+        isButtonOn2: true,
+        isButtonOn3: true,
+        isButtonOn4: false,
+      };
+    },
+    computed: {
+      buttononSrc1() {
+        return this.isButtonOn1
+          ? require("../assets/Chosen.svg")
+          : require("../assets/Unchosen.svg");
+      },
+      buttonoffSrc1() {
+        return this.isButtonOn1
+          ? require("../assets/Unchosen.svg")
+          : require("../assets/Chosen.svg");
+      },
+      buttononSrc2() {
+        return this.isButtonOn2
+          ? require("../assets/Chosen.svg")
+          : require("../assets/Unchosen.svg");
+      },
+      buttonoffSrc2() {
+        return this.isButtonOn2
+          ? require("../assets/Unchosen.svg")
+          : require("../assets/Chosen.svg");
+      },
+      buttononSrc3() {
+        return this.isButtonOn3
+          ? require("../assets/Chosen.svg")
+          : require("../assets/Unchosen.svg");
+      },
+      buttonoffSrc3() {
+        return this.isButtonOn3
+          ? require("../assets/Unchosen.svg")
+          : require("../assets/Chosen.svg");
+      },
+      buttononSrc4() {
+        return this.isButtonOn4
+          ? require("../assets/Chosen.svg")
+          : require("../assets/Unchosen.svg");
+      },
+      buttonoffSrc4() {
+        return this.isButtonOn4
+          ? require("../assets/Unchosen.svg")
+          : require("../assets/Chosen.svg");
+      },
+    },
+
     methods: {
       navigateToLobby() {
         this.$router.push("/Lobby");
       },
       navigateToAccount() {
         this.$router.push("/Account");
-      }
+      },
+      switch1(button) {
+        if (button === "buttonon1") {
+          this.isButtonOn1 = true;
+        } else {
+          this.isButtonOn1 = false;
+        }
+      },
+      switch2(button) {
+        if (button === "buttonon2") {
+          this.isButtonOn2 = true;
+        } else {
+          this.isButtonOn2 = false;
+        }
+      },
+      switch3(button) {
+        if (button === "buttonon3") {
+          this.isButtonOn3 = true;
+        } else {
+          this.isButtonOn3 = false;
+        }
+      },
+      switch4(button) {
+        if (button === "buttonon4") {
+          this.isButtonOn4 = true;
+        } else {
+          this.isButtonOn4 = false;
+        }
+      },
+
     }
   });
 </script>
@@ -162,7 +243,6 @@
   .buttonon {
     position: relative;
     top: -1200%;
-    /* left: 80%; */
     right: -90%;
     width: 6vw;
     height: 3vw;
@@ -275,11 +355,81 @@
     color: var(--color-black);
     font-family: var(--font-jua);
   }
+
+  .buttonon1 {
+    position: relative;
+    top: -1200%;
+    right: -90%;
+    width: 6vw;
+    height: 3vw;
+  }
+
+  .buttonoff1 {
+    position: relative;
+    top: -1800%;
+    right: -110%;
+    width: 6vw;
+    height: 3vw;
+  }
+  .buttonon2 {
+    position: relative;
+    top: -1200%;
+    right: -90%;
+    width: 6vw;
+    height: 3vw;
+  }
+
+  .buttonoff2 {
+    position: relative;
+    top: -1800%;
+    right: -110%;
+    width: 6vw;
+    height: 3vw;
+  }
+  .buttonon3 {
+    position: relative;
+    top: -1200%;
+    right: -90%;
+    width: 6vw;
+    height: 3vw;
+  }
+
+  .buttonoff3 {
+    position: relative;
+    top: -1800%;
+    right: -110%;
+    width: 6vw;
+    height: 3vw;
+  }
+  .buttonon4 {
+    position: relative;
+    top: -1200%;
+    right: -90%;
+    width: 6vw;
+    height: 3vw;
+  }
+
+  .buttonoff4 {
+    position: relative;
+    top: -1800%;
+    right: -110%;
+    width: 6vw;
+    height: 3vw;
+  }
+
+
+
     /* Hover effects for buttons */
 
   .iconSettings:hover .settingsIcon,
-  .buttonon:hover,
-  .buttonoff:hover {
+  .buttonon1:hover,
+  .buttonoff1:hover,
+  .buttonon2:hover,
+  .buttonoff2:hover,
+  .buttonon3:hover,
+  .buttonoff3:hover,
+  .buttonon4:hover,
+  .buttonoff4:hover {
     transform: scale(1.25);
     transition: transform 0.3s ease;
   }

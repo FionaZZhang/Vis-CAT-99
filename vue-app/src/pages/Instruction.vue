@@ -73,9 +73,9 @@ export default defineComponent({
     navigateToLobby() {
       this.$router.push("/Lobby");
     },
-    // preventScroll(e) {
-    //   e.preventDefault();
-    // },
+    preventScroll(e) {
+      e.preventDefault();
+    },
     startDrawing(event) {
       this.isDrawing = true;
       const cell = event.target;
