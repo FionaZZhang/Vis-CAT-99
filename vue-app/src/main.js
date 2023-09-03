@@ -1,7 +1,6 @@
 import { createApp } from "vue";
 import { createRouter, createWebHistory } from "vue-router";
 import App from "./App.vue";
-
 import AppLobby from "./pages/Lobby.vue";
 import AppSettings from "./pages/Settings.vue";
 import AppPlayground from "./pages/Playground.vue";
@@ -11,8 +10,10 @@ import AppInstruction2 from "./pages/Instruction2.vue";
 import AppInstruction3 from "./pages/Instruction3.vue";
 import AppAccount from "./pages/Account.vue";
 import AppFinish from "./pages/Finish.vue";
+import store from './store';
 
 import "./global.css";
+
 
 const routes = [
   {
@@ -92,6 +93,10 @@ const addMetaTag = (value) => {
   }
 };
 
-createApp(App).use(router).mount("#app");
+const app = createApp(App);
+app.use(router);
+app.use(store);
+app.mount("#app");
+
 
 export default router;
