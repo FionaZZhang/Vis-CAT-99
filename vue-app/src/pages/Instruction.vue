@@ -12,31 +12,32 @@
       <header>
         <img src="../assets/text_goal1.png" alt="Goal Text" id="textGoal">
       </header>
-      <section>
+      <section id = "graphArea">
         <div><img src="../assets/left_pattern.png" alt="Instruction Pattern" id="instruction"></div>
         <div id="drawArea">
           <div class="grid-wrapper">
             <svg class="connector"></svg>
-            <div class="grid" @mousedown="startDrawing" @mouseup="endDrawing" @touchstart="startDrawing"
+            <div class="grid" id = "noScrollArea"
+              @mousedown="startDrawing"
+              @mouseup="endDrawing"
+              @touchstart="startDrawing"
               @touchmove="handleTouchMove">
-
-              <div v-for="n in 16" :key="n" class="cell" :data-id="n" @mouseover="handleMouseOver" @touchend="endDrawing">
+              <div
+                v-for="n in 16"
+                :key="n"
+                class="cell"
+                :data-id="n"
+                @mouseover="handleMouseOver"
+                @touchend="endDrawing">
               </div>
             </div>
-            <!-- <div class="larger-font">Pattern: </div>
-            <div class="larger-font">Path: </div> -->
           </div>
-          <!-- <button @click="clearPattern">Clear Pattern</button> -->
-
-
         </div>
       </section>
     </main>
     <footer>
-      <button @click="revertPattern" v-if="pattern.length > 0" id="buttonReverse"><span id="textReverse"> Reverse
-        </span></button>
-
-      <img src="../assets/button_confirm.png" alt="Confirm Button" @click="navigateToStart" id="buttonConfirm">
+      <button @click="revertPattern" v-if="pattern.length > 0" id="buttonReverse"><span id="textReverse"> Reverse </span></button>
+      <button @click="navigateToStart"  id="buttonConfirm"><span id="textConfirm"> OK</span></button>
     </footer>
   </body>
 </template>
@@ -84,13 +85,20 @@ export default defineComponent({
       e.preventDefault();
     },
     startDrawing(event) {
-      this.isDrawing = true;
       const cell = event.target;
-      const id = cell.dataset.id;
-      if (!this.pattern.includes(id)) {
-        this.pattern.push(id);
-        this.path.push([Math.ceil(id / 4), (id % 4 == 0 ? 4 : id % 4)]);
-        cell.classList.add('active');
+      var lastId = -1;
+      if (this.pattern.length != 0){
+        lastId = this.pattern[this.pattern.length-1];
+      }
+
+      if (this.pattern.length == 0 || lastId == cell.dataset.id){
+        this.isDrawing = true;
+        const id = cell.dataset.id;
+        if (!this.pattern.includes(id)) {
+          this.pattern.push(id);
+          this.path.push([Math.ceil(id / 4), (id % 4 == 0 ? 4 : id % 4)]);
+          cell.classList.add('active');
+        }
       }
     },
     handleMouseOver(event) {
@@ -127,23 +135,6 @@ export default defineComponent({
       }
     },
 
-    // getCellPosition(cell) {
-    //   var rect = cell.getBoundingClientRect();
-    //     return {
-    //         x: window.scrollX + rect.left + rect.width / 2,
-    //         y: window.scrollY + rect.top + rect.height / 2
-    //     };
-    // },
-
-    // drawLineBetweenCells(cell1,cell2) {
-    //   var pos1 = getCellPosition(cell1);
-    //   var pos2 = getCellPosition(cell2);
-    //   var svg = document.getElementById('svgRoot');
-    //   svg.innerHTML = '<line x1="' + pos1.x + '" y1="' + pos1.y + '" x2="' + pos2.x + '" y2="' + pos2.y + '" style="stroke:black;stroke-width:2" />';
-    //   svg.style.width = window.innerWidth + 'px';
-    //   svg.style.height = window.innerHeight + 'px';
-    // },
-
     drawLine(cell1, cell2) {
       const rect1 = cell1.getBoundingClientRect();
       const rect2 = cell2.getBoundingClientRect();
@@ -156,20 +147,7 @@ export default defineComponent({
       line.setAttribute('stroke-width', '5');
       this.svg.appendChild(line);
     },
-    // endDrawing() {
-    //   this.isDrawing = false;
-    //   setTimeout(() => {
-    //   this.pattern = [];
-    //   this.path = [];
-    //   const cells = this.$el.querySelectorAll('.cell.active');
-    //   cells.forEach(cell => {
-    //     cell.classList.remove('active');
-    //   });
-    //   while (this.svg.firstChild) {
-    //     this.svg.removeChild(this.svg.lastChild);
-    //   }
-    //   }, 1000);
-    // },
+
     endDrawing() {
       this.isDrawing = false;
     },
@@ -246,13 +224,15 @@ main {
   height: 70%;
 }
 
+
 #instruction {
   display: flex;
-  width: 100%;
+  height: 100%;
 }
 
 #drawArea {
   display: flex;
+  width: 35%;
 }
 
 header {
@@ -271,9 +251,9 @@ header {
 section {
   display: flex;
   flex-direction: row;
-  justify-content: space-evenly;
   padding-left: 15%;
   padding-right: 15%;
+  justify-content: space-between;
 }
 
 #buttonReverse {
@@ -288,14 +268,21 @@ section {
   border-radius: 20px;
   border-width: 0px;
   box-shadow: 1px 2px 3px #bebdbd;
+
 }
 
-#buttonConfirm {
+#buttonConfirm{
   display: flex;
-  flex-direction: row;
-  margin-left: auto;
-  padding-right: 3%;
-  height: 75%;
+  position: fixed;
+  justify-content: center;
+  align-items: center;
+  background-color: #dcebea;
+  height: 10%;
+  width: 15%;
+  right: 4%;
+  border-radius: 20px;
+  border-width: 0px;
+  box-shadow: 1px 2px 3px #bebdbd;
 }
 
 #textReverse {
@@ -303,17 +290,24 @@ section {
   font-size: 2em;
   font-family: sans-serif;
   display: flex;
+}
 
+#textConfirm{
+  font-weight: bold;
+  font-size: 2em;
+  font-family: sans-serif;
+  display: flex;
 }
 
 footer {
   display: flex;
   height: 15%;
-
+  align-items: flex-end;
 }
 
 .grid-wrapper {
   position: relative;
+  width: 75%;
 }
 
 .connector {
