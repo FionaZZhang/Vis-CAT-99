@@ -12,7 +12,7 @@
       <header>
         <img src="../assets/text_goal1.png" alt="Goal Text" id="textGoal">
       </header>
-      <section id = "graphArea">
+      <section id = "graphArea"  >
         <div><img src="../assets/left_pattern.png" alt="Instruction Pattern" id="instruction"></div>
         <div class="grid-wrapper">
           <svg class="connector"></svg>
@@ -37,6 +37,19 @@
       <button @click="revertPattern" v-if="pattern.length > 0" id="buttonReverse"><span id="textReverse"> Reverse </span></button>
       <button @click="navigateToStart"  id="buttonConfirm"><span id="textConfirm"> OK</span></button>
     </footer>
+    <div id="modal" v-if="showModal" class="modal-container">
+      <div class="custom-modal">
+        <div class="custom-modal-content">
+          <div class="custom-modal-header">
+            <h3>Have another go?</h3>
+          </div>
+          <div class="custom-modal-buttons">
+            <button class="cute-button" @click="YesRetry">Yes, please!</button>
+            <button class="cute-button" @click="NoGiveup">No, thanks</button>
+          </div>
+        </div>
+      </div>
+    </div>
   </body>
 </template>
 
@@ -52,6 +65,8 @@ export default defineComponent({
       pattern: [],
       path: [],
       svg: null,
+      showModal: false,
+      secondTry: true,
     };
   },
   mounted() {
@@ -70,11 +85,25 @@ export default defineComponent({
         else{
           this.$router.push("/instruction2");
         }
-        
-      } 
+
+      }
       else {
-        this.clearPattern();
-      }     
+        if (this.secondTry) {
+          this.showModal = true;
+          this.secondTry = false;
+        } else {
+          this.$router.push("/instruction2");
+        }
+      }
+    },
+
+    YesRetry() {
+      this.clearPattern();
+      this.showModal = false;
+    },
+    NoGiveup() {
+      this.showModal = false;
+      this.$router.push("/instruction2");
     },
     navigateToLobby() {
       this.$router.push("/Lobby");
@@ -182,6 +211,66 @@ export default defineComponent({
 </script>
 
 <style scoped>
+
+.modal-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+}
+
+.custom-modal {
+  background-color: #b8e3ff;
+  border-radius: 10px;
+  padding: 20px;
+  text-align: center;
+  align-items: center;
+}
+
+.custom-modal-header {
+  margin-bottom: 10px;
+}
+
+.custom-modal-buttons button {
+  margin: 5px;
+}
+
+.retry-modal-header img {
+  width: 50px;
+  height: 50px;
+  margin-right: 10px;
+}
+
+.retry-modal-header h3 {
+  font-size: 24px;
+}
+
+p {
+  font-size: 18px;
+}
+
+.cute-button {
+  background-color: #dcebea; /* Cute pink color */
+  color: #000000;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  font-size: 18px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.cute-button:hover {
+  background-color: #bebdbd; /* Slightly darker pink on hover */
+}
+
+
 #InsPage {
   background-color: #fff0e6;
   width: 100vw;
@@ -254,6 +343,7 @@ section {
   padding-right: 15%;
   justify-content: space-between;
 }
+
 
 #buttonReverse {
   display: flex;
