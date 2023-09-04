@@ -14,22 +14,20 @@
       </header>
       <section id = "graphArea">
         <div><img src="../assets/left_pattern.png" alt="Instruction Pattern" id="instruction"></div>
-        <div id="drawArea">
-          <div class="grid-wrapper">
-            <svg class="connector"></svg>
-            <div class="grid" id = "noScrollArea"
-              @mousedown="startDrawing"
-              @mouseup="endDrawing"
-              @touchstart="startDrawing"
-              @touchmove="handleTouchMove">
-              <div
-                v-for="n in 16"
-                :key="n"
-                class="cell"
-                :data-id="n"
-                @mouseover="handleMouseOver"
-                @touchend="endDrawing">
-              </div>
+        <div class="grid-wrapper">
+          <svg class="connector"></svg>
+          <div class="grid" id = "noScrollArea"
+            @mousedown="startDrawing"
+            @mouseup="endDrawing"
+            @touchstart="startDrawing"
+            @touchmove="handleTouchMove">
+            <div
+              v-for="n in 16"
+              :key="n"
+              class="cell"
+              :data-id="n"
+              @mouseover="handleMouseOver"
+              @touchend="endDrawing">
             </div>
           </div>
         </div>
@@ -81,8 +79,9 @@ export default defineComponent({
     navigateToLobby() {
       this.$router.push("/Lobby");
     },
-    preventScroll(e) {
-      e.preventDefault();
+    preventScroll() {
+      document.getElementById('noScrollArea').addEventListener('touchmove', function(event) {
+      event.preventDefault();}, { passive: false });
     },
     startDrawing(event) {
       const cell = event.target;
@@ -94,7 +93,7 @@ export default defineComponent({
       if (this.pattern.length == 0 || lastId == cell.dataset.id){
         this.isDrawing = true;
         const id = cell.dataset.id;
-        if (!this.pattern.includes(id)) {
+        if (!this.pattern.includes(id) && id >= 1 && id <= 16) {
           this.pattern.push(id);
           this.path.push([Math.ceil(id / 4), (id % 4 == 0 ? 4 : id % 4)]);
           cell.classList.add('active');
@@ -230,7 +229,7 @@ main {
   height: 100%;
 }
 
-#drawArea {
+.grid-wrapper {
   display: flex;
   width: 35%;
 }
@@ -305,10 +304,10 @@ footer {
   align-items: flex-end;
 }
 
-.grid-wrapper {
+/* .grid-wrapper {
   position: relative;
   width: 75%;
-}
+} */
 
 .connector {
   position: fixed;
