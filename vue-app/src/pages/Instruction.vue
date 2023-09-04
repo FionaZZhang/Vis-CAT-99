@@ -12,24 +12,22 @@
       <header>
         <img src="../assets/text_goal1.png" alt="Goal Text" id="textGoal">
       </header>
-      <section id = "graphArea">
+      <section id = "graphArea"  >
         <div><img src="../assets/left_pattern.png" alt="Instruction Pattern" id="instruction"></div>
-        <div id="drawArea">
-          <div class="grid-wrapper">
-            <svg class="connector"></svg>
-            <div class="grid" id = "noScrollArea"
-              @mousedown="startDrawing"
-              @mouseup="endDrawing"
-              @touchstart="startDrawing"
-              @touchmove="handleTouchMove">
-              <div
-                v-for="n in 16"
-                :key="n"
-                class="cell"
-                :data-id="n"
-                @mouseover="handleMouseOver"
-                @touchend="endDrawing">
-              </div>
+        <div class="grid-wrapper">
+          <svg class="connector"></svg>
+          <div class="grid" id = "noScrollArea"
+            @mousedown="startDrawing"
+            @mouseup="endDrawing"
+            @touchstart="startDrawing"
+            @touchmove="handleTouchMove">
+            <div
+              v-for="n in 16"
+              :key="n"
+              class="cell"
+              :data-id="n"
+              @mouseover="handleMouseOver"
+              @touchend="endDrawing">
             </div>
           </div>
         </div>
@@ -39,6 +37,19 @@
       <button @click="revertPattern" v-if="pattern.length > 0" id="buttonReverse"><span id="textReverse"> Reverse </span></button>
       <button @click="navigateToStart"  id="buttonConfirm"><span id="textConfirm"> OK</span></button>
     </footer>
+    <div id="modal" v-if="showModal" class="modal-container">
+      <div class="custom-modal">
+        <div class="custom-modal-content">
+          <div class="custom-modal-header">
+            <h3>Have another go?</h3>
+          </div>
+          <div class="custom-modal-buttons">
+            <button class="cute-button" @click="YesRetry">Yes, please!</button>
+            <button class="cute-button" @click="NoGiveup">No, thanks</button>
+          </div>
+        </div>
+      </div>
+    </div>
   </body>
 </template>
 
@@ -54,6 +65,8 @@ export default defineComponent({
       pattern: [],
       path: [],
       svg: null,
+      showModal: false,
+      secondTry: true,
     };
   },
   mounted() {
@@ -72,17 +85,32 @@ export default defineComponent({
         else{
           this.$router.push("/instruction2");
         }
-        
-      } 
+
+      }
       else {
-        this.clearPattern();
-      }     
+        if (this.secondTry) {
+          this.showModal = true;
+          this.secondTry = false;
+        } else {
+          this.$router.push("/instruction2");
+        }
+      }
+    },
+
+    YesRetry() {
+      this.clearPattern();
+      this.showModal = false;
+    },
+    NoGiveup() {
+      this.showModal = false;
+      this.$router.push("/instruction2");
     },
     navigateToLobby() {
       this.$router.push("/Lobby");
     },
-    preventScroll(e) {
-      e.preventDefault();
+    preventScroll() {
+      document.getElementById('noScrollArea').addEventListener('touchmove', function(event) {
+      event.preventDefault();}, { passive: false });
     },
     startDrawing(event) {
       const cell = event.target;
@@ -94,7 +122,7 @@ export default defineComponent({
       if (this.pattern.length == 0 || lastId == cell.dataset.id){
         this.isDrawing = true;
         const id = cell.dataset.id;
-        if (!this.pattern.includes(id)) {
+        if (!this.pattern.includes(id) && id >= 1 && id <= 16) {
           this.pattern.push(id);
           this.path.push([Math.ceil(id / 4), (id % 4 == 0 ? 4 : id % 4)]);
           cell.classList.add('active');
@@ -183,6 +211,66 @@ export default defineComponent({
 </script>
 
 <style scoped>
+
+.modal-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+}
+
+.custom-modal {
+  background-color: #b8e3ff;
+  border-radius: 10px;
+  padding: 20px;
+  text-align: center;
+  align-items: center;
+}
+
+.custom-modal-header {
+  margin-bottom: 10px;
+}
+
+.custom-modal-buttons button {
+  margin: 5px;
+}
+
+.retry-modal-header img {
+  width: 50px;
+  height: 50px;
+  margin-right: 10px;
+}
+
+.retry-modal-header h3 {
+  font-size: 24px;
+}
+
+p {
+  font-size: 18px;
+}
+
+.cute-button {
+  background-color: #dcebea; /* Cute pink color */
+  color: #000000;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  font-size: 18px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.cute-button:hover {
+  background-color: #bebdbd; /* Slightly darker pink on hover */
+}
+
+
 #InsPage {
   background-color: #fff0e6;
   width: 100vw;
@@ -230,7 +318,7 @@ main {
   height: 100%;
 }
 
-#drawArea {
+.grid-wrapper {
   display: flex;
   width: 35%;
 }
@@ -255,6 +343,7 @@ section {
   padding-right: 15%;
   justify-content: space-between;
 }
+
 
 #buttonReverse {
   display: flex;
@@ -305,10 +394,10 @@ footer {
   align-items: flex-end;
 }
 
-.grid-wrapper {
+/* .grid-wrapper {
   position: relative;
   width: 75%;
-}
+} */
 
 .connector {
   position: fixed;
