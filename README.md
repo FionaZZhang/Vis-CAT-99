@@ -9,8 +9,9 @@ Maybe also install these if needed:
 
 # How to run front-end:
 1.  `cd vue-app`
-2. `npm run serve`
-3. Go to `locolhost:8080`
+2.  `npm install vuex -save`
+3. `npm run serve`
+4. Go to `locolhost:8080`
 
 # Developer quick starts: how to add a page
 1. add a .vue page in vue-app/src/pages
