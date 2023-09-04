@@ -35,7 +35,7 @@ Maybe also install these if needed:
 # How to convert HTTP link to HTTPS to enable scan functionality on iPad or phone:
 1. npm install -g ngrok
 2. Sign up free for grok and get the authtoken
-3. ngrok config add-authtoken <authtoken>
+3. ngrok config add-authtoken 'authtoken'
 4. run Vue-app in one terminal
-5. run in another terminal and get the URL: ngrok http <portNumber> --host-header=rewrite
+5. run in another terminal and get the URL: ngrok http 'portNumber' --host-header=rewrite
 6. use the URL to visit our website on mobile device
