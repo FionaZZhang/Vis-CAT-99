@@ -94,7 +94,7 @@ export default defineComponent({
       if (this.pattern.length == 0 || lastId == cell.dataset.id){
         this.isDrawing = true;
         const id = cell.dataset.id;
-        if (!this.pattern.includes(id)) {
+        if (!this.pattern.includes(id) && id >= 1 && id <= 16) {
           this.pattern.push(id);
           this.path.push([Math.ceil(id / 4), (id % 4 == 0 ? 4 : id % 4)]);
           cell.classList.add('active');
