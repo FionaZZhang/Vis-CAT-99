@@ -1,51 +1,59 @@
 <template>
-  <div :class="$style.frame">
-    <div :class="$style.frameChild" >
-      <div :class="$style.studentsContainer">
-        <div v-for="(student, index) in students" :key="index" :class="$style.student" @click="selectStudent(index)">
-          <img :class="$style.animalHeadIcon" alt="" :src="student.iconSrc" ref="selectedRef"/>
-          <div :class="$style.studentName">{{ student.studentName }}</div>
+  <div class="appAccounts">
+    <div class="iconViscat">
+      <div class="viscatIcon" />
+      <div class="viscatLogo">Vis-CAT</div>
+    </div>
+    <div>
+      <div class="navigationBar">
+        <div class="iconSettings" @click="navigateToSettings">
+          <div class="buttonYellow" />
+          <img class="settingsIcon" alt="" src="../assets/settings-icon@2x.png" />
         </div>
-        <div v-if="selectedStudentIndex !== -1" :class="$style.selectedSheet" :style="selectedSheetPosition">
-          <img :class="$style.selectedSheetChild" alt="" src="../assets/rectangle-1.svg" />
-          <div :class="$style.age">Age: {{ selectedStudent.studentAge }}</div>
-          <div :class="$style.name">{{ selectedStudent.studentName }}</div>
-          <img :class="$style.selectLine1Icon" alt="" src="../assets/select-line2.svg" />
-          <img :class="$style.selectLine2Icon" alt="" src="../assets/select-line2.svg" />
-          <img :class="$style.selectLine3Icon" alt="" src="../assets/select-line2.svg" />
+        <div class="iconHome" @click="navigateToLobby">
+          <div class="buttonHome" />
+          <img class="homeIcon" alt="" src="../assets/home-icon1@2x.png" />
+        </div>
+        <div class="iconUser">
+          <div class="accountsIconText">Accounts</div>
+          <div class="buttonYellow" />
+          <img class="userIcon" alt="" src="../assets/user-icon1@2x.png" />
         </div>
       </div>
     </div>
-    <div :class="$style.navigation" />
-    <div :class="$style.iconSettings" @click="navigateToSettings">
-      <div :class="$style.buttonSettings" />
-      <img :class="$style.settingsIcon" alt="" src="../assets/settings-icon@2x.png" />
+
+    <div class="frameChild" >
+      <div class="studentsContainer">
+        <div v-for="(student, index) in students" :key="index" class="student" @click="selectStudent(index)">
+          <img class="animalHeadIcon" alt="" :src="student.iconSrc" ref="selectedRef"/>
+          <div class="studentName">{{ student.studentName }}</div>
+        </div>
+        <div v-if="selectedStudentIndex !== -1" class="selectedSheet" :style="selectedSheetPosition">
+          <img class="selectedSheetChild" alt="" src="../assets/rectangle-1.svg" />
+          <div class="age">Age: {{ selectedStudent.studentAge }}</div>
+          <div class="name">{{ selectedStudent.studentName }}</div>
+          <img class="selectLine1Icon" alt="" src="../assets/select-line2.svg" />
+          <img class="selectLine2Icon" alt="" src="../assets/select-line2.svg" />
+          <img class="selectLine3Icon" alt="" src="../assets/select-line2.svg" />
+        </div>
+      </div>
     </div>
-    <div :class="$style.iconUser">
-      <div :class="$style.buttonSettings" />
-      <img :class="$style.userIcon" alt="" src="../assets/user-icon1@2x.png" />
+
+    <div class="container">
+      <!-- <div id="result" class="results"></div> -->
+      <div id="schoolname" class="schoolName"></div>
+      
+      <img class="dotLineIcon" alt="" src="../assets/dot-line.svg" />
+      <div class="dotLineIcon">
+        <div class="dotDecor" />
+      </div>
+      <div id="classnum" class="class"></div>
+      <div class="scanButton" @click="openQrScanner">
+        <div class="scanText">Scan</div>
+        <img class="scanIcon" alt="" src="../assets/scan-icon@2x.png" />
+      </div>
+      <img class="houseIcon" alt="" src="../assets/house@2x.png" />
     </div>
-    <div :class="$style.homeIconText">Accounts</div>
-    <div :class="$style.iconHome" @click="navigateToLobby">
-      <div :class="$style.homeIconText1">Home</div>
-      <div :class="$style.buttonHome" />
-      <img :class="$style.homeIcon" alt="" src="../assets/home-icon1@2x.png" />
-    </div>
-    <div :class="$style.iconViscat">
-      <div :class="$style.viscatIcon" />
-      <div :class="$style.viscatLogo">Vis-CAT</div>
-    </div>
-    <div id="result" :class="$style.results"></div>
-    <div id="schoolname" :class="$style.schoolName"></div>
-    <div :class="$style.dotDecor" />
-    <img :class="$style.dotLineIcon" alt="" src="../assets/dot-line.svg" />
-    <div id="classnum" :class="$style.class"></div>
-    <div :class="$style.scanButton" @click="openQrScanner">
-      <div :class="$style.scanButtonBg" />
-      <div :class="$style.scanText">Scan</div>
-      <img :class="$style.scanIcon" alt="" src="../assets/scan-icon@2x.png" />
-    </div>
-    <img :class="$style.houseIcon" alt="" src="../assets/house@2x.png" />
   </div>
 </template>
 
@@ -206,15 +214,27 @@
     },
   });
 </script>
-<style module>
+<style scoped>
+
+  .container {
+    position: fixed;
+    top: 20%;
+    bottom: 20%;
+    left: 0%;
+    right: 45%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    gap: 20%;
+  }
 
   .studentsContainer {
-    margin-top: 5rem;
+    margin-top: 1vw;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between; /* Adjust as needed */
     max-width: 90%; /* Ensure the containers fit within the available space */
-    padding: 2rem; /* Adjust padding as needed */
+    padding: 2vw; /* Adjust padding as needed */
     box-sizing: border-box; /* Include padding and border in the element's total width and height */
   }
 
@@ -238,63 +258,28 @@
     font-weight: bold;
   }
 
-  .results {
+  /* .results {
     position: absolute;
     top: -0.56rem;
     left: 32.5rem;
-  }
+  } */
   .frameChild {
-    position: absolute;
-    top: -0.56rem;
-    left: 32.5rem;
-    border-radius: 76px;
-    background-color: #90cf8e;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-    width: 47.69rem;
-    height: 53.06rem;
-  }
-  .navigation {
-    position: absolute;
-    top: 41.06rem;
-    left: 4.75rem;
-    border-radius: 40px;
-    background-color: var(--color-white);
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-    width: 26rem;
-    height: 9.94rem;
-  }
-  .buttonSettings {
-    position: absolute;
-    height: 100%;
-    width: 100%;
+    position: fixed;
+    display: block;
     top: 0%;
     right: 0%;
     bottom: 0%;
-    left: 0%;
-    border-radius: var(--br-11xl);
-    background-color: var(--color-palegoldenrod);
+    border-radius: 76px;
+    background-color: #90cf8e;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-  }
-  .settingsIcon {
-    position: absolute;
-    height: 79.17%;
-    width: 75%;
-    top: 8.33%;
-    right: 12.5%;
-    bottom: 12.5%;
-    left: 12.5%;
-    max-width: 100%;
+    width: 55vw;
+    height: 100vh;
     overflow: hidden;
+    max-width: 100%;
     max-height: 100%;
     object-fit: cover;
   }
-  .iconSettings {
-    position: absolute;
-    top: 42.31rem;
-    left: 6.19rem;
-    width: 7.5rem;
-    height: 7.5rem;
-  }
+
   .userIcon {
     position: absolute;
     height: 97.5%;
@@ -310,85 +295,22 @@
   }
   .iconUser {
     position: absolute;
-    top: 39.31rem;
-    left: 21.81rem;
-    width: 8.75rem;
-    height: 8.75rem;
+    bottom: 30%;
+    right: 3%;
+    width: 9vw;
+    height: 9vw;
   }
-  .homeIconText {
+  .accountsIconText {
     position: absolute;
-    top: 48.06rem;
-    left: 22.69rem;
-    font-size: 1.88rem;
+    bottom: -38%;
+    left: 0%;
+    font-size: 2.5vw;
   }
   .homeIconText1 {
     position: absolute;
     top: 8.88rem;
     left: 1.63rem;
     display: none;
-  }
-  .buttonHome {
-    position: absolute;
-    height: 100%;
-    width: 100%;
-    top: 0%;
-    right: 0%;
-    bottom: 0%;
-    left: 0%;
-    border-radius: var(--br-11xl);
-    background-color: var(--color-peachpuff);
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-  }
-  .homeIcon {
-    position: absolute;
-    height: 52.86%;
-    width: 57.86%;
-    top: 18.57%;
-    right: 20.71%;
-    bottom: 28.57%;
-    left: 21.43%;
-    max-width: 100%;
-    overflow: hidden;
-    max-height: 100%;
-    object-fit: cover;
-  }
-  .iconHome {
-    position: absolute;
-    top: 42.31rem;
-    left: 14rem;
-    width: 7.5rem;
-    height: 7.5rem;
-    font-size: var(--font-size-21xl);
-  }
-  .viscatIcon {
-    position: absolute;
-    height: 100%;
-    width: 100%;
-    top: 0%;
-    right: 0%;
-    bottom: 0%;
-    left: 0%;
-    border-radius: var(--br-xl);
-    background-color: var(--color-white);
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-  }
-  .viscatLogo {
-    position: absolute;
-    width: 97.7%;
-    top: 8.15%;
-    left: 5.1%;
-    display: inline-block;
-    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-    -webkit-text-stroke: 2px #fff;
-  }
-  .iconViscat {
-    position: absolute;
-    top: 2.63rem;
-    left: 1.88rem;
-    width: 24.5rem;
-    height: 8.44rem;
-    font-size: var(--font-size-77xl);
-    color: var(--color-plum);
   }
   .selected {
     position: absolute;
@@ -452,79 +374,85 @@
   }
   .schoolName {
     position: absolute;
-    top: 25.5rem;
-    left: 9.94rem;
+    top: 52%;
+    left: 22%;
+    font-size: 1.8vw;
   }
   .dotDecor {
     position: absolute;
-    top: 21.56rem;
-    left: 21.94rem;
+    top: -160%;
+    left: -20%;
     border-radius: 50%;
     background-color: #6a9a68;
-    width: 0.94rem;
-    height: 0.94rem;
+    width: 1.3vw;
+    height: 1.3vw;
   }
   .dotLineIcon {
     position: absolute;
-    top: 21.91rem;
-    left: 23.91rem;
-    width: 8.69rem;
-    height: 0.19rem;
+    top: 25.5%;
+    left: 54%;
+    width: 11vw;
+    height: 0.3vw;
+    object-fit: cover;
+    max-width: 100%;
+    /* overflow: hidden; */
+    max-height: 100%;
   }
   .class {
     position: absolute;
-    top: 28.75rem;
-    left: 9.94rem;
+    top: 59%;
+    left: 22%;
+    font-size: 1.8vw;
     text-decoration: underline;
     color: var(--color-plum);
   }
-  .scanButtonBg {
-    position: absolute;
-    top: 0.25rem;
-    left: 0rem;
-    border-radius: 34px;
-    background-color: var(--color-white);
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-    width: 13.88rem;
-    height: 6.13rem;
-  }
   .scanText {
     position: absolute;
-    top: 1.56rem;
-    left: 6.94rem;
+    top: 25%;
+    left: 50%;
+    font-size: 3vw;
     text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     -webkit-text-stroke: 1px #000;
   }
   .scanIcon {
     position: absolute;
-    top: 0rem;
-    left: 1.44rem;
-    width: 4.25rem;
-    height: 6.38rem;
+    top: 5%;
+    left: 10%;
+    width: 5vw;
+    height: 7.2vw;
     object-fit: cover;
+    max-width: 100%;
+    overflow: hidden;
+    max-height: 100%;
   }
   .scanButton {
     position: absolute;
-    top: 32.31rem;
-    left: 8.13rem;
-    width: 13.88rem;
-    height: 6.38rem;
+    left: 18%;
+    bottom: 5%;
+    width: 15vw;
+    height: 8vw;
     font-size: var(--font-size-21xl);
     font-family: var(--font-inder);
+    border-radius: 34px;
+    background-color: var(--color-white);
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   }
   .houseIcon {
     position: absolute;
-    top: 14.81rem;
-    left: 9.81rem;
-    width: 10.75rem;
-    height: 10.19rem;
+    top: 8%;
+    left: 19%;
+    width: 14vw;
+    height: 13.5vw;
+    max-width: 100%;
+    overflow: hidden;
+    max-height: 100%;
     object-fit: cover;
   }
-  .frame {
-    position: relative;
+  .appAccounts {
+    position: fixed;
     background-color: #b8e3ff;
-    width: 74.63rem;
-    height: 52.13rem;
+    width: 100%;
+    height: 100%;
     overflow: hidden;
     text-align: left;
     font-size: var(--font-size-17xl);

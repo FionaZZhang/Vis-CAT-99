@@ -10,7 +10,7 @@
     </nav>
     <main>
       <header>
-        <img src="../assets/text_goal.png" alt="Goal Text" id="textGoal">
+        <img src="../assets/text_goal1.png" alt="Goal Text" id="textGoal">
       </header>
       <section>
         <div><img src="../assets/left_pattern.png" alt="Instruction Pattern" id="instruction"></div>
@@ -43,6 +43,8 @@
 
 <script>
 import { defineComponent } from "vue";
+import { store } from "@/store";
+import * as checker from ".//Checker.js";
 export default defineComponent({
   name: "AppInstruction",
   data() {
@@ -62,14 +64,25 @@ export default defineComponent({
   },
   methods: {
     navigateToStart() {
-      this.$router.push("/Start");
+      if (checker.checkCorrectness([[1,1],[1,2],[1,3],[1,4],[2,3],[3,2],[4,1]], "copy", this.path)) {
+        if (store.state.isButtonOn4){
+          this.$router.push("/Finish");
+        }
+        else{
+          this.$router.push("/instruction2");
+        }
+        
+      } 
+      else {
+        this.clearPattern();
+      }     
     },
     navigateToLobby() {
       this.$router.push("/Lobby");
     },
-    // preventScroll(e) {
-    //   e.preventDefault();
-    // },
+    preventScroll(e) {
+      e.preventDefault();
+    },
     startDrawing(event) {
       this.isDrawing = true;
       const cell = event.target;

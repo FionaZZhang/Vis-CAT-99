@@ -9,8 +9,9 @@ Maybe also install these if needed:
 
 # How to run front-end:
 1.  `cd vue-app`
-2. `npm run serve`
-3. Go to `locolhost:8080`
+2.  `npm install vuex -save`
+3. `npm run serve`
+4. Go to `locolhost:8080`
 
 # Developer quick starts: how to add a page
 1. add a .vue page in vue-app/src/pages
@@ -32,3 +33,10 @@ Maybe also install these if needed:
 5. `python app.py`
 6. Go to `127.0.0.1:5000`
 
+# How to convert HTTP link to HTTPS to enable scan functionality on iPad or phone:
+1. npm install -g ngrok
+2. Sign up free for grok and get the authtoken
+3. ngrok config add-authtoken 'authtoken'
+4. run Vue-app in one terminal
+5. run in another terminal and get the URL: ngrok http 'portNumber' --host-header=rewrite
+6. use the URL to visit our website on mobile device
