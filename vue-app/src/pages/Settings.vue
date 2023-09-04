@@ -96,55 +96,47 @@
 </template>
 <script>
   import { defineComponent } from "vue";
-
+  import { store } from "@/store";
   export default defineComponent({
     name: "AppSettings",
-    data() {
-      return {
-        isButtonOn1: true,
-        isButtonOn2: true,
-        isButtonOn3: true,
-        isButtonOn4: false,
-      };
-    },
     computed: {
       buttononSrc1() {
-        return this.isButtonOn1
+        return store.state.isButtonOn1
           ? require("../assets/Chosen.svg")
           : require("../assets/Unchosen.svg");
       },
       buttonoffSrc1() {
-        return this.isButtonOn1
+        return store.state.isButtonOn1
           ? require("../assets/Unchosen.svg")
           : require("../assets/Chosen.svg");
       },
       buttononSrc2() {
-        return this.isButtonOn2
+        return store.state.isButtonOn2
           ? require("../assets/Chosen.svg")
           : require("../assets/Unchosen.svg");
       },
       buttonoffSrc2() {
-        return this.isButtonOn2
+        return store.state.isButtonOn2
           ? require("../assets/Unchosen.svg")
           : require("../assets/Chosen.svg");
       },
       buttononSrc3() {
-        return this.isButtonOn3
+        return store.state.isButtonOn3
           ? require("../assets/Chosen.svg")
           : require("../assets/Unchosen.svg");
       },
       buttonoffSrc3() {
-        return this.isButtonOn3
+        return store.state.isButtonOn3
           ? require("../assets/Unchosen.svg")
           : require("../assets/Chosen.svg");
       },
       buttononSrc4() {
-        return this.isButtonOn4
+        return store.state.isButtonOn4
           ? require("../assets/Chosen.svg")
           : require("../assets/Unchosen.svg");
       },
       buttonoffSrc4() {
-        return this.isButtonOn4
+        return store.state.isButtonOn4
           ? require("../assets/Unchosen.svg")
           : require("../assets/Chosen.svg");
       },
@@ -159,30 +151,30 @@
       },
       switch1(button) {
         if (button === "buttonon1") {
-          this.isButtonOn1 = true;
+          store.state.isButtonOn1 = true;
         } else {
-          this.isButtonOn1 = false;
+          store.state.isButtonOn1 = false;
         }
       },
       switch2(button) {
         if (button === "buttonon2") {
-          this.isButtonOn2 = true;
+          store.state.isButtonOn2 = true;
         } else {
-          this.isButtonOn2 = false;
+          store.state.isButtonOn2 = false;
         }
       },
       switch3(button) {
         if (button === "buttonon3") {
-          this.isButtonOn3 = true;
+          store.state.isButtonOn3 = true;
         } else {
-          this.isButtonOn3 = false;
+          store.state.isButtonOn3 = false;
         }
       },
       switch4(button) {
         if (button === "buttonon4") {
-          this.isButtonOn4 = true;
+          store.state.isButtonOn4 = true;
         } else {
-          this.isButtonOn4 = false;
+          store.state.isButtonOn4 = false;
         }
       },
 
