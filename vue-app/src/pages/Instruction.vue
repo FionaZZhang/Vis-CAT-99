@@ -92,7 +92,7 @@ export default defineComponent({
           this.showModal = true;
           this.secondTry = false;
         } else {
-          this.$router.push("/instruction2");
+          this.$router.push("/Finish");
         }
       }
     },
@@ -103,7 +103,7 @@ export default defineComponent({
     },
     NoGiveup() {
       this.showModal = false;
-      this.$router.push("/instruction2");
+      this.$router.push("/Finish");
     },
     navigateToLobby() {
       this.$router.push("/Lobby");
