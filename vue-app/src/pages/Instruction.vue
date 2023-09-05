@@ -12,7 +12,7 @@
       <header>
         <img src="../assets/text_goal1.png" alt="Goal Text" id="textGoal">
       </header>
-      <section id = "graphArea"  >
+      <section id = "graphArea">
         <div><img src="../assets/left_pattern.png" alt="Instruction Pattern" id="instruction"></div>
         <div class="grid-wrapper">
           <svg class="connector"></svg>
@@ -96,7 +96,6 @@ export default defineComponent({
         }
       }
     },
-
     YesRetry() {
       this.clearPattern();
       this.showModal = false;
@@ -162,7 +161,6 @@ export default defineComponent({
         }
       }
     },
-
     drawLine(cell1, cell2) {
       const rect1 = cell1.getBoundingClientRect();
       const rect2 = cell2.getBoundingClientRect();
@@ -175,7 +173,6 @@ export default defineComponent({
       line.setAttribute('stroke-width', '5');
       this.svg.appendChild(line);
     },
-
     endDrawing() {
       this.isDrawing = false;
     },
@@ -211,7 +208,6 @@ export default defineComponent({
 </script>
 
 <style scoped>
-
 .modal-container {
   display: flex;
   justify-content: center;
@@ -270,7 +266,6 @@ p {
   background-color: #bebdbd; /* Slightly darker pink on hover */
 }
 
-
 #InsPage {
   background-color: #fff0e6;
   width: 100vw;
@@ -303,7 +298,6 @@ nav {
   height: 100%;
 }
 
-
 main {
   display: flex;
   flex-direction: column;
@@ -311,7 +305,6 @@ main {
   gap: 10%;
   height: 70%;
 }
-
 
 #instruction {
   display: flex;
@@ -344,7 +337,6 @@ section {
   justify-content: space-between;
 }
 
-
 #buttonReverse {
   display: flex;
   position: relative;
@@ -357,10 +349,9 @@ section {
   border-radius: 20px;
   border-width: 0px;
   box-shadow: 1px 2px 3px #bebdbd;
-
 }
 
-#buttonConfirm{
+#buttonConfirm {
   display: flex;
   position: fixed;
   justify-content: center;
@@ -393,11 +384,6 @@ footer {
   height: 15%;
   align-items: flex-end;
 }
-
-/* .grid-wrapper {
-  position: relative;
-  width: 75%;
-} */
 
 .connector {
   position: fixed;
