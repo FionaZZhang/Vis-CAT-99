@@ -13,7 +13,18 @@
         <img src="../assets/text_goal1.png" alt="Goal Text" id="textGoal">
       </header>
       <section id = "graphArea">
-        <div><img src="../assets/left_pattern.png" alt="Instruction Pattern" id="instruction"></div>
+        <!-- <div><img src="../assets/left_pattern.png" alt="Instruction Pattern" id="instruction"></div> -->
+        <div class="grid-wrapper">
+          <svg class="connector"></svg>
+          <div class="grid">
+            <div
+              v-for="n in 16"
+              :key="n"
+              class="dot"
+              :data-id="n">
+            </div>
+          </div>
+        </div>
         <div class="grid-wrapper">
           <svg class="connector"></svg>
           <div class="grid" id = "noScrollArea"
@@ -67,16 +78,28 @@ export default defineComponent({
       svg: null,
       showModal: false,
       secondTry: true,
+      originalPattern: [1, 2, 3, 4, 7, 10 ,13],
     };
   },
   mounted() {
     this.svg = this.$el.querySelector('.connector');
     document.addEventListener('touchmove', this.preventScroll, { passive: false });
+    // this.loadPattern(patternDots);
+    this.loadPatternAndConnect(this.originalPattern);
+
   },
   beforeUnmount() {
     document.removeEventListener('touchmove', this.preventScroll);
   },
   methods: {
+    // loadPattern(patternDots) {
+    //   for (const dotId of patternDots) {
+    //     const dot = document.querySelector(`.dot[data-id="${dotId}"]`);
+    //     if (dot) {
+    //       dot.classList.add('active');
+    //     }
+    //   }
+    // },
     navigateToStart() {
       if (checker.checkCorrectness([[1,1],[1,2],[1,3],[1,4],[2,3],[3,2],[4,1]], "copy", this.path)) {
         if (store.state.isButtonOn4){
@@ -172,6 +195,38 @@ export default defineComponent({
       line.setAttribute('stroke', '#3498db');
       line.setAttribute('stroke-width', '5');
       this.svg.appendChild(line);
+    },
+    loadPatternAndConnect(patternDots) {
+      const dots = document.querySelectorAll('.dot');
+      const svg = document.querySelector('.connector');
+
+      for (const dot of dots) {
+        const dotId = parseInt(dot.dataset.id);
+        if (patternDots.includes(dotId)) {
+          dot.classList.add('active');
+        }
+      }
+
+      for (let i = 0; i < patternDots.length - 1; i++) {
+        const dotId1 = patternDots[i];
+        const dotId2 = patternDots[i + 1];
+        const dot1 = document.querySelector(`.dot[data-id="${dotId1}"]`);
+        const dot2 = document.querySelector(`.dot[data-id="${dotId2}"]`);
+
+        const x1 = dot1.offsetLeft + dot1.offsetWidth / 2;
+        const y1 = dot1.offsetTop + dot1.offsetHeight / 2;
+        const x2 = dot2.offsetLeft + dot2.offsetWidth / 2;
+        const y2 = dot2.offsetTop + dot2.offsetHeight / 2;
+
+        const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+        line.setAttribute('x1', x1);
+        line.setAttribute('y1', y1);
+        line.setAttribute('x2', x2);
+        line.setAttribute('y2', y2);
+        line.setAttribute('stroke', 'black'); // Set your desired line color
+        line.setAttribute('stroke-width', '2'); // Set your desired line width
+        svg.appendChild(line);
+      }
     },
     endDrawing() {
       this.isDrawing = false;
@@ -314,6 +369,7 @@ main {
 .grid-wrapper {
   display: flex;
   width: 35%;
+  height: 270%;
 }
 
 header {
@@ -398,7 +454,7 @@ footer {
   display: grid;
   height: 100%;
   width: 100%;
-  grid-template-columns: repeat(4, 4vw);
+  grid-template-columns: repeat(4, 1fr);
   gap: 21%;
 }
 
@@ -412,6 +468,19 @@ footer {
 }
 
 .cell.active {
+  background-color: #3498db;
+}
+
+.dot {
+  width: 2vw;
+  height: 2vw;
+  background-color: black;
+  border-radius: 50%;
+  transition: background-color 0.2s;
+  position: relative;
+}
+
+.dot.active {
   background-color: #3498db;
 }
 
