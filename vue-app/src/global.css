@@ -177,17 +177,12 @@ body {
 }
 
 
-.iconSettings:hover .settingsIcon {
-  transform: scale(1.1);
-  transition: 0.3s;
-}
-.iconUser:hover .userIcon {
-  transform: scale(1.1);
-  transition: 0.3s;
-}
+.iconSettings:hover .settingsIcon,
+.iconUser:hover .userIcon,
 .iconHome:hover .homeIcon {
   transform: scale(1.1);
-  transition: transform 0.3s;
+  transition: 0.3s;
 }
+
 
 

@@ -4,7 +4,6 @@
       <div class="Icon">
         <img src="../assets/button_home.png" alt="Button Home" id="buttonHome" @click="navigateToLobby">
         <img src="../assets/button_restart.png" alt="Button Restart" id="buttonRestart" @click="clearPattern">
-
       </div>
       <img src="../assets/pink-cat@2x.png" alt="Cat Icon" id="catPink" @click="loadPatternAndConnect(this.originalPattern)">
     </nav>
@@ -74,6 +73,7 @@
 <script>
 import { defineComponent } from "vue";
 import * as checker from ".//Checker.js";
+import "@/assets/gamepage.css"
 export default defineComponent({
   name: "AppInstruction2",
   data() {
@@ -84,7 +84,8 @@ export default defineComponent({
       showModal: false,
       secondTry: true,
       interPage: false,
-      originalPattern: [1, 2, 3, 4, 7, 10 ,13],
+      // originalPattern: [1, 2, 3, 4, 7, 10 ,13],
+      originalPattern: [1, 2, 3, 4, 8, 7, 10, 11, 5, 9, 13, 14, 15, 16],
     };
   },
   mounted() {
@@ -265,258 +266,5 @@ export default defineComponent({
 </script>
 
 <style scoped>
-.modal-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  z-index: 999;
-}
 
-.custom-modal {
-  background-color: #b8e3ff;
-  border-radius: 10px;
-  padding: 20px;
-  text-align: center;
-  align-items: center;
-}
-
-.custom-modal-header {
-  margin-bottom: 10px;
-}
-
-.custom-modal-buttons button {
-  margin: 5px;
-}
-
-.retry-modal-header img {
-  width: 50px;
-  height: 50px;
-  margin-right: 10px;
-}
-
-.retry-modal-header h3 {
-  font-size: 24px;
-}
-
-.interPage-modal {
-  position: fixed;
-  left: 23.2vw;
-  top: 25vh;
-  background-color: #fff0e6;
-  border-radius: 10px;
-  padding: 20px;
-  width: 50vw;
-  height: 50vh;
-  text-align: center;
-  align-items: center;
-}
-
-.next_level {
-  position: absolute;
-  left: 10%;
-  top: 10%;
-  width: 42vw;
-  height: 11vw;
-}
-
-.button_next_level {
-  position: absolute;
-  left: 38.5%;
-  bottom: 12%;
-  width: 12vw;
-  height: 12vw;
-}
-
-p {
-  font-size: 18px;
-}
-
-.cute-button {
-  background-color: #dcebea; /* Cute pink color */
-  color: #000000;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  font-size: 18px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
-
-.cute-button:hover {
-  background-color: #bebdbd; /* Slightly darker pink on hover */
-}
-
-#InsPage {
-  background-color: #fff0e6;
-  width: 100vw;
-  height: 100vh;
-}
-
-nav {
-  padding: 0px;
-  display: flex;
-  flex-direction: row;
-  width: 100%;
-  justify-content: space-between;
-  height: 13%;
-}
-
-#catPink {
-  position: relative;
-  right: 3%;
-  top: 3%;
-  height: 100%;
-}
-
-.Icon {
-  display: flex;
-  position: relative;
-  flex-direction: row;
-  left: 3%;
-  top: 3%;
-  width: 20%;
-  height: 100%;
-}
-
-main {
-  display: flex;
-  flex-direction: column;
-  justify-content: start;
-  gap: 10%;
-  height: 70%;
-}
-
-#instruction {
-  display: flex;
-  height: 100%;
-}
-
-.grid-wrapper {
-  display: flex;
-  width: 35%;
-  height: 270%;
-}
-
-header {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-}
-
-#textGoal {
-  position: relative;
-  width: 40%;
-  height: 100%;
-}
-
-section {
-  display: flex;
-  flex-direction: row;
-  padding-left: 15%;
-  padding-right: 15%;
-  justify-content: space-between;
-}
-
-#buttonReverse {
-  display: flex;
-  position: relative;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  margin-left: 65%;
-  height: 70%;
-  width: 15%;
-  border-radius: 20px;
-  border-width: 0px;
-  box-shadow: 1px 2px 3px #bebdbd;
-}
-
-#buttonConfirm {
-  display: flex;
-  position: fixed;
-  justify-content: center;
-  align-items: center;
-  background-color: #dcebea;
-  height: 10%;
-  width: 15%;
-  right: 4%;
-  border-radius: 20px;
-  border-width: 0px;
-  box-shadow: 1px 2px 3px #bebdbd;
-}
-
-#textReverse {
-  font-weight: bold;
-  font-size: 2em;
-  font-family: sans-serif;
-  display: flex;
-}
-
-#textConfirm{
-  font-weight: bold;
-  font-size: 2em;
-  font-family: sans-serif;
-  display: flex;
-}
-
-footer {
-  display: flex;
-  height: 15%;
-  align-items: flex-end;
-}
-
-.connector {
-  position: fixed;
-  pointer-events: none;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 100%;
-}
-
-.grid {
-  display: grid;
-  height: 100%;
-  width: 100%;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 21%;
-}
-
-.cell {
-  width: 2vw;
-  height: 2vw;
-  background-color: black;
-  border-radius: 50%;
-  transition: background-color 0.2s;
-  position: relative;
-}
-
-.cell.active {
-  background-color: #3498db;
-}
-
-.dot {
-  width: 2vw;
-  height: 2vw;
-  background-color: black;
-  border-radius: 50%;
-  transition: background-color 0.2s;
-  position: relative;
-}
-
-.dot.active {
-  background-color: black;
-}
-
-#buttonHome:hover,
-#buttonRestart:hover {
-  opacity: 0.7;
-}
 </style>
