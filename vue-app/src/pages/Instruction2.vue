@@ -6,14 +6,24 @@
         <img src="../assets/button_restart.png" alt="Button Restart" id="buttonRestart" @click="clearPattern">
 
       </div>
-      <img src="../assets/pink-cat@2x.png" alt="Cat Icon" id="catPink">
+      <img src="../assets/pink-cat@2x.png" alt="Cat Icon" id="catPink" @click="loadPatternAndConnect(this.originalPattern)">
     </nav>
     <main>
       <header>
         <img src="../assets/text_goal2.png" alt="Goal Text" id="textGoal">
       </header>
       <section id = "graphArea">
-        <div><img src="../assets/left_pattern.png" alt="Instruction Pattern" id="instruction"></div>
+        <div class="grid-wrapper">
+          <svg class="connector"></svg>
+          <div class="grid">
+            <div
+              v-for="n in 16"
+              :key="n"
+              class="dot"
+              :data-id="n">
+            </div>
+          </div>
+        </div>
         <div class="grid-wrapper">
           <svg class="connector"></svg>
           <div class="grid" id = "noScrollArea"
@@ -50,6 +60,14 @@
         </div>
       </div>
     </div>
+    <div v-if="interPage" class="modal-container">
+      <div class="interPage-modal">
+        <div class="inter_page_content">
+          <img class="next_level" src="../assets/next_level.png">
+          <img class="button_next_level" src="../assets/button_next_level.png" @click="navigateToPage3">
+        </div>
+      </div>
+    </div>
   </body>
 </template>
 
@@ -62,23 +80,25 @@ export default defineComponent({
     return {
       isDrawing: false,
       pattern: [],
-      path: [],
       svg: null,
       showModal: false,
       secondTry: true,
+      interPage: false,
+      originalPattern: [1, 2, 3, 4, 7, 10 ,13],
     };
   },
   mounted() {
     this.svg = this.$el.querySelector('.connector');
     document.addEventListener('touchmove', this.preventScroll, { passive: false });
+    // this.loadPatternAndConnect(this.originalPattern);
   },
   beforeUnmount() {
     document.removeEventListener('touchmove', this.preventScroll);
   },
   methods: {
     navigateToStart() {
-      if (checker.checkCorrectness([[1,1],[1,2],[1,3],[1,4],[2,3],[3,2],[4,1]], "lateral", this.path)) {
-        this.$router.push("/instruction3");
+      if (checker.checkCorrectness(this.originalPattern, "lateral", this.pattern)) {
+        this.interPage = true;
       }
       else {
         if (this.secondTry) {
@@ -99,6 +119,13 @@ export default defineComponent({
     },
     navigateToLobby() {
       this.$router.push("/Lobby");
+      while (this.svg.firstChild) {
+        console.log(this.svg.childElementCount);
+        this.svg.removeChild(this.svg.lastChild);
+      }
+    },
+    navigateToPage3() {
+      this.$router.push("/instruction3");
     },
     preventScroll() {
       document.getElementById('noScrollArea').addEventListener('touchmove', function(event) {
@@ -116,7 +143,6 @@ export default defineComponent({
         const id = cell.dataset.id;
         if (!this.pattern.includes(id) && id >= 1 && id <= 16) {
           this.pattern.push(id);
-          this.path.push([Math.ceil(id / 4), (id % 4 == 0 ? 4 : id % 4)]);
           cell.classList.add('active');
         }
       }
@@ -126,7 +152,6 @@ export default defineComponent({
       const id = cell.dataset.id;
       if (this.isDrawing && !this.pattern.includes(id)) {
         this.pattern.push(id);
-        this.path.push([Math.ceil(id / 4), (id % 4 == 0 ? 4 : id % 4)]);
         cell.classList.add('active');
         if (this.pattern.length > 1) {
           const prevCell = this.$el.querySelector(
@@ -143,7 +168,6 @@ export default defineComponent({
         const id = element.dataset.id;
         if (this.isDrawing && !this.pattern.includes(id)) {
           this.pattern.push(id);
-          this.path.push([Math.ceil(id / 4), (id % 4 === 0 ? 4 : id % 4)]);
           element.classList.add('active');
           if (this.pattern.length > 1) {
             const prevCell = this.$el.querySelector(
@@ -166,33 +190,73 @@ export default defineComponent({
       line.setAttribute('stroke-width', '5');
       this.svg.appendChild(line);
     },
+    loadPatternAndConnect(patternDots) {
+      const dots = document.querySelectorAll('.dot');
+      const svg = document.querySelector('.connector');
+
+      for (const dot of dots) {
+        const dotId = parseInt(dot.dataset.id);
+        if (patternDots.includes(dotId)) {
+          dot.classList.add('active');
+        }
+      }
+
+      for (let i = 0; i < patternDots.length - 1; i++) {
+        const dotId1 = patternDots[i];
+        const dotId2 = patternDots[i + 1];
+        const dot1 = document.querySelector(`.dot[data-id="${dotId1}"]`);
+        const dot2 = document.querySelector(`.dot[data-id="${dotId2}"]`);
+
+        const x1 = dot1.offsetLeft + dot1.offsetWidth / 2;
+        const y1 = dot1.offsetTop + dot1.offsetHeight / 2;
+        const x2 = dot2.offsetLeft + dot2.offsetWidth / 2;
+        const y2 = dot2.offsetTop + dot2.offsetHeight / 2;
+
+        const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+        line.setAttribute('x1', x1);
+        line.setAttribute('y1', y1);
+        line.setAttribute('x2', x2);
+        line.setAttribute('y2', y2);
+        line.setAttribute('stroke', 'black');
+        line.setAttribute('stroke-width', '5');
+        svg.appendChild(line);
+
+        if (i === patternDots.length - 2) {
+          // Calculate the angle of the line segment and reverse it
+          const angle = Math.atan2(y2 - y1, x2 - x1) - Math.PI;
+          // Rest of the code remains the same
+          const arrowSize = 40; // Adjust the size of the arrowhead
+          const arrowX = x2 - arrowSize * Math.cos(angle);
+          const arrowY = y2 - arrowSize * Math.sin(angle);
+          const arrow = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
+          arrow.setAttribute('points', `${arrowX},${arrowY} ${(arrowX + arrowSize * Math.cos(angle - Math.PI / 6))},${(arrowY + arrowSize * Math.sin(angle - Math.PI / 6))} ${(arrowX + arrowSize * Math.cos(angle + Math.PI / 6))},${(arrowY + arrowSize * Math.sin(angle + Math.PI / 6))}`);
+          arrow.setAttribute('fill', 'black'); // Arrowhead color
+          svg.appendChild(arrow);
+        }
+      }
+    },
     endDrawing() {
       this.isDrawing = false;
     },
     clearPattern() {
       this.pattern = [];
-      this.path = [];
       const cells = this.$el.querySelectorAll('.cell.active');
       cells.forEach(cell => {
         cell.classList.remove('active');
       });
-      while (this.svg.firstChild) {
+      while (this.svg.childElementCount > this.originalPattern.length) {
         this.svg.removeChild(this.svg.lastChild);
       }
     },
     revertPattern() {
       if (this.pattern.length === 0) return;
-
-      // Remove the last item from the pattern and path arrays
+      // Remove the last item from the pattern arrays
       const lastId = this.pattern.pop();
-      this.path.pop();
-
       // Revert the UI change for the last cell
       const lastCell = this.$el.querySelector(`.cell[data-id="${lastId}"]`);
       lastCell.classList.remove('active');
-
       // Remove the last SVG line
-      if (this.svg.lastChild) {
+      if (this.svg.childElementCount > this.originalPattern.length) {
         this.svg.removeChild(this.svg.lastChild);
       }
     },
@@ -238,6 +302,35 @@ export default defineComponent({
 
 .retry-modal-header h3 {
   font-size: 24px;
+}
+
+.interPage-modal {
+  position: fixed;
+  left: 23.2vw;
+  top: 25vh;
+  background-color: #fff0e6;
+  border-radius: 10px;
+  padding: 20px;
+  width: 50vw;
+  height: 50vh;
+  text-align: center;
+  align-items: center;
+}
+
+.next_level {
+  position: absolute;
+  left: 10%;
+  top: 10%;
+  width: 42vw;
+  height: 11vw;
+}
+
+.button_next_level {
+  position: absolute;
+  left: 38.5%;
+  bottom: 12%;
+  width: 12vw;
+  height: 12vw;
 }
 
 p {
@@ -307,6 +400,7 @@ main {
 .grid-wrapper {
   display: flex;
   width: 35%;
+  height: 270%;
 }
 
 header {
@@ -391,7 +485,7 @@ footer {
   display: grid;
   height: 100%;
   width: 100%;
-  grid-template-columns: repeat(4, 4vw);
+  grid-template-columns: repeat(4, 1fr);
   gap: 21%;
 }
 
@@ -408,8 +502,17 @@ footer {
   background-color: #3498db;
 }
 
-.larger-font {
-  font-size: 40px;
+.dot {
+  width: 2vw;
+  height: 2vw;
+  background-color: black;
+  border-radius: 50%;
+  transition: background-color 0.2s;
+  position: relative;
+}
+
+.dot.active {
+  background-color: black;
 }
 
 #buttonHome:hover,

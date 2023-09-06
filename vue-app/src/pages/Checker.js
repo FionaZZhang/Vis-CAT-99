@@ -3,19 +3,30 @@ export function checkCorrectness(originalPattern, requirement, userInput) {
     if (originalPattern.length != userInput.length) {
         return false;
     }
+    var originalPath = toCoordinateList(originalPattern);
+    var userPath = toCoordinateList(userInput);
     let target;
     switch (requirement) {
         case "copy":
-            return isSame(originalPattern, userInput);
+            return isSame(originalPath, userPath);
         case "lateral":
-            target = getLateralFlip(originalPattern);
-            return isSame(target, userInput);
+            target = getLateralFlip(originalPath);
+            return isSame(target, userPath);
         case "vertical":
-            target = getVerticalFlip(originalPattern);
-            return isSame(target, userInput);
+            target = getVerticalFlip(originalPath);
+            return isSame(target, userPath);
         default:
             return false;
     }
+}
+
+// change pattern(list of id) to path(list of coordinates)
+export function toCoordinateList(pattern) {
+    var path = [];
+    for (var i = 0; i ++; i < pattern.length) {
+        path.push([Math.ceil(pattern[i] / 4), (pattern[i] % 4 == 0 ? 4 : pattern[i] % 4)]);
+    }
+    return path;
 }
 
 // check whether two lists of lists are totally the same
