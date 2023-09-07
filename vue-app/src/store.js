@@ -2,18 +2,19 @@
 
 import { createStore } from 'vuex';
 
-
 export const store = createStore({
   state: {
     isButtonOn1: true,
     isButtonOn2: true,
     isButtonOn3: true,
-    isButtonOn4: false
-  }
+    isButtonOn4: false,
+    copy: 0,
+    lateral: 0,
+    vertical: 0,
+    studentId: "0",
+  },
 
-  // getters: {
-  //   getIsButtonOn1: state => {
-  //       return state.isButtonOn1;
-  //   }
-  // }
+  actions: {
+    // You can define other actions here if needed
+  }
 });

@@ -21,6 +21,9 @@
 </template>
 <script>
   import { defineComponent } from "vue";
+  import {store} from "@/store";
+  import axios from 'axios';
+
 
   export default defineComponent({
     name: "AppFinish",
@@ -28,6 +31,21 @@
       navigateToLobby() {
         this.$router.push("/Lobby");
       }
+    },
+    mounted() {
+      let total = store.state.copy + store.state.lateral + store.state.vertical;
+
+      axios.post('/api/send-total', { id: store.state.studentId, score: total})
+        .then(response => {
+          // Handle the response from the backend if needed
+          console.log('Data sent successfully:', response.data);
+        })
+        .catch(error => {
+          // Handle any errors that occur during the request
+          console.error('Error sending data:', error);
+        });
+
+
     }
   });
 </script>
