@@ -101,9 +101,19 @@ export default defineComponent({
     navigateToStart() {
       if (checker.checkCorrectness(this.originalPattern, "copy", this.pattern)) {
         if (store.state.isButtonOn4){
+          if (this.secondTry) {
+            store.state.copy = 2;
+          } else {
+            store.state.copy = 1;
+          }
           this.$router.push("/Finish");
         }
         else{
+          if (this.secondTry) {
+            store.state.copy = 2;
+          } else {
+            store.state.copy = 1;
+          }
           this.interPage = true;
           // this.$router.push("/instruction2");
         }
