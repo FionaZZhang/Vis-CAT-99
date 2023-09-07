@@ -39,6 +39,17 @@
       </div>
     </div>
 
+    <div v-if="showQR" class="QRContainer">
+      <div class="QRText">
+        Scan QR code
+      </div>
+      <video
+        id="qrVideo"
+        class="QRVideo"
+        autoplay
+      ></video>
+    </div>
+
     <div class="container">
       <!-- <div id="result" class="results"></div> -->
       <div id="schoolname" class="schoolName"></div>
@@ -71,6 +82,7 @@ export default defineComponent({
       students: [], // Initialize students array
       selectedStudent: [],
       selectedStudentIndex: -1,
+      showQR: false,
     };
   },
   beforeUnmount() {
@@ -78,11 +90,14 @@ export default defineComponent({
   },
   methods: {
     stopVideo() {
-      const video = document.querySelector('video');
+      const video = document.getElementById('qrVideo'); // Access the video element by ID
       if (video && video.srcObject) {
         video.srcObject.getTracks().forEach(track => track.stop());
-        document.body.removeChild(video);
+        video.removeAttribute('src');
+        video.load();
       }
+
+      this.showQR = false;
     },
     navigateToSettings() {
       this.$router.push("/Settings");
@@ -98,25 +113,26 @@ export default defineComponent({
         this.school = "";
         this.class = "";
 
+        // Set showQR to true to display the video and text
+        this.showQR = true;
+
         const schoolNameDiv = document.getElementById('schoolname');
         schoolNameDiv.textContent = this.school;
         const classDiv = document.getElementById('classnum');
         classDiv.textContent = this.class;
 
         const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-        const video = document.createElement('video');
+        const video = document.getElementById('qrVideo'); // Access the video element by ID
 
-        video.style.position = 'absolute';
-        video.style.top = '50%';
-        video.style.left = '60%';
-        video.style.width = '30%';
-        video.style.height = 'auto';
-        video.style.transform = 'translate(-50%, -50%)';
-        video.style.border = '4px solid pink';
-        video.style.borderRadius = '10px';
-        document.body.appendChild(video);
-        video.srcObject = stream;
-        await video.play();
+        // Check if the video element exists
+        if (video) {
+          video.srcObject = stream;
+          await video.play();
+        } else {
+          console.error('Video element not found.');
+          this.showQR = false;
+          return;
+        }
 
         const canvas = document.createElement('canvas');
         const context = canvas.getContext('2d');
@@ -134,16 +150,17 @@ export default defineComponent({
               const qrData = this.parseQRCodeData(code.data);
               this.displayResult(qrData);
               video.srcObject.getTracks().forEach(track => track.stop());
-              document.body.removeChild(video);
+              this.showQR = false;
             } catch (error) {
               console.error('QR code not in correct format', error);
               video.srcObject.getTracks().forEach(track => track.stop());
-              document.body.removeChild(video);
+              this.showQR = false;
             }
           }
         }, 100);
       } catch (error) {
         console.error('Error accessing camera:', error);
+        this.showQR = false;
       }
     },
     parseQRCodeData(qrData) {
@@ -225,6 +242,33 @@ export default defineComponent({
 });
 </script>
 <style scoped>
+
+.QRContainer {
+}
+
+.QRText {
+  position: absolute;
+  top: calc(50% - 20%);
+  left: 74%;
+  z-index: 99999999;
+  color: white;
+  font-weight: bold;
+  background: #a478b8d9;
+  transform: translate(-50%, -50%);
+  font-size: 50%;
+}
+
+.QRVideo {
+  position: absolute;
+  top: 50%;
+  left: 74%;
+  width: 30%;
+  height: auto;
+  transform: translate(-50%, -50%);
+  border: 15px solid #a478b8d9;
+  border-radius: 10px;
+}
+
 .container {
   position: fixed;
   top: 20%;
@@ -353,6 +397,7 @@ export default defineComponent({
   border-radius: 12px;
   width: 14.19rem;
   height: 12.44rem;
+  z-index: 9999;
 }
 
 .age {
