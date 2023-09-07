@@ -24,13 +24,20 @@
 
     <div class="frameChild">
       <div class="studentsContainer">
-        <div v-for="(student, index) in students" :key="index" class="student" @click="selectStudent(index)">
-          <img class="animalHeadIcon" alt="" :src="student.iconSrc" ref="selectedRef" />
-          <div class="studentName">{{ student.studentName }}</div>
+        <div v-for="(student, index) in students" :key="index" class="student">
+          <img
+            class="animalHeadIcon"
+            alt=""
+            :src="student.iconSrc"
+            :class="{ selected: selectedStudentIndex === index }"
+            ref="selectedRef"
+            @click="selectStudent(index)"
+          />
+          <div v-if="selectedStudentIndex !== index" class="studentName">{{ student.studentName }}</div>
         </div>
         <div v-if="selectedStudentIndex !== -1" class="selectedSheet" :style="selectedSheetPosition">
           <img class="selectedSheetChild" alt="" src="../assets/rectangle-1.svg" />
-          <div class="age">Age: {{ selectedStudent.studentAge }}</div>
+          <div class="age">ID: {{ selectedStudent.studentId }}</div>
           <div class="name">{{ selectedStudent.studentName }}</div>
           <img class="selectLine1Icon" alt="" src="../assets/select-line2.svg" />
           <img class="selectLine2Icon" alt="" src="../assets/select-line2.svg" />
@@ -71,6 +78,7 @@
 <script>
 import { defineComponent } from "vue";
 import jsQR from 'jsqr';
+import {store} from "@/store";
 
 export default defineComponent({
   name: "AppAccount",
@@ -163,29 +171,35 @@ export default defineComponent({
         this.showQR = false;
       }
     },
+
     parseQRCodeData(qrData) {
       const lines = qrData.split('\n');
-      const schoolName = lines[0].split(': ')[1];
-      const className = lines[1].split(': ')[1];
-      const teacherName = lines[2].split(': ')[1];
-      const studentsData = lines.slice(4);
+
+      // Extract school name and class name
+      const schoolName = lines[0].trim();
+      const className = lines[1].trim();
       this.school = schoolName;
       this.class = className;
-      this.teacher = teacherName;
 
-      const students = [];
-      for (const studentData of studentsData) {
-        const [name, age] = studentData.split(', ');
-        students.push({ name, age: parseInt(age) });
-      }
+      // Extract student data
+      const studentsData = lines.slice(2);
+
+      // Process student data into an array of objects
+      const students = studentsData.map(studentInfo => {
+        const [lastName, firstName, middleName, id] = studentInfo.split(',').map(part => part.trim());
+        const name = `${firstName} ${middleName} ${lastName}`;
+        return {
+          name,
+          id,
+        };
+      });
 
       return {
-        schoolName,
-        className,
-        teacherName,
         students,
       };
     },
+
+
     displayResult(qrData) {
       const schoolNameDiv = document.getElementById('schoolname');
       schoolNameDiv.textContent = this.school;
@@ -209,16 +223,18 @@ export default defineComponent({
         return {
           iconSrc,
           studentName: student.name,
-          studentAge: student.age,
+          studentId: student.id,
         };
       });
     },
     selectStudent(index) {
       if (this.selectedStudentIndex === index) {
         this.selectedStudentIndex = -1;
+        store.state.studentId = "None";
       } else {
         this.selectedStudentIndex = index;
         this.selectedStudent = this.students[index];
+        store.state.studentId = this.selectedStudent.id;
       }
     }
   },
@@ -228,7 +244,7 @@ export default defineComponent({
         const selectedStudentIcon = this.$refs.selectedRef[this.selectedStudentIndex];
         if (selectedStudentIcon) {
           const iconPosition = selectedStudentIcon.offsetTop;
-          const sheetLeftPosition = selectedStudentIcon.offsetLeft - 230; // Adjust the value as needed
+          const sheetLeftPosition = selectedStudentIcon.offsetLeft - 260; // Adjust the value as needed
           console.log(selectedStudentIcon)
           return {
             top: `${iconPosition}px`,
@@ -244,6 +260,12 @@ export default defineComponent({
 <style scoped>
 
 .QRContainer {
+}
+
+/* Styles for selected icon */
+.animalHeadIcon.selected {
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* Lighter background shadow */
+  z-index: 99999999; /* Ensure it appears above other elements */
 }
 
 .QRText {
@@ -267,6 +289,7 @@ export default defineComponent({
   transform: translate(-50%, -50%);
   border: 15px solid #a478b8d9;
   border-radius: 10px;
+  z-index: 99999999;
 }
 
 .container {
@@ -282,7 +305,7 @@ export default defineComponent({
 }
 
 .studentsContainer {
-  margin-top: 1vw;
+  margin-top: 4vw;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
@@ -327,6 +350,7 @@ export default defineComponent({
 .frameChild {
   position: fixed;
   display: block;
+  overflow: visible;
   top: 0%;
   right: 0%;
   bottom: 0%;
@@ -335,10 +359,10 @@ export default defineComponent({
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   width: 55vw;
   height: 100vh;
-  overflow: hidden;
   max-width: 100%;
   max-height: 100%;
   object-fit: cover;
+  z-index: 999;
 }
 
 .userIcon {
@@ -379,8 +403,6 @@ export default defineComponent({
 
 .selected {
   position: absolute;
-  top: 1.38rem;
-  left: 47.94rem;
   border-radius: 50%;
   background-color: var(--color-palegoldenrod);
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
