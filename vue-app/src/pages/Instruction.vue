@@ -5,7 +5,7 @@
         <img src="../assets/button_home.png" alt="Button Home" id="buttonHome" @click="navigateToLobby">
         <img src="../assets/button_restart.png" alt="Button Restart" id="buttonRestart" @click="clearPattern">
       </div>
-      <img src="../assets/pink-cat@2x.png" alt="Cat Icon" id="catPink" @click="loadPatternAndConnect(this.originalPattern)">
+      <img src="../assets/pink-cat@2x.png" alt="Cat Icon" id="catPink">
     </nav>
     <main>
       <header>
@@ -71,7 +71,7 @@
       <div class="instructionPopUp-modal">
         <div class="inter_page_content">
           <img class="instructionGIF" src="../assets/giphy.gif" alt="instructionGIF">
-          <img class="instructionConfirm" id="buttonInstructionConfirm" src="../assets/button_confirm.png" @click="CloseInstruction">
+          <img class="instructionConfirm" id="buttonInstructionConfirm" src="../assets/button_confirm.png" @click="CloseInstruction(); loadPatternAndConnect(this.originalPattern)">
         </div>   
       </div>
     </div>
