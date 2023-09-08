@@ -90,6 +90,14 @@
         </div>
       </div>
 
+      <div class="line5">
+        <img alt="" src="../assets/line-2.png" />
+        <div class="settingText">Voice Selection</div>
+        <div class="dropdown">
+          <select></select>
+        </div>
+      </div>
+
 
     </div>
   </div>
@@ -182,6 +190,26 @@
   });
 </script>
 <style scoped>
+  .line5 {
+    position: absolute;
+    top: 77%;
+    left: 4%;
+    width: 32vw;
+    height: 0.5vw;
+  }
+  select {
+    position: absolute;
+    top: -500%;
+    right: -35%;
+    width: 22vw;
+    height: 4.5vw;
+    border: 0;
+    outline: 0;
+    appearance: none;
+    background-image: url(../assets/Dropdown.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
   .settingsIcon {
     position: absolute;
     height: 79.17%;
@@ -231,6 +259,7 @@
     top: 3%;
     left: 14%;
     font-size: 3vw;
+    cursor: pointer;
   }
   .buttonon {
     position: relative;
@@ -256,6 +285,7 @@
     top: 3%;
     left: 14%;
     font-size: 3vw;
+    cursor: pointer;
   }
   .buttonoff {
     position: relative;
