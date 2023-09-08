@@ -11,6 +11,7 @@
   z-index: 999;
 }
 
+
 .custom-modal {
   background-color: #b8e3ff;
   border-radius: 10px;
@@ -40,6 +41,19 @@
   align-items: center;
 }
 
+.instructionPopUp-modal {
+  position: fixed;
+  left: 7.5vw;
+  top: 7.5vh;
+  background-color: #fff0e6;
+  border-radius: 10px;
+  /* padding: 20px; */
+  width: 85vw;
+  height: 85vh;
+  text-align: center;
+  align-items: center;
+}
+
 .next_level {
   position: absolute;
   left: 10%;
@@ -48,12 +62,28 @@
   height: 11vw;
 }
 
+.instructionGIF{
+  position: absolute;
+  left: 0%;
+  top: 0%;
+  width: 100%;
+  height: 80%;
+}
+
 .button_next_level {
   position: absolute;
   left: 38.5%;
   bottom: 12%;
   width: 12vw;
   height: 12vw;
+}
+
+.instructionConfirm{
+  position: absolute;
+  left: 40%;
+  top: 82%;
+  width: 20%;
+  height: 16%;
 }
 
 .cute-button {
