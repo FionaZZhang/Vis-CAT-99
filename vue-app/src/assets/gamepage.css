@@ -274,7 +274,7 @@ footer {
 #buttonRestart:hover,
 #buttonReverse:hover,
 #buttonConfirm:hover,
-#buttonInstructionConfirm:hover,
+.instructionConfirm:hover,
 #buttonNextLevel:hover {
   opacity: 0.7;
 }
