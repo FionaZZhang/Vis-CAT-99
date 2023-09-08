@@ -67,6 +67,14 @@
         </div>   
       </div>
     </div>
+    <div v-if="instructionPopUp" class="modal-container">
+      <div class="instructionPopUp-modal">
+        <div class="inter_page_content">
+          <img class="instructionGIF" src="../assets/giphy.gif" alt="instructionGIF">
+          <img class="instructionConfirm" id="buttonInstructionConfirm" src="../assets/button_confirm.png" @click="CloseInstruction">
+        </div>   
+      </div>
+    </div>
   </body>
 </template>
 
@@ -85,13 +93,16 @@ export default defineComponent({
       showModal: false,
       secondTry: true,
       interPage: false,
+      instructionPopUp: false,
       // originalPattern: [1, 2, 3, 4, 7, 10 ,13],
       originalPattern: [1, 2, 3, 4, 8, 7, 10, 11, 5, 9, 13, 14, 15, 16],
     };
   },
   mounted() {
+    this.instructionPopUp = true;
     this.svg = this.$el.querySelector('.connector');
     document.addEventListener('touchmove', this.preventScroll, { passive: false });
+    
     // this.loadPatternAndConnect(this.originalPattern);
   },
   beforeUnmount() {
@@ -127,6 +138,11 @@ export default defineComponent({
         }
       }
     },
+
+    CloseInstruction(){
+      this.instructionPopUp = false;
+    },
+
     YesRetry() {
       this.clearPattern();
       this.showModal = false;
