@@ -74,6 +74,7 @@
 import { defineComponent } from "vue";
 import * as checker from ".//Checker.js";
 import "@/assets/gamepage.css"
+import {store} from "@/store";
 export default defineComponent({
   name: "AppInstruction2",
   data() {
@@ -99,6 +100,11 @@ export default defineComponent({
   methods: {
     navigateToStart() {
       if (checker.checkCorrectness(this.originalPattern, "lateral", this.pattern)) {
+        if (this.secondTry) {
+            store.state.lateral = 2;
+        } else {
+            store.state.lateral = 1;
+        }
         this.interPage = true;
       }
       else {

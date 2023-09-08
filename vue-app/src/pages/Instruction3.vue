@@ -66,6 +66,7 @@
 import { defineComponent } from "vue";
 import * as checker from ".//Checker.js";
 import "@/assets/gamepage.css"
+import {store} from "@/store";
 export default defineComponent({
   name: "AppInstruction3",
   data() {
@@ -90,6 +91,11 @@ export default defineComponent({
   methods: {
     navigateToStart() {
       if (checker.checkCorrectness(this.originalPattern, "vertical", this.pattern)) {
+        if (this.secondTry) {
+          store.state.vertical = 2;
+        } else {
+          store.state.vertical = 1;
+        }
         this.$router.push("/Finish");
       }
       else {
