@@ -3,8 +3,14 @@ export function checkCorrectness(originalPattern, requirement, userInput) {
     if (originalPattern.length != userInput.length) {
         return false;
     }
-    var originalPath = toCoordinateList(originalPattern);
-    var userPath = toCoordinateList(userInput);
+
+    // unify data type to from array to list
+    const targetPattern = originalPattern.map(int => Number(int));
+    const userPattern = userInput.map(char => Number(char));
+    // change cell id list to coordinate list
+    const originalPath = toCoordinateList(targetPattern);
+    const userPath = toCoordinateList(userPattern);
+
     let target;
     switch (requirement) {
         case "copy":
@@ -23,7 +29,7 @@ export function checkCorrectness(originalPattern, requirement, userInput) {
 // change pattern(list of id) to path(list of coordinates)
 export function toCoordinateList(pattern) {
     var path = [];
-    for (var i = 0; i ++; i < pattern.length) {
+    for (var i = 0; i < pattern.length; i ++) {
         path.push([Math.ceil(pattern[i] / 4), (pattern[i] % 4 == 0 ? 4 : pattern[i] % 4)]);
     }
     return path;
