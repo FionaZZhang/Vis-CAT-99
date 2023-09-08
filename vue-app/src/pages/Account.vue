@@ -28,9 +28,10 @@
           <img
             class="animalHeadIcon"
             alt=""
-            :src="student.iconSrc"
+            :src="student.icon"
             :class="{ selected: selectedStudentIndex === index }"
             ref="selectedRef"
+            @load="onImageLoad()"
             @click="selectStudent(index)"
           />
           <div v-if="selectedStudentIndex !== index" class="studentName">{{ student.studentName }}</div>
@@ -84,19 +85,23 @@ export default defineComponent({
   name: "AppAccount",
   data() {
     return {
-      school: "",
-      class: "",
-      teacher: "",
-      students: [], // Initialize students array
-      selectedStudent: [],
-      selectedStudentIndex: -1,
+      school: store.state.school,
+      class: store.state.class,
+      students: store.state.students,
+      selectedStudent: store.state.selectedStudent,
+      selectedStudentIndex: store.state.selectedStudentIndex,
       showQR: false,
+      selectedRef: [],
     };
   },
   beforeUnmount() {
     this.stopVideo();
   },
   methods: {
+    onImageLoad() {
+      console.log("onload");
+      this.selectedRef = this.$refs.selectedRef;
+    },
     stopVideo() {
       const video = document.getElementById('qrVideo'); // Access the video element by ID
       if (video && video.srcObject) {
@@ -120,8 +125,6 @@ export default defineComponent({
         this.selectedStudent = [];
         this.school = "";
         this.class = "";
-
-        // Set showQR to true to display the video and text
         this.showQR = true;
 
         const schoolNameDiv = document.getElementById('schoolname');
@@ -130,7 +133,7 @@ export default defineComponent({
         classDiv.textContent = this.class;
 
         const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-        const video = document.getElementById('qrVideo'); // Access the video element by ID
+        const video = document.getElementById('qrVideo');
 
         // Check if the video element exists
         if (video) {
@@ -157,6 +160,7 @@ export default defineComponent({
             try {
               const qrData = this.parseQRCodeData(code.data);
               this.displayResult(qrData);
+              store.state.students = this.students;
               video.srcObject.getTracks().forEach(track => track.stop());
               this.showQR = false;
             } catch (error) {
@@ -180,6 +184,8 @@ export default defineComponent({
       const className = lines[1].trim();
       this.school = schoolName;
       this.class = className;
+      store.state.school = this.school;
+      store.state.class = this.class;
 
       // Extract student data
       const studentsData = lines.slice(2);
@@ -193,7 +199,6 @@ export default defineComponent({
           id,
         };
       });
-
       return {
         students,
       };
@@ -221,31 +226,33 @@ export default defineComponent({
         const iconSrc = require(`@/assets/animals/${animalHeadIcons[iconIndex]}`);
         iconIndex = (iconIndex + 1) % animalHeadIcons.length;
         return {
-          iconSrc,
+          icon: iconSrc,
           studentName: student.name,
           studentId: student.id,
         };
       });
     },
     selectStudent(index) {
-      if (this.selectedStudentIndex === index) {
-        this.selectedStudentIndex = -1;
+      if (store.state.selectedStudentIndex === index) {
+        store.state.selectedStudentIndex = -1;
         store.state.studentId = "None";
       } else {
-        this.selectedStudentIndex = index;
-        this.selectedStudent = this.students[index];
-        store.state.studentId = this.selectedStudent.id;
+        store.state.selectedStudentIndex = index;
+        store.state.selectedStudent = store.state.students[index];
+        store.state.studentId = store.state.selectedStudent.studentId;
       }
+      this.selectedStudentIndex = store.state.selectedStudentIndex;
+      this.selectedStudent = store.state.selectedStudent;
     }
   },
   computed: {
     selectedSheetPosition() {
       if (this.selectedStudentIndex !== -1) {
-        const selectedStudentIcon = this.$refs.selectedRef[this.selectedStudentIndex];
+        let selectedStudentIcon = this.selectedRef[this.selectedStudentIndex];
         if (selectedStudentIcon) {
           const iconPosition = selectedStudentIcon.offsetTop;
           const sheetLeftPosition = selectedStudentIcon.offsetLeft - 260; // Adjust the value as needed
-          console.log(selectedStudentIcon)
+          console.log(selectedStudentIcon);
           return {
             top: `${iconPosition}px`,
             left: `${sheetLeftPosition}px`,
@@ -289,7 +296,7 @@ export default defineComponent({
   transform: translate(-50%, -50%);
   border: 15px solid #a478b8d9;
   border-radius: 10px;
-  z-index: 99999999;
+  z-index: 99999;
 }
 
 .container {

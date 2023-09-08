@@ -11,10 +11,14 @@ export const store = createStore({
     copy: 0,
     lateral: 0,
     vertical: 0,
-    studentId: "0",
+    students: [],
+    selectedStudent: "",
+    selectedStudentIndex: -1,
+    studentId: "None",
+    school: "",
+    class: "",
   },
 
   actions: {
-    // You can define other actions here if needed
   }
 });
