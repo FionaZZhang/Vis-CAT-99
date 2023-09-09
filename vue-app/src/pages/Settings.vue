@@ -25,8 +25,10 @@
     </div>
 
     
-    <div class="welcomeText">
-      <img class="brownCatIcon" alt="" src="../assets/brown-cat@2x.png" />
+    <div class="welcomeText" @click="textToSpeech">
+      <div class="cat">
+        <img class="brownCatIcon" alt="" src="../assets/brown-cat@2x.png" />
+      </div>
       <img class="line" alt="" src="../assets/line-3.svg" />
       <span>Turn on </span>
       <span class="partialMode1">Partial Mode</span>
@@ -94,19 +96,26 @@
         <img alt="" src="../assets/line-2.png" />
         <div class="settingText">Voice Selection</div>
         <div class="dropdown">
-          <select></select>
+          <select v-model="selectedVoice" class="custom-dropdown">
+            <option v-for="voice in voices" :key="voice.name" :value="voice">{{ voice.name }}</option>
+          </select>
         </div>
       </div>
-
-
     </div>
   </div>
 </template>
 <script>
   import { defineComponent } from "vue";
   import { store } from "@/store";
+  import { speak } from "./Speech.js";
   export default defineComponent({
     name: "AppSettings",
+    data() {
+      return {
+        selectedVoice: "",
+        voices: window.speechSynthesis.getVoices(),
+      };
+    },
     computed: {
       buttononSrc1() {
         return store.state.isButtonOn1
@@ -151,6 +160,11 @@
     },
 
     methods: {
+      textToSpeech(){
+        if (store.state.isButtonOn1){
+          speak("Turn on partial mode if you only want to play the first level", this.selectedVoice);
+        }
+      },
       navigateToLobby() {
         this.$router.push("/Lobby");
       },
@@ -190,6 +204,15 @@
   });
 </script>
 <style scoped>
+  @font-face {
+    font-family: 'Jua';
+    src: url(../assets/Jua-Regular.ttf) format('truetype');
+  }
+  .custom-dropdown{
+    font-family:'Jua', sans-serif; /* Change the font family */
+    font-size: 2.5vw; /* Change the font size */
+    text-align: center; /* Center the text horizontally */
+  }
   .line5 {
     position: absolute;
     top: 77%;
@@ -209,6 +232,7 @@
     background-image: url(../assets/Dropdown.png);
     background-repeat: no-repeat;
     background-size: cover;
+    cursor: pointer;
   }
   .settingsIcon {
     position: absolute;
@@ -310,6 +334,7 @@
     width: 12vw;
     height: 12vw;
     object-fit: cover;
+    cursor: pointer;
   }
   .partialMode1 {
     color: var(--color-plum);
