@@ -5,7 +5,7 @@
         <img src="../assets/button_home.png" alt="Button Home" id="buttonHome" @click="navigateToLobby">
         <img src="../assets/button_restart.png" alt="Button Restart" id="buttonRestart" @click="clearPattern">
       </div>
-      <img src="../assets/pink-cat@2x.png" alt="Cat Icon" id="catPink" @click="loadPatternAndConnect(this.originalPattern)">
+      <img src="../assets/pink-cat@2x.png" alt="Cat Icon" id="catPink">
     </nav>
     <main>
       <header>
@@ -67,6 +67,14 @@
         </div>
       </div>
     </div>
+    <div v-if="instructionPopUp" class="modal-container">
+      <div class="instructionPopUp-modal">
+        <div class="inter_page_content">
+          <img class="instructionGIF" src="../assets/lateralFlip.gif" alt="instructionGIF">
+          <img class="instructionConfirm" id="buttonInstructionConfirm" src="../assets/button_confirm.png" @click="CloseInstruction(); loadPatternAndConnect(this.originalPattern)">
+        </div>   
+      </div>
+    </div>
   </body>
 </template>
 
@@ -85,11 +93,13 @@ export default defineComponent({
       showModal: false,
       secondTry: true,
       interPage: false,
+      instructionPopUp: false,
       // originalPattern: [1, 2, 3, 4, 7, 10 ,13],
       originalPattern: [1, 2, 3, 4, 8, 7, 10, 11, 5, 9, 13, 14, 15, 16],
     };
   },
   mounted() {
+    this.instructionPopUp = true;
     this.svg = this.$el.querySelector('.connector');
     document.addEventListener('touchmove', this.preventScroll, { passive: false });
     // this.loadPatternAndConnect(this.originalPattern);
@@ -116,6 +126,11 @@ export default defineComponent({
         }
       }
     },
+
+    CloseInstruction(){
+      this.instructionPopUp = false;
+    },
+
     YesRetry() {
       this.clearPattern();
       this.showModal = false;
