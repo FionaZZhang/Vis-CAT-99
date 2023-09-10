@@ -107,7 +107,7 @@
 <script>
   import { defineComponent } from "vue";
   import { store } from "@/store";
-  import { setVoice, speak, currentVoice } from "./Speech.js";
+  import { setVoice, speak, currentVoice, setVoiceFlag } from "./Speech.js";
   export default defineComponent({
     name: "AppSettings",
     data() {
@@ -185,48 +185,38 @@
       switch1(button) {
         if (button === "buttonon1") {
           store.state.isButtonOn1 = true;
+          setVoiceFlag(store.state.isButtonOn1);
           this.textToSpeech("Voice instructions activated");
         } else {
           store.state.isButtonOn1 = false;
+          setVoiceFlag(store.state.isButtonOn1);
         }
       },
       switch2(button) {
         if (button === "buttonon2") {
           store.state.isButtonOn2 = true;
-          if (store.state.isButtonOn1){
-            this.textToSpeech("Display results activated");
-          }
+          this.textToSpeech("Display results activated");
         } else {
           store.state.isButtonOn2 = false;
-          if (store.state.isButtonOn1){
-            this.textToSpeech("Display results deactivated");
-          }
+          this.textToSpeech("Display results deactivated");
         }
       },
       switch3(button) {
         if (button === "buttonon3") {
           store.state.isButtonOn3 = true;
-          if (store.state.isButtonOn1){
-            this.textToSpeech("Send results activated");
-          }
+          this.textToSpeech("Send results activated");
         } else {
           store.state.isButtonOn3 = false;
-          if (store.state.isButtonOn1){
-            this.textToSpeech("Send results deactivated");
-          }
+          this.textToSpeech("Send results deactivated");
         }
       },
       switch4(button) {
         if (button === "buttonon4") {
           store.state.isButtonOn4 = true;
-          if (store.state.isButtonOn1){
-            this.textToSpeech("Partial mode activated");
-          }
+          this.textToSpeech("Partial mode activated");
         } else {
           store.state.isButtonOn4 = false;
-          if (store.state.isButtonOn1){
-            this.textToSpeech("Partial mode deactivated");
-          }
+          this.textToSpeech("Partial mode deactivated");
         }
       },
     }
