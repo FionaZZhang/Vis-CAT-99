@@ -95,7 +95,7 @@
       <div class="line5">
         <img alt="" src="../assets/line-2.png" />
         <div class="settingText">Voice Selection</div>
-        <div class="dropdown">
+        <div class="dropdown" @click="loadVoices">
           <select v-model="selectedVoice" class="custom-dropdown">
             <option v-for="voice in voices" :key="voice.name" :value="voice">{{ voice.name }}</option>
           </select>
@@ -160,6 +160,9 @@
     },
 
     methods: {
+      loadVoices(){
+        this.voices = window.speechSynthesis.getVoices();
+      },
       textToSpeech(text){
         if (store.state.isButtonOn1){
           speak(text, this.selectedVoice);
@@ -219,9 +222,9 @@
     src: url(../assets/Jua-Regular.ttf) format('truetype');
   }
   .custom-dropdown{
-    font-family:'Jua', sans-serif; /* Change the font family */
-    font-size: 2.5vw; /* Change the font size */
-    text-align: center; /* Center the text horizontally */
+    font-family:'Jua', sans-serif; 
+    font-size: 2.5vw; 
+    text-align: center;
   }
   .line5 {
     position: absolute;
@@ -243,6 +246,7 @@
     background-repeat: no-repeat;
     background-size: cover;
     cursor: pointer;
+    text-overflow: ellipsis;
   }
   .settingsIcon {
     position: absolute;
