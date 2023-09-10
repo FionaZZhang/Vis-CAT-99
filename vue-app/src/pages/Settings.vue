@@ -25,7 +25,7 @@
     </div>
 
     
-    <div class="welcomeText" @click="textToSpeech">
+    <div class="welcomeText">
       <div class="cat">
         <img class="brownCatIcon" alt="" src="../assets/brown-cat@2x.png" />
       </div>
@@ -160,9 +160,9 @@
     },
 
     methods: {
-      textToSpeech(){
+      textToSpeech(text){
         if (store.state.isButtonOn1){
-          speak("Turn on partial mode if you only want to play the first level", this.selectedVoice);
+          speak(text, this.selectedVoice);
         }
       },
       navigateToLobby() {
@@ -174,6 +174,7 @@
       switch1(button) {
         if (button === "buttonon1") {
           store.state.isButtonOn1 = true;
+          this.textToSpeech("Voice instructions activated");
         } else {
           store.state.isButtonOn1 = false;
         }
@@ -181,6 +182,9 @@
       switch2(button) {
         if (button === "buttonon2") {
           store.state.isButtonOn2 = true;
+          if (store.state.isButtonOn1){
+            this.textToSpeech("Display results activated");
+          }
         } else {
           store.state.isButtonOn2 = false;
         }
@@ -188,6 +192,9 @@
       switch3(button) {
         if (button === "buttonon3") {
           store.state.isButtonOn3 = true;
+          if (store.state.isButtonOn1){
+            this.textToSpeech("Send results activated");
+          }
         } else {
           store.state.isButtonOn3 = false;
         }
@@ -195,6 +202,9 @@
       switch4(button) {
         if (button === "buttonon4") {
           store.state.isButtonOn4 = true;
+          if (store.state.isButtonOn1){
+            this.textToSpeech("Partial mode activated");
+          }
         } else {
           store.state.isButtonOn4 = false;
         }
@@ -334,7 +344,6 @@
     width: 12vw;
     height: 12vw;
     object-fit: cover;
-    cursor: pointer;
   }
   .partialMode1 {
     color: var(--color-plum);
