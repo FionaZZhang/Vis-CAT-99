@@ -96,7 +96,7 @@
         <img alt="" src="../assets/line-2.png" />
         <div class="settingText">Voice Selection</div>
         <div class="dropdown" @click="loadVoices">
-          <select v-model="selectedVoice" class="custom-dropdown">
+          <select v-model="selectedVoice" class="custom-dropdown" @change="voiceChanged">
             <option v-for="voice in voices" :key="voice.name" :value="voice">{{ voice.name }}</option>
           </select>
         </div>
@@ -107,7 +107,7 @@
 <script>
   import { defineComponent } from "vue";
   import { store } from "@/store";
-  import { speak } from "./Speech.js";
+  import { setVoice, speak } from "./Speech.js";
   export default defineComponent({
     name: "AppSettings",
     data() {
@@ -160,6 +160,9 @@
     },
 
     methods: {
+      voiceChanged(){
+        setVoice(this.selectedVoice);
+      },
       loadVoices(){
         this.voices = window.speechSynthesis.getVoices();
       },
@@ -190,6 +193,9 @@
           }
         } else {
           store.state.isButtonOn2 = false;
+          if (store.state.isButtonOn1){
+            this.textToSpeech("Display results deactivated");
+          }
         }
       },
       switch3(button) {
@@ -200,6 +206,9 @@
           }
         } else {
           store.state.isButtonOn3 = false;
+          if (store.state.isButtonOn1){
+            this.textToSpeech("Send results deactivated");
+          }
         }
       },
       switch4(button) {
@@ -210,9 +219,11 @@
           }
         } else {
           store.state.isButtonOn4 = false;
+          if (store.state.isButtonOn1){
+            this.textToSpeech("Partial mode deactivated");
+          }
         }
       },
-
     }
   });
 </script>
