@@ -25,7 +25,7 @@
     </div>
 
     
-    <div class="welcomeText">
+    <div class="welcomeText" @click="playSettingInstructions">
       <div class="cat">
         <img class="brownCatIcon" alt="" src="../assets/brown-cat@2x.png" />
       </div>
@@ -107,12 +107,12 @@
 <script>
   import { defineComponent } from "vue";
   import { store } from "@/store";
-  import { setVoice, speak } from "./Speech.js";
+  import { setVoice, speak, currentVoice } from "./Speech.js";
   export default defineComponent({
     name: "AppSettings",
     data() {
       return {
-        selectedVoice: "",
+        selectedVoice: currentVoice,
         voices: window.speechSynthesis.getVoices(),
       };
     },
@@ -160,6 +160,11 @@
     },
 
     methods: {
+      playSettingInstructions(){
+        if (store.state.isButtonOn1){
+          speak("Turn on Partial Mode if you only want to play the first level");
+        }
+      },
       voiceChanged(){
         setVoice(this.selectedVoice);
       },
@@ -168,7 +173,7 @@
       },
       textToSpeech(text){
         if (store.state.isButtonOn1){
-          speak(text, this.selectedVoice);
+          speak(text);
         }
       },
       navigateToLobby() {
@@ -373,6 +378,7 @@
     display: inline-block;
     width: 32vw;
     height: 9vw;
+    cursor: pointer;
   }
   .line {
     position: absolute;
