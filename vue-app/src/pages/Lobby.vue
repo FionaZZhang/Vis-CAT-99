@@ -25,8 +25,8 @@
         <img class="playgroundPlayButtonIcon" alt="" src="../assets/playground-play-button@2x.png"/>
       </div>
 
-      <div class="welcomeText">
-        <img class="brownCatIcon" alt="" src="../assets/brown-cat@2x.png" @click="navigateToFinish"/>
+      <div class="welcomeText" @click="playLobbyInstructions">
+        <img class="brownCatIcon" alt="" src="../assets/brown-cat@2x.png"/>
         <p class="welcome">Welcome!</p>
         <p class="welcome">Click ‘Start’ to take the test!</p>
         <img class="line" alt="" src="../assets/line-1.svg" />
@@ -54,6 +54,7 @@
 </template>
 <script>
   import { defineComponent } from "vue";
+  import { speak } from "./Speech.js";
 
   export default defineComponent({
     name: "AppLobby",
@@ -87,6 +88,9 @@
       navigateToFinish(){
         this.$router.push("/Finish");
       },
+      playLobbyInstructions(){
+        speak("Welcome! Click start to take the test!");
+      }
     }
   });
 </script>
@@ -151,6 +155,7 @@
     font-size: 3vw;
     width: 24vw;
     display: inline-block;
+    cursor: pointer;
   }
   .line {
     position: absolute;
