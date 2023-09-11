@@ -82,6 +82,7 @@
 import { defineComponent } from "vue";
 import { store } from "@/store";
 import * as checker from ".//Checker.js";
+import { speak } from "./Speech.js";
 import "@/assets/gamepage.css"
 export default defineComponent({
   name: "AppInstruction",
@@ -100,6 +101,7 @@ export default defineComponent({
   },
   mounted() {
     this.instructionPopUp = true;
+    speak("Have a look at this pattern, see how the lines have been made to join the dots.");
     this.svg = this.$el.querySelector('.connector');
     document.addEventListener('touchmove', this.preventScroll, { passive: false });
     
@@ -133,6 +135,7 @@ export default defineComponent({
         if (this.secondTry) {
           this.showModal = true;
           this.secondTry = false;
+          speak("Do you think your pattern is the same as this pattern?")
         } else {
           this.$router.push("/Finish");
         }
@@ -141,6 +144,7 @@ export default defineComponent({
 
     CloseInstruction(){
       this.instructionPopUp = false;
+      speak("Can you try copying the lines onto this set of dots?");
     },
 
     YesRetry() {
@@ -154,7 +158,6 @@ export default defineComponent({
     navigateToLobby() {
       this.$router.push("/Lobby");
       while (this.svg.firstChild) {
-        console.log(this.svg.childElementCount);
         this.svg.removeChild(this.svg.lastChild);
       }
     },

@@ -63,7 +63,7 @@
       <div class="interPage-modal">
         <div class="inter_page_content">
           <img class="next_level" src="../assets/next_level.png">
-          <img class="button_next_level" src="../assets/button_next_level.png" @click="navigateToPage3">
+          <img class="button_next_level" id="buttonNextLevel" src="../assets/button_next_level.png" @click="navigateToPage3">
         </div>
       </div>
     </div>
@@ -83,6 +83,7 @@ import { defineComponent } from "vue";
 import * as checker from ".//Checker.js";
 import "@/assets/gamepage.css"
 import {store} from "@/store";
+import { speak } from "./Speech.js";
 export default defineComponent({
   name: "AppInstruction2",
   data() {
@@ -100,6 +101,7 @@ export default defineComponent({
   },
   mounted() {
     this.instructionPopUp = true;
+    speak("I want you to imagine that this pattern is now flipped over like this.");
     this.svg = this.$el.querySelector('.connector');
     document.addEventListener('touchmove', this.preventScroll, { passive: false });
     // this.loadPatternAndConnect(this.originalPattern);
@@ -121,6 +123,7 @@ export default defineComponent({
         if (this.secondTry) {
           this.showModal = true;
           this.secondTry = false;
+          speak("Do you think your pattern looks like it's been flipped correctly?")
         } else {
           this.$router.push("/Finish");
         }
@@ -129,6 +132,7 @@ export default defineComponent({
 
     CloseInstruction(){
       this.instructionPopUp = false;
+      speak("I want you to now draw the flipped pattern of lines on this next set of empty dots");
     },
 
     YesRetry() {
@@ -142,7 +146,6 @@ export default defineComponent({
     navigateToLobby() {
       this.$router.push("/Lobby");
       while (this.svg.firstChild) {
-        console.log(this.svg.childElementCount);
         this.svg.removeChild(this.svg.lastChild);
       }
     },

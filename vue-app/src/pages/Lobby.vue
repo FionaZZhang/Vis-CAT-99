@@ -28,7 +28,7 @@
       <div class="welcomeText" @click="playLobbyInstructions">
         <img class="brownCatIcon" alt="" src="../assets/brown-cat@2x.png"/>
         <p class="welcome">Welcome!</p>
-        <p class="welcome">Click ‘Start’ to take the test!</p>
+        <p class="welcome">Click 'Start' to take the test!</p>
         <img class="line" alt="" src="../assets/line-1.svg" />
       </div>
     </div>
