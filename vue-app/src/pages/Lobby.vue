@@ -74,15 +74,19 @@
       //   e.preventDefault();
       // },
       navigateToSettings() {
+        speak("Settings");
         this.$router.push("/Settings");
       },
       navigateToPlayground() {
+        speak("Playground");
         this.$router.push("/Playground");
       },
       navigateToInstruction(){	
+        speak("Starting test. Please follow the instructions on the screen.");
         this.$router.push("/Instruction");	
       },
       navigateToAccount(){
+        speak("Accounts page");
         this.$router.push("/Account");
       },
       navigateToFinish(){
