@@ -21,6 +21,12 @@ export function checkCorrectness(originalPattern, requirement, userInput) {
         case "vertical":
             target = getVerticalFlip(originalPath);
             return isSame(target, userPath);
+        case "diagonal":
+            target = getDiagonalFlip(originalPath);
+            return isSame(target, userPath);
+        case "rotate180":
+            target = getRotate180(originalPath);
+            return isSame(target, userPath);
         default:
             return false;
     }
@@ -68,6 +74,30 @@ export function getVerticalFlip(originalPattern) {
     let i;
     for (i = 0; i < size; i ++) {
         result.push([5 - originalPattern[i][0], originalPattern[i][1]]);
+    }
+    return result;
+}
+
+// According to the original pattern, generate the pattern after undergoing a flip and 
+// over y=x and return as a list of 2-element-lists.
+export function getDiagonalFlip(originalPattern) {
+    var size = originalPattern.length;
+    var result = [];
+    let i;
+    for (i = 0; i < size; i ++) {
+        result.push([5 - originalPattern[i][1], 5 - originalPattern[i][0]]);
+    }
+    return result;
+}
+
+// According to the original pattern, generate the pattern after undergoing a 180 degree
+// rotation about the center and return as a list of 2-element-lists.
+export function getRotate180(originalPattern) {
+    var size = originalPattern.length;
+    var result = [];
+    let i;
+    for (i = 0; i < size; i ++) {
+        result.push([5 - originalPattern[i][0], 5 - originalPattern[i][1]]);
     }
     return result;
 }

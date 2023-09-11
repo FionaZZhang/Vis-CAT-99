@@ -142,7 +142,6 @@ export default defineComponent({
     navigateToLobby() {
       this.$router.push("/Lobby");
       while (this.svg.firstChild) {
-        console.log(this.svg.childElementCount);
         this.svg.removeChild(this.svg.lastChild);
       }
     },
