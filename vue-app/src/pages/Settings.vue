@@ -177,9 +177,11 @@
         }
       },
       navigateToLobby() {
+        speak("Home page");
         this.$router.push("/Lobby");
       },
       navigateToAccount() {
+        speak("Accounts page");
         this.$router.push("/Account");
       },
       switch1(button) {
