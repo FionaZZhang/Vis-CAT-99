@@ -101,7 +101,7 @@ export default defineComponent({
   },
   mounted() {
     this.instructionPopUp = true;
-    speak("I want you to imagine that this pattern is now flipped over like this.");
+    speak("Lateral_Vertical_1");
     this.svg = this.$el.querySelector('.connector');
     document.addEventListener('touchmove', this.preventScroll, { passive: false });
     // this.loadPatternAndConnect(this.originalPattern);
@@ -123,7 +123,7 @@ export default defineComponent({
         if (this.secondTry) {
           this.showModal = true;
           this.secondTry = false;
-          speak("Do you think your pattern looks like it's been flipped correctly?")
+          speak("Lateral_Vertical_3");
         } else {
           this.$router.push("/Finish");
         }
@@ -132,7 +132,7 @@ export default defineComponent({
 
     CloseInstruction(){
       this.instructionPopUp = false;
-      speak("I want you to now draw the flipped pattern of lines on this next set of empty dots");
+      speak("Lateral_Vertical_2");
     },
 
     YesRetry() {

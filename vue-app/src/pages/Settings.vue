@@ -97,7 +97,7 @@
         <div class="settingText">Voice Selection</div>
         <div class="dropdown" @click="loadVoices">
           <select v-model="selectedVoice" class="custom-dropdown" @change="voiceChanged">
-            <option v-for="voice in voices" :key="voice.name" :value="voice">{{ voice.name }}</option>
+            <option v-for="voice in voices" :key="voice" :value="voice">{{ voice }}</option>
           </select>
         </div>
       </div>
@@ -107,13 +107,13 @@
 <script>
   import { defineComponent } from "vue";
   import { store } from "@/store";
-  import { setVoice, speak, currentVoice, setVoiceFlag } from "./Speech.js";
+  import { setVoice, currentVoice, setVoiceFlag, getVoices, speak } from "./Speech.js";
   export default defineComponent({
     name: "AppSettings",
     data() {
       return {
         selectedVoice: currentVoice,
-        voices: window.speechSynthesis.getVoices(),
+        voices: getVoices(),
       };
     },
     computed: {
@@ -162,33 +162,28 @@
     methods: {
       playSettingInstructions(){
         if (store.state.isButtonOn1){
-          speak("Turn on Partial Mode if you only want to play the first level");
+          speak("Settings_instruction");
         }
       },
       voiceChanged(){
         setVoice(this.selectedVoice);
       },
       loadVoices(){
-        this.voices = window.speechSynthesis.getVoices();
-      },
-      textToSpeech(text){
-        if (store.state.isButtonOn1){
-          speak(text);
-        }
+        this.voices = getVoices();
       },
       navigateToLobby() {
-        speak("Home page");
+        speak("Home_page");
         this.$router.push("/Lobby");
       },
       navigateToAccount() {
-        speak("Accounts page");
+        speak("Accounts_page");
         this.$router.push("/Account");
       },
       switch1(button) {
         if (button === "buttonon1") {
           store.state.isButtonOn1 = true;
           setVoiceFlag(store.state.isButtonOn1);
-          this.textToSpeech("Voice instructions activated");
+          speak("Settings_voice_on");
         } else {
           store.state.isButtonOn1 = false;
           setVoiceFlag(store.state.isButtonOn1);
@@ -197,28 +192,28 @@
       switch2(button) {
         if (button === "buttonon2") {
           store.state.isButtonOn2 = true;
-          this.textToSpeech("Display results activated");
+          // this.textToSpeech("Display results activated");
         } else {
           store.state.isButtonOn2 = false;
-          this.textToSpeech("Display results deactivated");
+          // this.textToSpeech("Display results deactivated");
         }
       },
       switch3(button) {
         if (button === "buttonon3") {
           store.state.isButtonOn3 = true;
-          this.textToSpeech("Send results activated");
+          // this.textToSpeech("Send results activated");
         } else {
           store.state.isButtonOn3 = false;
-          this.textToSpeech("Send results deactivated");
+          // this.textToSpeech("Send results deactivated");
         }
       },
       switch4(button) {
         if (button === "buttonon4") {
           store.state.isButtonOn4 = true;
-          this.textToSpeech("Partial mode activated");
+          speak("Settings_partial_on");
         } else {
           store.state.isButtonOn4 = false;
-          this.textToSpeech("Partial mode deactivated");
+          speak("Settings_partial_off");
         }
       },
     }
