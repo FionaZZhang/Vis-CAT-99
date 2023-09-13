@@ -1,1 +1,1 @@
-web: cd vur-app && npm run start
+web: cd vue-app && npm run start
