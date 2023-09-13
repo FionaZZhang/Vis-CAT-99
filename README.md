@@ -40,3 +40,7 @@ Maybe also install these if needed:
 4. run Vue-app in one terminal
 5. run in another terminal and get the URL: ngrok http 'portNumber' --host-header=rewrite
 6. use the URL to visit our website on mobile device
+
+# How to re-deploy (may work or may not work...):
+1. update the 'dist' by `npm run build`
+2. push to the 'deploy' branch
