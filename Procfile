@@ -1,0 +1,1 @@
+web: cd vur-app && npm run start
