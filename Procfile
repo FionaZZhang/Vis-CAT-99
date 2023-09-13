@@ -1,1 +1,1 @@
-web: cd vue-app && npm run serve
+web: npm run serve
