@@ -41,6 +41,29 @@ Maybe also install these if needed:
 5. run in another terminal and get the URL: ngrok http 'portNumber' --host-header=rewrite
 6. use the URL to visit our website on mobile device
 
-# How to re-deploy (may work or may not work...):
+# Deploy process:
+Heroku side:
+1. create app 'viscat'
+
+Git side: git action
+1. add '.github/workflows/main.yml'
+
+Project side:
+1. build `npm run build`
+2. download heroku CLI: `npm install heroku`
+3. add 'static.json' (already added)
+4. `heroku login` and login (owner of heroku app)
+5. add current git to heroku (owner of heroku app): `heroku git:remote -a viscat`
+6. change heroku build package to support VUE
+   - `heroku buildpacks:add heroku/nodejs`
+   - `heroku buildpacks:add https://github.com/heroku/heroku-buildpack-static`
+7. change to heroku-20
+   - `heroku stack:set heroku-20`
+8. push to git branch or heroku branch
+   - `git push origin deploy`
+   - `git push heroku main`
+
+
+# How to re-deploy:
 1. update the 'dist' by `npm run build`
 2. push to the 'deploy' branch
