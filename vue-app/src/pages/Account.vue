@@ -136,7 +136,7 @@ export default defineComponent({
         const classDiv = document.getElementById('classnum');
         classDiv.textContent = this.class;
 
-        const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+        const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
         const video = document.getElementById('qrVideo');
 
         // Check if the video element exists
@@ -144,7 +144,6 @@ export default defineComponent({
           video.srcObject = stream;
           await video.play();
         } else {
-          speak("Video element not found");
           console.error('Video element not found.');
           this.showQR = false;
           return;
@@ -182,6 +181,8 @@ export default defineComponent({
         this.showQR = false;
       }
     },
+    
+    
 
     parseQRCodeData(qrData) {
       const lines = qrData.split('\n');
