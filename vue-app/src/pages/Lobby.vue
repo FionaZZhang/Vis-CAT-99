@@ -59,6 +59,7 @@
   export default defineComponent({
     name: "AppLobby",
     mounted() {
+      speak('Lobby_welcome');
       document.addEventListener('touchmove', this.preventScroll, { passive: false });
       // window.addEventListener('orientationchange', this.preventRotation);
     },
