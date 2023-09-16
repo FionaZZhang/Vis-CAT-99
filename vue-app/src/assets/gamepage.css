@@ -103,6 +103,7 @@
 
 #InsPage {
   background-color: #fff0e6;
+  position: fixed;
   width: 100vw;
   height: 100vh;
 }
@@ -175,13 +176,14 @@ section {
 
 #buttonReverse {
   display: flex;
-  position: relative;
+  position: fixed;
   flex-direction: row;
   justify-content: center;
   align-items: center;
   margin-left: 65%;
-  height: 70%;
+  height: 10%;
   width: 15%;
+  bottom: 3%;
   border-radius: 20px;
   border-width: 0px;
   box-shadow: 1px 2px 3px #bebdbd;
@@ -196,6 +198,7 @@ section {
   height: 10%;
   width: 15%;
   right: 4%;
+  bottom: 3%;
   border-radius: 20px;
   border-width: 0px;
   box-shadow: 1px 2px 3px #bebdbd;
@@ -222,7 +225,7 @@ footer {
 }
 
 .connector {
-  position: fixed;
+  position: absolute;
   pointer-events: none;
   top: 0;
   left: 0;
