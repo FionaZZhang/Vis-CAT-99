@@ -158,6 +158,12 @@ export default defineComponent({
 </script>
 
 <style scoped>
+#InsPage {
+  background-color: #ffe6f8;
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+}
 
 
 section {
