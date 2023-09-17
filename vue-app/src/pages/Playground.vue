@@ -1,39 +1,52 @@
 <template>
-  <div>
-    <div class="grid-wrapper">
-      <svg class="connector"></svg>
-      <div class="grid" id = "noScrollArea"
-        @mousedown="startDrawing"
-        @mouseup="endDrawing"
-        @touchstart="startDrawing"
-        @touchmove="handleTouchMove">
-        <div
-          v-for="n in 16"
-          :key="n"
-          class="cell"
-          :data-id="n"
-          @mouseover="handleMouseOver"
-          @touchend="endDrawing">
-        </div>
+  <body id="InsPage">
+    <nav>
+      <div class="Icon">
+        <img src="../assets/button_home.png" alt="Button Home" id="buttonHome" @click="navigateToLobby">
+        <img src="../assets/button_restart.png" alt="Button Restart" id="buttonRestart" @click="clearPattern">
       </div>
-      <div class="larger-font">Pattern: {{ pattern.join(' -> ') }}</div>
-      <div class="larger-font">Path: {{ path.join(' -> ') }}</div>
-    </div>
-    <button @click="clearPattern">Clear Pattern</button>
-    <button @click="revertPattern" v-if="pattern.length > 0">Revert Last Dot</button>
-  </div>
+      <img src="../assets/pink-cat@2x.png" alt="Cat Icon" id="catPink">
+    </nav>
+    <main>
+      <header>
+        <img src="../assets/text_goal.png" alt="Goal Text" id="textGoal">
+      </header>
+      <section id = "graphArea">
+        <div class="grid-wrapper">
+          <svg class="connector"></svg>
+          <div class="grid"
+            @mousedown="startDrawing"
+            @mouseup="endDrawing"
+            @touchstart="startDrawing"
+            @touchmove="handleTouchMove">
+            <div
+              v-for="n in 16"
+              :key="n"
+              class="cell"
+              :data-id="n"
+              @mouseover="handleMouseOver"
+              @touchend="endDrawing">
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+    <footer>
+      <button @click="revertPattern" v-if="pattern.length > 0" id="buttonReverse"><span id="textReverse"> Reverse </span></button>
+    </footer>
+  </body>
 </template>
 
 <script>
 import { defineComponent } from "vue";
-
-export default defineComponent ({
+// import { speak } from "./Speech.js";
+import "@/assets/gamepage.css"
+export default defineComponent({
   name: "AppPlayground",
   data() {
     return {
       isDrawing: false,
       pattern: [],
-      path: [],
       svg: null,
     };
   },
@@ -44,14 +57,18 @@ export default defineComponent ({
   beforeUnmount() {
     document.removeEventListener('touchmove', this.preventScroll);
   },
-
   methods: {
+
+    navigateToLobby() {
+      this.$router.push("/Lobby");
+      while (this.svg.firstChild) {
+        this.svg.removeChild(this.svg.lastChild);
+      }
+    },
     preventScroll() {
-      document.getElementById('noScrollArea').addEventListener('touchmove', function(event) {
+      document.getElementById('InsPage').addEventListener('touchmove', function(event) {
       event.preventDefault();}, { passive: false });
     },
-    
-
     startDrawing(event) {
       const cell = event.target;
       var lastId = -1;
@@ -64,19 +81,15 @@ export default defineComponent ({
         const id = cell.dataset.id;
         if (!this.pattern.includes(id) && id >= 1 && id <= 16) {
           this.pattern.push(id);
-          this.path.push([Math.ceil(id / 4), (id % 4 == 0 ? 4 : id % 4)]);
           cell.classList.add('active');
         }
       }
-
-      
     },
     handleMouseOver(event) {
       const cell = event.target;
       const id = cell.dataset.id;
       if (this.isDrawing && !this.pattern.includes(id)) {
         this.pattern.push(id);
-        this.path.push([Math.ceil(id / 4), (id % 4 == 0 ? 4 : id % 4)]);
         cell.classList.add('active');
         if (this.pattern.length > 1) {
           const prevCell = this.$el.querySelector(
@@ -93,7 +106,6 @@ export default defineComponent ({
         const id = element.dataset.id;
         if (this.isDrawing && !this.pattern.includes(id)) {
           this.pattern.push(id);
-          this.path.push([Math.ceil(id / 4), (id % 4 === 0 ? 4 : id % 4)]);
           element.classList.add('active');
           if (this.pattern.length > 1) {
             const prevCell = this.$el.querySelector(
@@ -116,26 +128,11 @@ export default defineComponent ({
       line.setAttribute('stroke-width', '5');
       this.svg.appendChild(line);
     },
-    // endDrawing() {
-    //   this.isDrawing = false;
-    //   setTimeout(() => {
-    //     this.pattern = [];
-    //     this.path = [];
-    //     const cells = this.$el.querySelectorAll('.cell.active');
-    //     cells.forEach(cell => {
-    //       cell.classList.remove('active');
-    //     });
-    //     while (this.svg.firstChild) {
-    //       this.svg.removeChild(this.svg.lastChild);
-    //     }
-    //   }, 1000);
-    // },
     endDrawing() {
       this.isDrawing = false;
     },
     clearPattern() {
       this.pattern = [];
-      this.path = [];
       const cells = this.$el.querySelectorAll('.cell.active');
       cells.forEach(cell => {
         cell.classList.remove('active');
@@ -146,17 +143,13 @@ export default defineComponent ({
     },
     revertPattern() {
       if (this.pattern.length === 0) return;
-
-      // Remove the last item from the pattern and path arrays
+      // Remove the last item from the pattern arrays
       const lastId = this.pattern.pop();
-      this.path.pop();
-
       // Revert the UI change for the last cell
       const lastCell = this.$el.querySelector(`.cell[data-id="${lastId}"]`);
       lastCell.classList.remove('active');
-
       // Remove the last SVG line
-      if (this.svg.lastChild) {
+      if (this.svg.firstChild) {
         this.svg.removeChild(this.svg.lastChild);
       }
     },
@@ -165,38 +158,14 @@ export default defineComponent ({
 </script>
 
 <style scoped>
-body {
-  overflow-y: hidden;
-}
-.grid-wrapper {
-  position: relative;
-}
-.connector {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-}
-.grid {
-  display: grid;
-  grid-template-columns: repeat(4, 50px);
-  gap: 50px;
-}
-.cell {
-  width: 35px;
-  height: 35px;
-  background-color: black;
-  border-radius: 50%;
-  transition: background-color 0.2s;
-  position: relative;
-  z-index: 1;
-}
-.cell.active {
-  background-color: #3498db;
+
+
+section {
+  display: flex;
+  flex-direction: row;
+  padding-left: 15%;
+  padding-right: 15%;
+  justify-content: center;
 }
 
-.larger-font {
-  font-size: 40px;
-}
 </style>

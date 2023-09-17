@@ -34,6 +34,7 @@
     },
     mounted() {
       let total = store.state.copy + store.state.lateral + store.state.vertical;
+      console.log(store.state.studentId);
 
       axios.post('/api/send-total', { id: store.state.studentId, score: total})
         .then(response => {
@@ -45,7 +46,9 @@
           console.error('Error sending data:', error);
         });
 
-
+      store.state.copy = 0;
+      store.state.lateral = 0;
+      store.state.vertical = 0;
     }
   });
 </script>

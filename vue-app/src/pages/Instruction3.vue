@@ -5,7 +5,8 @@
         <img src="../assets/button_home.png" alt="Button Home" id="buttonHome" @click="navigateToLobby">
         <img src="../assets/button_restart.png" alt="Button Restart" id="buttonRestart" @click="clearPattern">
       </div>
-      <img src="../assets/pink-cat@2x.png" alt="Cat Icon" id="catPink" @click="loadPatternAndConnect(this.originalPattern)">
+      <h3>Time used: {{ elapsedTime }}</h3>
+      <img src="../assets/pink-cat@2x.png" alt="Cat Icon" id="catPink">
     </nav>
     <main>
       <header>
@@ -44,7 +45,7 @@
     </main>
     <footer>
       <button @click="revertPattern" v-if="pattern.length > 0" id="buttonReverse"><span id="textReverse"> Reverse </span></button>
-      <button @click="navigateToStart"  id="buttonConfirm"><span id="textConfirm"> OK</span></button>
+      <button @click="navigateToStart(); stopTimer()"  id="buttonConfirm"><span id="textConfirm"> OK</span></button>
     </footer>
     <div id="modal" v-if="showModal" class="modal-container">
       <div class="custom-modal">
@@ -53,10 +54,18 @@
             <h3>Have another go?</h3>
           </div>
           <div class="custom-modal-buttons">
-            <button class="cute-button" @click="YesRetry">Yes, please!</button>
+            <button class="cute-button" @click="YesRetry(); restartTimer()">Yes, please!</button>
             <button class="cute-button" @click="NoGiveup">No, thanks</button>
           </div>
         </div>
+      </div>
+    </div>
+    <div v-if="instructionPopUp" class="modal-container">
+      <div class="instructionPopUp-modal">
+        <div class="inter_page_content">
+          <img class="instructionGIF" src="../assets/verticalFlip.gif" alt="instructionGIF">
+          <img class="instructionConfirm" id="buttonInstructionConfirm" src="../assets/button_confirm.png" @click="CloseInstruction(); loadPatternAndConnect(this.originalPattern); startTimer()">
+        </div>   
       </div>
     </div>
   </body>
@@ -67,6 +76,7 @@ import { defineComponent } from "vue";
 import * as checker from ".//Checker.js";
 import "@/assets/gamepage.css"
 import {store} from "@/store";
+import { speak } from "./Speech.js";
 export default defineComponent({
   name: "AppInstruction3",
   data() {
@@ -76,19 +86,42 @@ export default defineComponent({
       svg: null,
       showModal: false,
       secondTry: true,
+      instructionPopUp: false,
       // originalPattern: [1, 2, 3, 4, 7, 10 ,13],
       originalPattern: [1, 2, 3, 4, 8, 7, 10, 11, 5, 9, 13, 14, 15, 16],
+      timer: null,
+      elapsedTime: 0,
+      timerStarted: false,
     };
   },
   mounted() {
+    this.instructionPopUp = true;
+    speak("Imagine that this pattern is now flipped over like this.");
     this.svg = this.$el.querySelector('.connector');
     document.addEventListener('touchmove', this.preventScroll, { passive: false });
     // this.loadPatternAndConnect(this.originalPattern);
   },
   beforeUnmount() {
     document.removeEventListener('touchmove', this.preventScroll);
+    clearInterval(this.timer);
   },
   methods: {
+    startTimer() {
+      if (!this.timerStarted) {
+        this.timerStarted = true; 
+        this.timer = setInterval(() => { this.elapsedTime += 1; }, 1000);         
+      }
+    },
+    stopTimer() {
+      if (this.timerStarted) {
+        clearInterval(this.timer); 
+        this.timerStarted = false; 
+      }
+    },
+    restartTimer() {
+      this.elapsedTime = 0;
+      this.startTimer();
+    },
     navigateToStart() {
       if (checker.checkCorrectness(this.originalPattern, "vertical", this.pattern)) {
         if (this.secondTry) {
@@ -102,11 +135,18 @@ export default defineComponent({
         if (this.secondTry) {
           this.showModal = true;
           this.secondTry = false;
+          speak("Do you think your pattern looks like it's been flipped correctly?")
         } else {
           this.$router.push("/Finish");
         }
       }
     },
+
+    CloseInstruction(){
+      this.instructionPopUp = false;
+      speak("I want you to draw how the pattern would look on this set of dots");
+    },
+
     YesRetry() {
       this.clearPattern();
       this.showModal = false;
@@ -118,7 +158,6 @@ export default defineComponent({
     navigateToLobby() {
       this.$router.push("/Lobby");
       while (this.svg.firstChild) {
-        console.log(this.svg.childElementCount);
         this.svg.removeChild(this.svg.lastChild);
       }
     },

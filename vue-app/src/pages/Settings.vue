@@ -25,8 +25,10 @@
     </div>
 
     
-    <div class="welcomeText">
-      <img class="brownCatIcon" alt="" src="../assets/brown-cat@2x.png" />
+    <div class="welcomeText" @click="playSettingInstructions">
+      <div class="cat">
+        <img class="brownCatIcon" alt="" src="../assets/brown-cat@2x.png" />
+      </div>
       <img class="line" alt="" src="../assets/line-3.svg" />
       <span>Turn on </span>
       <span class="partialMode1">Partial Mode</span>
@@ -90,15 +92,30 @@
         </div>
       </div>
 
-
+      <div class="line5">
+        <img alt="" src="../assets/line-2.png" />
+        <div class="settingText">Voice Selection</div>
+        <div class="dropdown" @click="loadVoices">
+          <select v-model="selectedVoice" class="custom-dropdown" @change="voiceChanged">
+            <option v-for="voice in voices" :key="voice.name" :value="voice">{{ voice.name }}</option>
+          </select>
+        </div>
+      </div>
     </div>
   </div>
 </template>
 <script>
   import { defineComponent } from "vue";
   import { store } from "@/store";
+  import { setVoice, speak, currentVoice, setVoiceFlag } from "./Speech.js";
   export default defineComponent({
     name: "AppSettings",
+    data() {
+      return {
+        selectedVoice: currentVoice,
+        voices: window.speechSynthesis.getVoices(),
+      };
+    },
     computed: {
       buttononSrc1() {
         return store.state.isButtonOn1
@@ -143,45 +160,102 @@
     },
 
     methods: {
+      playSettingInstructions(){
+        if (store.state.isButtonOn1){
+          speak("Turn on Partial Mode if you only want to play the first level");
+        }
+      },
+      voiceChanged(){
+        setVoice(this.selectedVoice);
+      },
+      loadVoices(){
+        this.voices = window.speechSynthesis.getVoices();
+      },
+      textToSpeech(text){
+        if (store.state.isButtonOn1){
+          speak(text);
+        }
+      },
       navigateToLobby() {
+        speak("Home page");
         this.$router.push("/Lobby");
       },
       navigateToAccount() {
+        speak("Accounts page");
         this.$router.push("/Account");
       },
       switch1(button) {
         if (button === "buttonon1") {
           store.state.isButtonOn1 = true;
+          setVoiceFlag(store.state.isButtonOn1);
+          this.textToSpeech("Voice instructions activated");
         } else {
           store.state.isButtonOn1 = false;
+          setVoiceFlag(store.state.isButtonOn1);
         }
       },
       switch2(button) {
         if (button === "buttonon2") {
           store.state.isButtonOn2 = true;
+          this.textToSpeech("Display results activated");
         } else {
           store.state.isButtonOn2 = false;
+          this.textToSpeech("Display results deactivated");
         }
       },
       switch3(button) {
         if (button === "buttonon3") {
           store.state.isButtonOn3 = true;
+          this.textToSpeech("Send results activated");
         } else {
           store.state.isButtonOn3 = false;
+          this.textToSpeech("Send results deactivated");
         }
       },
       switch4(button) {
         if (button === "buttonon4") {
           store.state.isButtonOn4 = true;
+          this.textToSpeech("Partial mode activated");
         } else {
           store.state.isButtonOn4 = false;
+          this.textToSpeech("Partial mode deactivated");
         }
       },
-
     }
   });
 </script>
 <style scoped>
+  @font-face {
+    font-family: 'Jua';
+    src: url(../assets/Jua-Regular.ttf) format('truetype');
+  }
+  .custom-dropdown{
+    font-family:'Jua', sans-serif; 
+    font-size: 2.5vw; 
+    text-align: center;
+  }
+  .line5 {
+    position: absolute;
+    top: 77%;
+    left: 4%;
+    width: 32vw;
+    height: 0.5vw;
+  }
+  select {
+    position: absolute;
+    top: -500%;
+    right: -35%;
+    width: 22vw;
+    height: 4.5vw;
+    border: 0;
+    outline: 0;
+    appearance: none;
+    background-image: url(../assets/Dropdown.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+    cursor: pointer;
+    text-overflow: ellipsis;
+  }
   .settingsIcon {
     position: absolute;
     height: 79.17%;
@@ -231,6 +305,7 @@
     top: 3%;
     left: 14%;
     font-size: 3vw;
+    cursor: pointer;
   }
   .buttonon {
     position: relative;
@@ -256,6 +331,7 @@
     top: 3%;
     left: 14%;
     font-size: 3vw;
+    cursor: pointer;
   }
   .buttonoff {
     position: relative;
@@ -294,6 +370,7 @@
     display: inline-block;
     width: 32vw;
     height: 9vw;
+    cursor: pointer;
   }
   .line {
     position: absolute;
