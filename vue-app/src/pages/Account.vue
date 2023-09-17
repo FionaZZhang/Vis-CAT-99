@@ -42,9 +42,15 @@
       <img class="selectedSheetChild" alt="" src="../assets/rectangle-1.svg" />
       <div class="age">ID: {{ selectedStudent.studentId }}</div>
       <div class="name">{{ selectedStudent.studentName }}</div>
+      <button
+          class="selectButton"
+          :class="{'button-selected': buttonText === 'Selected' }"
+          @click="selectStudentConfirm">
+        {{buttonText}}
+      </button>
       <img class="selectLine1Icon" alt="" src="../assets/select-line2.svg" />
       <img class="selectLine2Icon" alt="" src="../assets/select-line2.svg" />
-      <img class="selectLine3Icon" alt="" src="../assets/select-line2.svg" />
+
     </div>
 
     <div v-if="showQR" class="QRContainer">
@@ -89,7 +95,10 @@ export default defineComponent({
       students: store.state.students,
       selectedStudent: store.state.selectedStudent,
       selectedStudentIndex: store.state.selectedStudentIndex,
+      selectedStudentConfirm: store.state.selectedStudent,
+      selectedStudentIndexConfirm: store.state.selectedStudentIndex,
       showQR: false,
+      buttonText: store.state.studentId ? 'Selected' : 'Select',
       selectedRef: [],
       containerScrollTop: 0,
     };
@@ -229,16 +238,24 @@ export default defineComponent({
       });
     },
     selectStudent(index) {
-      if (store.state.selectedStudentIndex === index) {
-        store.state.selectedStudentIndex = -1;
-        store.state.studentId = "None";
-      } else {
-        store.state.selectedStudentIndex = index;
-        store.state.selectedStudent = store.state.students[index];
-        store.state.studentId = store.state.selectedStudent.studentId;
+      if (this.buttonText === 'Select') {
+        this.selectedStudentIndex = index;
+        this.selectedStudent = this.students[index];
       }
-      this.selectedStudentIndex = store.state.selectedStudentIndex;
-      this.selectedStudent = store.state.selectedStudent;
+    },
+    selectStudentConfirm() {
+      if (store.state.selectedStudentIndex === this.selectedStudentIndex) {
+        store.state.selectedStudentIndex = -1;
+        store.state.studentId = false;
+        this.buttonText = "Select";
+      } else {
+        store.state.selectedStudentIndex = this.selectedStudentIndex;
+        store.state.selectedStudent = store.state.students[this.selectedStudentIndex];
+        store.state.studentId = store.state.selectedStudent.studentId;
+        this.buttonText = "Selected";
+      }
+      this.selectedStudentIndexConfirm = this.selectedStudentIndex;
+      this.selectedStudentConfirm = this.selectedStudent;
     }
   },
   computed: {
@@ -248,6 +265,27 @@ export default defineComponent({
 <style scoped>
 
 .QRContainer {
+}
+
+.selectButton {
+  position: absolute;
+  top: 18vh;
+  left: 5vw;
+  background-color: #8B4513; /* Change this to your desired button color */
+  color: #fff; /* Change this to your desired text color */
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  z-index: 1; /* Ensure the button is on top of the images */
+  border-radius: 15px; /* Round border */
+}
+
+.button-selected {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Apply drop shadow when selected */
+}
+
+.selectButton:hover {
+  background-color: #654321; /* Darker brown on hover */
 }
 
 /* Styles for selected icon */
@@ -385,8 +423,8 @@ export default defineComponent({
   border-radius: 50%;
   background-color: var(--color-palegoldenrod);
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-  width: 15rem;
-  height: 15rem;
+  width: 20vw;
+  height: 20vw;
 }
 
 .selectedSheetChild {
@@ -396,8 +434,7 @@ export default defineComponent({
   top: 0rem;
   left: -0.25rem;
   border-radius: 12px;
-  width: 14.19rem;
-  height: 12.44rem;
+
   z-index: 99999;
 }
 
@@ -417,30 +454,23 @@ export default defineComponent({
   position: absolute;
   top: 3.22rem;
   left: 1.5rem;
-  width: 9.07rem;
-  height: 0.13rem;
+
 }
 
 .selectLine2Icon {
   position: absolute;
   top: 6.38rem;
   left: 1.5rem;
-  width: 9.07rem;
-  height: 0.13rem;
+
 }
 
-.selectLine3Icon {
-  position: absolute;
-  top: 9.44rem;
-  left: 1.5rem;
-  width: 9.07rem;
-  height: 0.13rem;
-}
 
 .selectedSheet {
   position: absolute;
   top: 25vw;
   left: 48vh;
+  width: 30vw;
+  height: 30vh;
   z-index: 99999;
   font-size: var(--font-size-xl);
 }
