@@ -36,15 +36,21 @@
           />
           <div v-if="selectedStudentIndex !== index" class="studentName">{{ student.studentName }}</div>
         </div>
-        <div v-if="selectedStudentIndex !== -1" class="selectedSheet" :style="selectedSheetPosition">
-          <img class="selectedSheetChild" alt="" src="../assets/rectangle-1.svg" />
-          <div class="age">ID: {{ selectedStudent.studentId }}</div>
-          <div class="name">{{ selectedStudent.studentName }}</div>
-          <img class="selectLine1Icon" alt="" src="../assets/select-line2.svg" />
-          <img class="selectLine2Icon" alt="" src="../assets/select-line2.svg" />
-          <img class="selectLine3Icon" alt="" src="../assets/select-line2.svg" />
-        </div>
       </div>
+    </div>
+    <div v-if="selectedStudentIndex !== -1" class="selectedSheet">
+      <img class="selectedSheetChild" alt="" src="../assets/rectangle-1.svg" />
+      <div class="age">ID: {{ selectedStudent.studentId }}</div>
+      <div class="name">{{ selectedStudent.studentName }}</div>
+      <button
+          class="selectButton"
+          :class="{'button-selected': buttonText === 'Selected' }"
+          @click="selectStudentConfirm">
+        {{buttonText}}
+      </button>
+      <img class="selectLine1Icon" alt="" src="../assets/select-line2.svg" />
+      <img class="selectLine2Icon" alt="" src="../assets/select-line2.svg" />
+
     </div>
 
     <div v-if="showQR" class="QRContainer">
@@ -86,19 +92,24 @@ export default defineComponent({
   name: "AppAccount",
   data() {
     return {
-      school: store.state.school,
-      class: store.state.class,
       students: store.state.students,
       selectedStudent: store.state.selectedStudent,
       selectedStudentIndex: store.state.selectedStudentIndex,
+      selectedStudentConfirm: store.state.selectedStudent,
+      selectedStudentIndexConfirm: store.state.selectedStudentIndex,
       showQR: false,
+      buttonText: store.state.studentId ? 'Selected' : 'Select',
       selectedRef: [],
+      containerScrollTop: 0,
     };
   },
   beforeUnmount() {
     this.stopVideo();
   },
   methods: {
+    handleContainerScroll(event) {
+      this.containerScrollTop = event.target.scrollTop;
+    },
     onImageLoad() {
       console.log("onload");
       this.selectedRef = this.$refs.selectedRef;
@@ -127,8 +138,6 @@ export default defineComponent({
         this.selectedStudentIndex = -1;
         this.students = [];
         this.selectedStudent = [];
-        this.school = "";
-        this.class = "";
         this.showQR = true;
 
         const schoolNameDiv = document.getElementById('schoolname');
@@ -136,7 +145,7 @@ export default defineComponent({
         const classDiv = document.getElementById('classnum');
         classDiv.textContent = this.class;
 
-        const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
+        const stream = await navigator.mediaDevices.getUserMedia({ video: true });
         const video = document.getElementById('qrVideo');
 
         // Check if the video element exists
@@ -144,6 +153,7 @@ export default defineComponent({
           video.srcObject = stream;
           await video.play();
         } else {
+          speak("Video element not found");
           console.error('Video element not found.');
           this.showQR = false;
           return;
@@ -181,43 +191,30 @@ export default defineComponent({
         this.showQR = false;
       }
     },
-    
-    
 
     parseQRCodeData(qrData) {
       const lines = qrData.split('\n');
 
-      // Extract school name and class name
-      const schoolName = lines[0].trim();
-      const className = lines[1].trim();
-      this.school = schoolName;
-      this.class = className;
-      store.state.school = this.school;
-      store.state.class = this.class;
-
       // Extract student data
-      const studentsData = lines.slice(2);
+      const studentsData = lines;
 
       // Process student data into an array of objects
       const students = studentsData.map(studentInfo => {
-        const [lastName, firstName, middleName, id] = studentInfo.split(',').map(part => part.trim());
-        const name = `${firstName} ${middleName} ${lastName}`;
+        const [name, id] = studentInfo.split(',').map(part => part.trim());
         return {
           name,
           id,
         };
       });
+
       return {
         students,
       };
     },
 
 
+
     displayResult(qrData) {
-      const schoolNameDiv = document.getElementById('schoolname');
-      schoolNameDiv.textContent = this.school;
-      const classDiv = document.getElementById('classnum');
-      classDiv.textContent = this.class;
 
       const animalHeadIcons = [
         'elephant.png',
@@ -241,34 +238,27 @@ export default defineComponent({
       });
     },
     selectStudent(index) {
-      if (store.state.selectedStudentIndex === index) {
-        store.state.selectedStudentIndex = -1;
-        store.state.studentId = "None";
-      } else {
-        store.state.selectedStudentIndex = index;
-        store.state.selectedStudent = store.state.students[index];
-        store.state.studentId = store.state.selectedStudent.studentId;
+      if (this.buttonText === 'Select') {
+        this.selectedStudentIndex = index;
+        this.selectedStudent = this.students[index];
       }
-      this.selectedStudentIndex = store.state.selectedStudentIndex;
-      this.selectedStudent = store.state.selectedStudent;
+    },
+    selectStudentConfirm() {
+      if (store.state.selectedStudentIndex === this.selectedStudentIndex) {
+        store.state.selectedStudentIndex = -1;
+        store.state.studentId = false;
+        this.buttonText = "Select";
+      } else {
+        store.state.selectedStudentIndex = this.selectedStudentIndex;
+        store.state.selectedStudent = store.state.students[this.selectedStudentIndex];
+        store.state.studentId = store.state.selectedStudent.studentId;
+        this.buttonText = "Selected";
+      }
+      this.selectedStudentIndexConfirm = this.selectedStudentIndex;
+      this.selectedStudentConfirm = this.selectedStudent;
     }
   },
   computed: {
-    selectedSheetPosition() {
-      if (this.selectedStudentIndex !== -1) {
-        let selectedStudentIcon = this.selectedRef[this.selectedStudentIndex];
-        if (selectedStudentIcon) {
-          const iconPosition = selectedStudentIcon.offsetTop;
-          const sheetLeftPosition = selectedStudentIcon.offsetLeft - 260; // Adjust the value as needed
-          console.log(selectedStudentIcon);
-          return {
-            top: `${iconPosition}px`,
-            left: `${sheetLeftPosition}px`,
-          };
-        }
-      }
-      return {};
-    },
   },
 });
 </script>
@@ -277,8 +267,30 @@ export default defineComponent({
 .QRContainer {
 }
 
+.selectButton {
+  position: absolute;
+  top: 18vh;
+  left: 5vw;
+  background-color: #8B4513; /* Change this to your desired button color */
+  color: #fff; /* Change this to your desired text color */
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  z-index: 1; /* Ensure the button is on top of the images */
+  border-radius: 15px; /* Round border */
+}
+
+.button-selected {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Apply drop shadow when selected */
+}
+
+.selectButton:hover {
+  background-color: #654321; /* Darker brown on hover */
+}
+
 /* Styles for selected icon */
 .animalHeadIcon.selected {
+  powition: relative;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* Lighter background shadow */
   z-index: 99999999; /* Ensure it appears above other elements */
 }
@@ -322,7 +334,6 @@ export default defineComponent({
 .studentsContainer {
   margin-top: 4vw;
   display: flex;
-  flex-wrap: wrap;
   justify-content: space-between;
   /* Adjust as needed */
   max-width: 90%;
@@ -331,6 +342,7 @@ export default defineComponent({
   /* Adjust padding as needed */
   box-sizing: border-box;
   /* Include padding and border in the element's total width and height */
+  flex-wrap: wrap;
 }
 
 .student {
@@ -357,15 +369,11 @@ export default defineComponent({
   font-weight: bold;
 }
 
-/* .results {
-    position: absolute;
-    top: -0.56rem;
-    left: 32.5rem;
-  } */
 .frameChild {
   position: fixed;
   display: block;
-  overflow: visible;
+  overflow-y: scroll; /* Enable vertical scrolling */
+  overflow-x: visible; /* Hide horizontal overflow */
   top: 0%;
   right: 0%;
   bottom: 0%;
@@ -409,20 +417,14 @@ export default defineComponent({
   font-size: 2.5vw;
 }
 
-.homeIconText1 {
-  position: absolute;
-  top: 8.88rem;
-  left: 1.63rem;
-  display: none;
-}
 
 .selected {
   position: absolute;
   border-radius: 50%;
   background-color: var(--color-palegoldenrod);
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-  width: 15rem;
-  height: 15rem;
+  width: 20vw;
+  height: 20vw;
 }
 
 .selectedSheetChild {
@@ -432,9 +434,8 @@ export default defineComponent({
   top: 0rem;
   left: -0.25rem;
   border-radius: 12px;
-  width: 14.19rem;
-  height: 12.44rem;
-  z-index: 9999;
+
+  z-index: 99999;
 }
 
 .age {
@@ -453,33 +454,24 @@ export default defineComponent({
   position: absolute;
   top: 3.22rem;
   left: 1.5rem;
-  width: 9.07rem;
-  height: 0.13rem;
+
 }
 
 .selectLine2Icon {
   position: absolute;
   top: 6.38rem;
   left: 1.5rem;
-  width: 9.07rem;
-  height: 0.13rem;
+
 }
 
-.selectLine3Icon {
-  position: absolute;
-  top: 9.44rem;
-  left: 1.5rem;
-  width: 9.07rem;
-  height: 0.13rem;
-}
 
 .selectedSheet {
   position: absolute;
-  top: 3.63rem;
-  left: 33.75rem;
-  width: 14.19rem;
-  height: 11.94rem;
-  z-index: 9999;
+  top: 25vw;
+  left: 48vh;
+  width: 30vw;
+  height: 30vh;
+  z-index: 99999;
   font-size: var(--font-size-xl);
 }
 
@@ -572,7 +564,6 @@ export default defineComponent({
   background-color: #b8e3ff;
   width: 100%;
   height: 100%;
-  overflow: hidden;
   text-align: left;
   font-size: var(--font-size-17xl);
   color: var(--color-black);
