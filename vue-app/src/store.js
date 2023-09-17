@@ -11,6 +11,8 @@ export const store = createStore({
     copy: 0,
     lateral: 0,
     vertical: 0,
+    rotate180: 0,
+    diagonal: 0,
     students: [],
     selectedStudent: "",
     selectedStudentIndex: -1,
