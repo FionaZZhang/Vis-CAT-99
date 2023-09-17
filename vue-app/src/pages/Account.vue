@@ -145,7 +145,7 @@ export default defineComponent({
         const classDiv = document.getElementById('classnum');
         classDiv.textContent = this.class;
 
-        const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+        const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
         const video = document.getElementById('qrVideo');
 
         // Check if the video element exists
