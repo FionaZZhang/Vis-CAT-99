@@ -8,6 +8,7 @@ export const store = createStore({
     isButtonOn2: true,
     isButtonOn3: true,
     isButtonOn4: false,
+    isMute: false,
     copy: 0,
     lateral: 0,
     vertical: 0,

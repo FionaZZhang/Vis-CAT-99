@@ -3,13 +3,7 @@ export let voiceOn = true;
 export const voices = ['Anita'];
 export let currentVoice = '';
 
-// export function speak(readText){
-//     speech.text = readText;
-//     speech.voice = currentVoice_2;
-//     if (voiceOn){
-//         window.speechSynthesis.speak(speech);
-//     }
-// }
+let audio = null;
 
 export function setVoice(selectedVoice){
     currentVoice = selectedVoice;
@@ -30,7 +24,21 @@ export function speak(file){
             currentVoice = voices[0];
         }
         let sound = require('@/assets/audio/' + currentVoice + '/' + file + '.mp3');
-        let audio = new Audio(sound);
+        audio = new Audio(sound);
         audio.play();
+    }
+}
+
+export function muteAudio(){
+    if (audio){
+        audio.volume = 0;
+    }
+    voiceOn = false;
+}
+
+export function playAudio(){
+    voiceOn = true;
+    if (audio){
+        audio.volume = 1;
     }
 }

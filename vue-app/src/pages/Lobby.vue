@@ -19,6 +19,10 @@
         <img class="playIcon" alt="" src="../assets/play-icon@2x.png"/>
       </div>
 
+      <div :class="soundButton" @click="changeSound">
+        <img class="soundButtonIcon" alt="" :src="soundButtonSrc" />
+      </div>
+
       <div class="buttonPlayground" @click="navigateToPlayground">
         <img class="buttonPlaygroundIcon" alt="" src="../assets/button-playground.svg"/>
         <div class="playgroundButtonText">Playground</div>
@@ -54,18 +58,25 @@
 </template>
 <script>
   import { defineComponent } from "vue";
-  import { speak } from "./Speech.js";
+  import { speak, muteAudio, playAudio } from "./Speech.js";
+  import { store } from "@/store";
 
   export default defineComponent({
     name: "AppLobby",
     mounted() {
-      speak('Lobby_welcome');
       document.addEventListener('touchmove', this.preventScroll, { passive: false });
       // window.addEventListener('orientationchange', this.preventRotation);
     },
     beforeUnmount() {
       document.removeEventListener('touchmove', this.preventScroll);
       // window.removeEventListener('orientationchange', this.preventRotation);
+    },
+    computed: {
+      soundButtonSrc(){
+        return store.state.isMute
+          ? require("../assets/sound_off.png")
+          : require("../assets/sound_on.png");
+      },
     },
     methods: {
       // preventScroll(e) {
@@ -74,6 +85,15 @@
       // preventRotation(e) {
       //   e.preventDefault();
       // },
+      changeSound(){
+        store.state.isMute = !(store.state.isMute);
+        if (store.state.isMute){
+          muteAudio();
+        }
+        else {
+          playAudio();
+        }
+      },
       navigateToSettings() {
         speak("Settings_page");
         this.$router.push("/Settings");
@@ -96,6 +116,15 @@
   });
 </script>
 <style scoped>
+  .soundButtonIcon {
+    position: absolute;
+    top: -22%;
+    left: 37%;
+    max-width: 100%;
+    overflow: hidden;
+    max-height: 100%;
+    object-fit: cover;
+  }
   .mapIcon {
     position: fixed;
     display: block;
