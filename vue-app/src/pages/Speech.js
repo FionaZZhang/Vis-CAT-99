@@ -1,3 +1,5 @@
+import { store } from "@/store";
+
 export let voiceOn = true;
 
 export const voices = ['Anita'];
@@ -25,6 +27,12 @@ export function speak(file){
         }
         let sound = require('@/assets/audio/' + currentVoice + '/' + file + '.mp3');
         audio = new Audio(sound);
+        if (store.state.isMute){
+            audio.volume = 0;
+        }
+        else {
+            audio.volume = 1;
+        }
         audio.play();
     }
 }
@@ -33,11 +41,9 @@ export function muteAudio(){
     if (audio){
         audio.volume = 0;
     }
-    voiceOn = false;
 }
 
 export function playAudio(){
-    voiceOn = true;
     if (audio){
         audio.volume = 1;
     }
