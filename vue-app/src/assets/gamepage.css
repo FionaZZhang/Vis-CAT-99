@@ -180,6 +180,21 @@ section {
   flex-direction: row;
   justify-content: center;
   align-items: center;
+  margin-left: 49%;
+  height: 10%;
+  width: 15%;
+  bottom: 3%;
+  border-radius: 20px;
+  border-width: 0px;
+  box-shadow: 1px 2px 3px #bebdbd;
+}
+
+#buttonClear {
+  display: flex;
+  position: fixed;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
   margin-left: 65%;
   height: 10%;
   width: 15%;
@@ -205,6 +220,13 @@ section {
 }
 
 #textReverse {
+  font-weight: bold;
+  font-size: 2em;
+  font-family: sans-serif;
+  display: flex;
+}
+
+#textClear {
   font-weight: bold;
   font-size: 2em;
   font-family: sans-serif;
@@ -274,7 +296,7 @@ footer {
 }
 
 #buttonHome:hover,
-#buttonRestart:hover,
+#buttonReplay:hover,
 #buttonReverse:hover,
 #buttonConfirm:hover,
 .instructionConfirm:hover,

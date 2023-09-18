@@ -3,7 +3,7 @@
     <nav>
       <div class="Icon">
         <img src="../assets/button_home.png" alt="Button Home" id="buttonHome" @click="navigateToLobby">
-        <img src="../assets/button_restart.png" alt="Button Restart" id="buttonRestart" @click="clearPattern">
+        <img src="../assets/button_restart.png" alt="Button Replay" id="buttonReplay" @click="StartInstruction">
       </div>
       <h3>Time used: {{ elapsedTime }}</h3>
       <img src="../assets/pink-cat@2x.png" alt="Cat Icon" id="catPink">
@@ -45,6 +45,7 @@
     </main>
     <footer>
       <button @click="revertPattern" v-if="pattern.length > 0" id="buttonReverse"><span id="textReverse"> Reverse </span></button>
+      <button @click="clearPattern" v-if="pattern.length > 0" id="buttonClear"><span id="textClear"> Clear </span></button>
       <button @click="navigateToStart(); stopTimer()"  id="buttonConfirm"><span id="textConfirm"> OK</span></button>
     </footer>
     <div id="modal" v-if="showModal" class="modal-container">
@@ -95,8 +96,7 @@ export default defineComponent({
     };
   },
   mounted() {
-    this.instructionPopUp = true;
-    speak("Imagine that this pattern is now flipped over like this.");
+    this.StartInstruction();
     this.svg = this.$el.querySelector('.connector');
     document.addEventListener('touchmove', this.preventScroll, { passive: false });
     // this.loadPatternAndConnect(this.originalPattern);
@@ -140,6 +140,11 @@ export default defineComponent({
           this.$router.push("/Finish");
         }
       }
+    },
+
+    StartInstruction(){
+      this.instructionPopUp = true;
+      speak("Have a look at this pattern, see how the lines have been made to join the dots.");
     },
 
     CloseInstruction(){
