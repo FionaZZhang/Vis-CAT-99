@@ -34,6 +34,10 @@
       <span class="partialMode1">Partial Mode</span>
       <span> if you only want to play the first level.</span>
     </div>
+
+    <div :class="soundButton" @click="changeSound">
+      <img class="soundButtonIcon" alt="" :src="soundButtonSrc" />
+    </div>
     
     <img class="settingsboard" alt="" src="../assets/settingsboard.png" />
     <div class="settingsboard">
@@ -107,7 +111,7 @@
 <script>
   import { defineComponent } from "vue";
   import { store } from "@/store";
-  import { setVoice, currentVoice, setVoiceFlag, getVoices, speak } from "./Speech.js";
+  import { setVoice, currentVoice, setVoiceFlag, getVoices, speak, muteAudio, playAudio } from "./Speech.js";
   export default defineComponent({
     name: "AppSettings",
     data() {
@@ -157,9 +161,23 @@
           ? require("../assets/Unchosen.svg")
           : require("../assets/Chosen.svg");
       },
+      soundButtonSrc(){
+        return store.state.isMute
+          ? require("../assets/sound_off.png")
+          : require("../assets/sound_on.png");
+      },
     },
 
     methods: {
+      changeSound(){
+        store.state.isMute = !(store.state.isMute);
+        if (store.state.isMute){
+          muteAudio();
+        }
+        else {
+          playAudio();
+        }
+      },
       playSettingInstructions(){
         if (store.state.isButtonOn1){
           speak("Settings_instruction");
@@ -250,6 +268,19 @@
     background-size: cover;
     cursor: pointer;
     text-overflow: ellipsis;
+  }
+  .soundButtonIcon {
+    position: absolute;
+    top: 5.6%;
+    left: 37.5%;
+    bottom: 80%;
+    right: 15%;
+    width: 10vw;
+    height: 10vw;
+    overflow: hidden;
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: cover;
   }
   .settingsIcon {
     position: absolute;

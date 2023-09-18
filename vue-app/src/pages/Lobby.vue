@@ -118,10 +118,14 @@
 <style scoped>
   .soundButtonIcon {
     position: absolute;
-    top: -22%;
-    left: 37%;
-    max-width: 100%;
+    top: -24%;
+    left: 37.5%;
+    bottom: 80%;
+    right: 15%;
+    width: 10vw;
+    height: 10vw;
     overflow: hidden;
+    max-width: 100%;
     max-height: 100%;
     object-fit: cover;
   }
