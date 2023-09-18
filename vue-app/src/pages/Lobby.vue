@@ -74,26 +74,22 @@
       //   e.preventDefault();
       // },
       navigateToSettings() {
-        speak("Settings");
+        speak("Settings_page");
         this.$router.push("/Settings");
       },
       navigateToPlayground() {
-        speak("Playground");
+        // speak("Playground");
         this.$router.push("/Playground");
       },
       navigateToInstruction(){	
-        speak("Starting test. Please follow the instructions on the screen.");
         this.$router.push("/Instruction");	
       },
       navigateToAccount(){
-        speak("Accounts page");
+        speak("Accounts_page");
         this.$router.push("/Account");
       },
-      navigateToFinish(){
-        this.$router.push("/Finish");
-      },
       playLobbyInstructions(){
-        speak("Welcome! Click start to take the test!");
+        speak("Lobby_welcome");
       }
     }
   });

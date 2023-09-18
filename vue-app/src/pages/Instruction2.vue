@@ -144,7 +144,7 @@ export default defineComponent({
         if (this.secondTry) {
           this.showModal = true;
           this.secondTry = false;
-          speak("Do you think your pattern looks like it's been flipped correctly?")
+          speak("Lateral_Vertical_3");
         } else {
           this.$router.push("/Finish");
         }
@@ -153,12 +153,12 @@ export default defineComponent({
 
     StartInstruction(){
       this.instructionPopUp = true;
-      speak("Have a look at this pattern, see how the lines have been made to join the dots.");
+      speak("Lateral_Vertical_1");
     },
 
     CloseInstruction(){
       this.instructionPopUp = false;
-      speak("I want you to now draw the flipped pattern of lines on this next set of empty dots");
+      speak("Lateral_Vertical_2");
     },
 
     YesRetry() {

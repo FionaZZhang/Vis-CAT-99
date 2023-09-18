@@ -125,15 +125,14 @@ export default defineComponent({
       this.showQR = false;
     },
     navigateToSettings() {
-      speak("Settings");
+      speak("Settings_page");
       this.$router.push("/Settings");
     },
     navigateToLobby() {
-      speak("Home page");
+      speak("Home_page");
       this.$router.push("/Lobby");
     },
     async openQrScanner() {
-      speak("Scanning QR code. Please ensure the QR code is visible within the camera view");
       try {
         this.selectedStudentIndex = -1;
         this.students = [];
@@ -153,7 +152,6 @@ export default defineComponent({
           video.srcObject = stream;
           await video.play();
         } else {
-          speak("Video element not found");
           console.error('Video element not found.');
           this.showQR = false;
           return;
@@ -178,7 +176,6 @@ export default defineComponent({
               video.srcObject.getTracks().forEach(track => track.stop());
               this.showQR = false;
             } catch (error) {
-              speak("Error, QR code not in correct format");
               console.error('QR code not in correct format', error);
               video.srcObject.getTracks().forEach(track => track.stop());
               this.showQR = false;
@@ -186,7 +183,6 @@ export default defineComponent({
           }
         }, 100);
       } catch (error) {
-        speak("Error accessing camera");
         console.error('Error accessing camera:', error);
         this.showQR = false;
       }

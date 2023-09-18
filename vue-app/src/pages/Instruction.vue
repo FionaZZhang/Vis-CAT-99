@@ -132,7 +132,7 @@ export default defineComponent({
       this.startTimer();
     },
     navigateToStart() {
-      if (checker.checkCorrectness(this.originalPattern, "copy", this.pattern)) {
+      if (checker.checkCorrectness(this.originalPattern, "diagonal", this.pattern)) {
         if (store.state.isButtonOn4){
           if (this.secondTry) {
             store.state.copy = 2;
@@ -155,7 +155,7 @@ export default defineComponent({
         if (this.secondTry) {
           this.showModal = true;
           this.secondTry = false;
-          speak("Do you think your pattern is the same as this pattern?")
+          speak("Copy_3");
         } else {
           this.$router.push("/Finish");
         }
@@ -169,7 +169,7 @@ export default defineComponent({
 
     CloseInstruction(){
       this.instructionPopUp = false;
-      speak("Can you try copying the lines onto this set of dots?");
+      speak("Copy_2");
     },
 
     YesRetry() {
