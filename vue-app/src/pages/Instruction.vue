@@ -132,7 +132,7 @@ export default defineComponent({
       this.startTimer();
     },
     navigateToStart() {
-      if (checker.checkCorrectness(this.originalPattern, "diagonal", this.pattern)) {
+      if (checker.checkCorrectness(this.originalPattern, "copy", this.pattern)) {
         if (store.state.isButtonOn4){
           if (this.secondTry) {
             store.state.copy = 2;
