@@ -181,7 +181,7 @@ export default defineComponent({
 
     StartInstruction(){
       this.instructionPopUp = true;
-      speak("Lateral_Vertical_1");
+      speak("Copy_1");
     },
 
     CloseInstruction(){
@@ -198,6 +198,7 @@ export default defineComponent({
       this.$router.push("/Finish");
     },
     navigateToLobby() {
+      speak("Home_page");
       this.$router.push("/Lobby");
       while (this.svg.firstChild) {
         this.svg.removeChild(this.svg.lastChild);
