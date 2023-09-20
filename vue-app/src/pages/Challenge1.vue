@@ -4,6 +4,7 @@
       <div class="Icon">
         <img src="../assets/button_home.png" alt="Button Home" id="buttonHome" @click="navigateToLobby">
         <img src="../assets/button_restart.png" alt="Button Restart" id="buttonRestart" @click="clearPattern">
+        <img :src="soundButtonSrc" alt="Button Sound" id="buttonSound" @click="changeSound">
       </div>
       <h3>Time used: {{ elapsedTime }}</h3>
       <img src="../assets/pink-cat@2x.png" alt="Cat Icon" id="catPink">
@@ -84,7 +85,7 @@ import { defineComponent } from "vue";
 import * as checker from ".//Checker.js";
 import "@/assets/gamepage.css"
 import {store} from "@/store";
-import { speak } from "./Speech.js";
+import { speak, playAudio, muteAudio } from "./Speech.js";
 export default defineComponent({
   name: "AppChallenge1",
   data() {
@@ -105,7 +106,7 @@ export default defineComponent({
   },
   mounted() {
     this.instructionPopUp = true;
-    speak("Lateral_Vertical_2");
+    speak("Lateral_Vertical_1");
     this.svg = this.$el.querySelector('.connector');
     document.addEventListener('touchmove', this.preventScroll, { passive: false });
     // this.loadPatternAndConnect(this.originalPattern);
@@ -114,7 +115,23 @@ export default defineComponent({
     document.removeEventListener('touchmove', this.preventScroll);
     clearInterval(this.timer);
   },
+  computed: {
+    soundButtonSrc(){
+      return store.state.isMute
+        ? require("../assets/sound_off.png")
+        : require("../assets/sound_on.png");
+    },
+  },
   methods: {
+    changeSound(){
+      store.state.isMute = !(store.state.isMute);
+      if (store.state.isMute){
+        muteAudio();
+      }
+      else {
+        playAudio();
+      }
+    },
     startTimer() {
       if (!this.timerStarted) {
         this.timerStarted = true; 
@@ -153,7 +170,7 @@ export default defineComponent({
 
     CloseInstruction(){
       this.instructionPopUp = false;
-      speak("Lateral_Vertical_1");
+      speak("Lateral_Vertical_2");
     },
 
     YesRetry() {
