@@ -1,7 +1,7 @@
 <template>
   <div :class="$style.appfinish">
     <img :class="$style.grassIcon" alt="" src="../assets/grass.png" />
-    <img :class="$style.yellowCatIcon" alt="" src="../assets/yellow-cat@2x.png" />
+    <img :class="$style.yellowCatIcon" alt="" src="../assets/yellow-cat@2x.png" @click="navigateToChallenge"/>
     <!-- <img :class="$style.appfinishChild" alt="" src="/line-1.svg" /> -->
     <div :class="$style.iconViscat">
       <div :class="$style.viscatIcon" />
@@ -21,13 +21,37 @@
 </template>
 <script>
   import { defineComponent } from "vue";
+  import {store} from "@/store";
+  import axios from 'axios';
+
 
   export default defineComponent({
     name: "AppFinish",
     methods: {
       navigateToLobby() {
         this.$router.push("/Lobby");
+      },
+      navigateToChallenge() {
+        this.$router.push("/Challenge1");
       }
+    },
+    mounted() {
+      let total = store.state.copy + store.state.lateral + store.state.vertical;
+      console.log(store.state.studentId);
+
+      axios.post('/api/send-total', { id: store.state.studentId, score: total})
+        .then(response => {
+          // Handle the response from the backend if needed
+          console.log('Data sent successfully:', response.data);
+        })
+        .catch(error => {
+          // Handle any errors that occur during the request
+          console.error('Error sending data:', error);
+        });
+
+      store.state.copy = 0;
+      store.state.lateral = 0;
+      store.state.vertical = 0;
     }
   });
 </script>

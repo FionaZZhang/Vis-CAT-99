@@ -19,16 +19,20 @@
         <img class="playIcon" alt="" src="../assets/play-icon@2x.png"/>
       </div>
 
+      <div :class="soundButton" @click="changeSound">
+        <img class="soundButtonIcon" alt="" :src="soundButtonSrc" />
+      </div>
+
       <div class="buttonPlayground" @click="navigateToPlayground">
         <img class="buttonPlaygroundIcon" alt="" src="../assets/button-playground.svg"/>
         <div class="playgroundButtonText">Playground</div>
         <img class="playgroundPlayButtonIcon" alt="" src="../assets/playground-play-button@2x.png"/>
       </div>
 
-      <div class="welcomeText">
-        <img class="brownCatIcon" alt="" src="../assets/brown-cat@2x.png" @click="navigateToFinish"/>
+      <div class="welcomeText" @click="playLobbyInstructions">
+        <img class="brownCatIcon" alt="" src="../assets/brown-cat@2x.png"/>
         <p class="welcome">Welcome!</p>
-        <p class="welcome">Click ‘Start’ to take the test!</p>
+        <p class="welcome">Click 'Start' to take the test!</p>
         <img class="line" alt="" src="../assets/line-1.svg" />
       </div>
     </div>
@@ -54,6 +58,8 @@
 </template>
 <script>
   import { defineComponent } from "vue";
+  import { speak, muteAudio, playAudio } from "./Speech.js";
+  import { store } from "@/store";
 
   export default defineComponent({
     name: "AppLobby",
@@ -65,6 +71,13 @@
       document.removeEventListener('touchmove', this.preventScroll);
       // window.removeEventListener('orientationchange', this.preventRotation);
     },
+    computed: {
+      soundButtonSrc(){
+        return store.state.isMute
+          ? require("../assets/sound_off.png")
+          : require("../assets/sound_on.png");
+      },
+    },
     methods: {
       // preventScroll(e) {
       //   e.preventDefault();
@@ -72,25 +85,50 @@
       // preventRotation(e) {
       //   e.preventDefault();
       // },
+      changeSound(){
+        store.state.isMute = !(store.state.isMute);
+        if (store.state.isMute){
+          muteAudio();
+        }
+        else {
+          playAudio();
+        }
+      },
       navigateToSettings() {
+        speak("Settings_page");
         this.$router.push("/Settings");
       },
       navigateToPlayground() {
+        // speak("Playground");
         this.$router.push("/Playground");
       },
       navigateToInstruction(){	
         this.$router.push("/Instruction");	
       },
       navigateToAccount(){
+        speak("Accounts_page");
         this.$router.push("/Account");
       },
-      navigateToFinish(){
-        this.$router.push("/Finish");
-      },
+      playLobbyInstructions(){
+        speak("Lobby_welcome");
+      }
     }
   });
 </script>
 <style scoped>
+  .soundButtonIcon {
+    position: absolute;
+    top: -24%;
+    left: 37.5%;
+    bottom: 80%;
+    right: 15%;
+    width: 10vw;
+    height: 10vw;
+    overflow: hidden;
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: cover;
+  }
   .mapIcon {
     position: fixed;
     display: block;
@@ -151,6 +189,7 @@
     font-size: 3vw;
     width: 24vw;
     display: inline-block;
+    cursor: pointer;
   }
   .line {
     position: absolute;

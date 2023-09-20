@@ -3,9 +3,9 @@
     <nav>
       <div class="Icon">
         <img src="../assets/button_home.png" alt="Button Home" id="buttonHome" @click="navigateToLobby">
-        <img src="../assets/button_restart.png" alt="Button Restart" id="buttonRestart" @click="clearPattern">
-
+        <img src="../assets/button_restart.png" alt="Button Replay" id="buttonReplay" @click="StartInstruction">
       </div>
+      <h3>Time used: {{ elapsedTime }}</h3>
       <img src="../assets/pink-cat@2x.png" alt="Cat Icon" id="catPink">
     </nav>
     <main>
@@ -13,10 +13,20 @@
         <img src="../assets/text_goal1.png" alt="Goal Text" id="textGoal">
       </header>
       <section id = "graphArea">
-        <div><img src="../assets/left_pattern.png" alt="Instruction Pattern" id="instruction"></div>
         <div class="grid-wrapper">
           <svg class="connector"></svg>
-          <div class="grid" id = "noScrollArea"
+          <div class="grid">
+            <div
+              v-for="n in 16"
+              :key="n"
+              class="dot"
+              :data-id="n">
+            </div>
+          </div>
+        </div>
+        <div class="grid-wrapper">
+          <svg class="connector"></svg>
+          <div class="grid"
             @mousedown="startDrawing"
             @mouseup="endDrawing"
             @touchstart="startDrawing"
@@ -35,8 +45,38 @@
     </main>
     <footer>
       <button @click="revertPattern" v-if="pattern.length > 0" id="buttonReverse"><span id="textReverse"> Reverse </span></button>
-      <button @click="navigateToStart"  id="buttonConfirm"><span id="textConfirm"> OK</span></button>
+      <button @click="clearPattern" v-if="pattern.length > 0" id="buttonClear"><span id="textClear"> Clear </span></button>
+      <button @click="navigateToStart(); stopTimer()"  id="buttonConfirm"><span id="textConfirm"> OK</span></button>
     </footer>
+    <div id="modal" v-if="showModal" class="modal-container">
+      <div class="custom-modal">
+        <div class="custom-modal-content">
+          <div class="custom-modal-header">
+            <h3>Have another go?</h3>
+          </div>
+          <div class="custom-modal-buttons">
+            <button class="cute-button" @click="YesRetry(); restartTimer()">Yes, please!</button>
+            <button class="cute-button" @click="NoGiveup">No, thanks</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div v-if="interPage" class="modal-container">
+      <div class="interPage-modal">
+        <div class="inter_page_content">
+          <img class="next_level" src="../assets/next_level.png">
+          <img class="button_next_level" id="buttonNextLevel" src="../assets/button_next_level.png" @click="navigateToPage2">
+        </div>   
+      </div>
+    </div>
+    <div v-if="instructionPopUp" class="modal-container">
+      <div class="instructionPopUp-modal">
+        <div class="inter_page_content">
+          <img class="instructionGIF" src="../assets/copyPattern.gif" alt="instructionGIF">
+          <img class="instructionConfirm" id="buttonInstructionConfirm" src="../assets/button_confirm.png" @click="CloseInstruction(); loadPatternAndConnect(this.originalPattern); startTimer()">
+        </div>   
+      </div>
+    </div>
   </body>
 </template>
 
@@ -44,43 +84,113 @@
 import { defineComponent } from "vue";
 import { store } from "@/store";
 import * as checker from ".//Checker.js";
+import { speak } from "./Speech.js";
+import "@/assets/gamepage.css"
 export default defineComponent({
   name: "AppInstruction",
   data() {
     return {
       isDrawing: false,
       pattern: [],
-      path: [],
       svg: null,
+      showModal: false,
+      secondTry: true,
+      interPage: false,
+      instructionPopUp: false,
+      // originalPattern: [1, 2, 3, 4, 7, 10 ,13],
+      originalPattern: [1, 2, 3, 4, 8, 7, 10, 11, 5, 9, 13, 14, 15, 16],
+      timer: null,
+      elapsedTime: 0,
+      timerStarted: false,
     };
   },
   mounted() {
+    this.StartInstruction();
     this.svg = this.$el.querySelector('.connector');
     document.addEventListener('touchmove', this.preventScroll, { passive: false });
+    // this.loadPatternAndConnect(this.originalPattern);
   },
   beforeUnmount() {
     document.removeEventListener('touchmove', this.preventScroll);
+    clearInterval(this.timer);
   },
   methods: {
+    startTimer() {
+      if (!this.timerStarted) {
+        this.timerStarted = true; 
+        this.timer = setInterval(() => { this.elapsedTime += 1; }, 1000);         
+      }
+    },
+    stopTimer() {
+      if (this.timerStarted) {
+        clearInterval(this.timer); 
+        this.timerStarted = false; 
+      }
+    },
+    restartTimer() {
+      this.elapsedTime = 0;
+      this.startTimer();
+    },
     navigateToStart() {
-      if (checker.checkCorrectness([[1,1],[1,2],[1,3],[1,4],[2,3],[3,2],[4,1]], "copy", this.path)) {
+      if (checker.checkCorrectness(this.originalPattern, "copy", this.pattern)) {
         if (store.state.isButtonOn4){
+          if (this.secondTry) {
+            store.state.copy = 2;
+          } else {
+            store.state.copy = 1;
+          }
           this.$router.push("/Finish");
         }
         else{
-          this.$router.push("/instruction2");
+          if (this.secondTry) {
+            store.state.copy = 2;
+          } else {
+            store.state.copy = 1;
+          }
+          this.interPage = true;
+          // this.$router.push("/instruction2");
         }
-        
-      } 
+      }
       else {
-        this.clearPattern();
-      }     
+        if (this.secondTry) {
+          this.showModal = true;
+          this.secondTry = false;
+          speak("Copy_3");
+        } else {
+          this.$router.push("/Finish");
+        }
+      }
+    },
+
+    StartInstruction(){
+      this.instructionPopUp = true;
+      speak("Lateral_Vertical_1");
+    },
+
+    CloseInstruction(){
+      this.instructionPopUp = false;
+      speak("Copy_2");
+    },
+
+    YesRetry() {
+      this.clearPattern();
+      this.showModal = false;
+    },
+    NoGiveup() {
+      this.showModal = false;
+      this.$router.push("/Finish");
     },
     navigateToLobby() {
       this.$router.push("/Lobby");
+      while (this.svg.firstChild) {
+        this.svg.removeChild(this.svg.lastChild);
+      }
+    },
+    navigateToPage2() {
+      this.$router.push("/instruction2");
     },
     preventScroll() {
-      document.getElementById('noScrollArea').addEventListener('touchmove', function(event) {
+      document.getElementById('graphArea').addEventListener('touchmove', function(event) {
       event.preventDefault();}, { passive: false });
     },
     startDrawing(event) {
@@ -95,7 +205,6 @@ export default defineComponent({
         const id = cell.dataset.id;
         if (!this.pattern.includes(id) && id >= 1 && id <= 16) {
           this.pattern.push(id);
-          this.path.push([Math.ceil(id / 4), (id % 4 == 0 ? 4 : id % 4)]);
           cell.classList.add('active');
         }
       }
@@ -105,7 +214,6 @@ export default defineComponent({
       const id = cell.dataset.id;
       if (this.isDrawing && !this.pattern.includes(id)) {
         this.pattern.push(id);
-        this.path.push([Math.ceil(id / 4), (id % 4 == 0 ? 4 : id % 4)]);
         cell.classList.add('active');
         if (this.pattern.length > 1) {
           const prevCell = this.$el.querySelector(
@@ -122,7 +230,6 @@ export default defineComponent({
         const id = element.dataset.id;
         if (this.isDrawing && !this.pattern.includes(id)) {
           this.pattern.push(id);
-          this.path.push([Math.ceil(id / 4), (id % 4 === 0 ? 4 : id % 4)]);
           element.classList.add('active');
           if (this.pattern.length > 1) {
             const prevCell = this.$el.querySelector(
@@ -133,7 +240,6 @@ export default defineComponent({
         }
       }
     },
-
     drawLine(cell1, cell2) {
       const rect1 = cell1.getBoundingClientRect();
       const rect2 = cell2.getBoundingClientRect();
@@ -146,34 +252,73 @@ export default defineComponent({
       line.setAttribute('stroke-width', '5');
       this.svg.appendChild(line);
     },
+    loadPatternAndConnect(patternDots) {
+      const dots = document.querySelectorAll('.dot');
+      const svg = document.querySelector('.connector');
 
+      for (const dot of dots) {
+        const dotId = parseInt(dot.dataset.id);
+        if (patternDots.includes(dotId)) {
+          dot.classList.add('active');
+        }
+      }
+
+      for (let i = 0; i < patternDots.length - 1; i++) {
+        const dotId1 = patternDots[i];
+        const dotId2 = patternDots[i + 1];
+        const dot1 = document.querySelector(`.dot[data-id="${dotId1}"]`);
+        const dot2 = document.querySelector(`.dot[data-id="${dotId2}"]`);
+
+        const x1 = dot1.offsetLeft + dot1.offsetWidth / 2;
+        const y1 = dot1.offsetTop + dot1.offsetHeight / 2;
+        const x2 = dot2.offsetLeft + dot2.offsetWidth / 2;
+        const y2 = dot2.offsetTop + dot2.offsetHeight / 2;
+
+        const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+        line.setAttribute('x1', x1);
+        line.setAttribute('y1', y1);
+        line.setAttribute('x2', x2);
+        line.setAttribute('y2', y2);
+        line.setAttribute('stroke', 'black');
+        line.setAttribute('stroke-width', '5');
+        svg.appendChild(line);
+
+        if (i === patternDots.length - 2) {
+          // Calculate the angle of the line segment and reverse it
+          const angle = Math.atan2(y2 - y1, x2 - x1) - Math.PI;
+          // Rest of the code remains the same
+          const arrowSize = 40; // Adjust the size of the arrowhead
+          const arrowX = x2 - arrowSize * Math.cos(angle);
+          const arrowY = y2 - arrowSize * Math.sin(angle);
+          const arrow = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
+          arrow.setAttribute('points', `${arrowX},${arrowY} ${(arrowX + arrowSize * Math.cos(angle - Math.PI / 6))},${(arrowY + arrowSize * Math.sin(angle - Math.PI / 6))} ${(arrowX + arrowSize * Math.cos(angle + Math.PI / 6))},${(arrowY + arrowSize * Math.sin(angle + Math.PI / 6))}`);
+          arrow.setAttribute('fill', 'black'); // Arrowhead color
+          svg.appendChild(arrow);
+        }
+      }
+    },
     endDrawing() {
       this.isDrawing = false;
     },
     clearPattern() {
       this.pattern = [];
-      this.path = [];
       const cells = this.$el.querySelectorAll('.cell.active');
       cells.forEach(cell => {
         cell.classList.remove('active');
       });
-      while (this.svg.firstChild) {
+      while (this.svg.childElementCount > this.originalPattern.length) {
         this.svg.removeChild(this.svg.lastChild);
       }
     },
     revertPattern() {
       if (this.pattern.length === 0) return;
-
-      // Remove the last item from the pattern and path arrays
+      // Remove the last item from the pattern arrays
       const lastId = this.pattern.pop();
-      this.path.pop();
-
       // Revert the UI change for the last cell
       const lastCell = this.$el.querySelector(`.cell[data-id="${lastId}"]`);
       lastCell.classList.remove('active');
-
       // Remove the last SVG line
-      if (this.svg.lastChild) {
+      if (this.svg.childElementCount > this.originalPattern.length) {
         this.svg.removeChild(this.svg.lastChild);
       }
     },
@@ -182,169 +327,20 @@ export default defineComponent({
 </script>
 
 <style scoped>
-#InsPage {
-  background-color: #fff0e6;
-  width: 100vw;
-  height: 100vh;
-}
-
-nav {
-  padding: 0px;
-  display: flex;
-  flex-direction: row;
-  width: 100%;
-  justify-content: space-between;
-  height: 13%;
-}
-
-#catPink {
-  position: relative;
-  right: 3%;
-  top: 3%;
-  height: 100%;
-}
-
-.Icon {
-  display: flex;
-  position: relative;
-  flex-direction: row;
-  left: 3%;
-  top: 3%;
-  width: 20%;
-  height: 100%;
-}
 
 
-main {
-  display: flex;
-  flex-direction: column;
-  justify-content: start;
-  gap: 10%;
-  height: 70%;
-}
-
-
-#instruction {
-  display: flex;
-  height: 100%;
-}
-
-.grid-wrapper {
-  display: flex;
-  width: 35%;
-}
-
-header {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-}
-
-#textGoal {
-  position: relative;
-  width: 40%;
-  height: 100%;
-}
-
-section {
-  display: flex;
-  flex-direction: row;
-  padding-left: 15%;
-  padding-right: 15%;
-  justify-content: space-between;
-}
-
-#buttonReverse {
-  display: flex;
-  position: relative;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  margin-left: 65%;
-  height: 70%;
-  width: 15%;
-  border-radius: 20px;
-  border-width: 0px;
-  box-shadow: 1px 2px 3px #bebdbd;
-
-}
-
-#buttonConfirm{
-  display: flex;
-  position: fixed;
-  justify-content: center;
-  align-items: center;
-  background-color: #dcebea;
-  height: 10%;
-  width: 15%;
-  right: 4%;
-  border-radius: 20px;
-  border-width: 0px;
-  box-shadow: 1px 2px 3px #bebdbd;
-}
-
-#textReverse {
-  font-weight: bold;
-  font-size: 2em;
-  font-family: sans-serif;
-  display: flex;
-}
-
-#textConfirm{
-  font-weight: bold;
-  font-size: 2em;
-  font-family: sans-serif;
-  display: flex;
-}
-
-footer {
-  display: flex;
-  height: 15%;
-  align-items: flex-end;
-}
-
-/* .grid-wrapper {
-  position: relative;
-  width: 75%;
+/* p {
+  font-size: 18px;
 } */
 
-.connector {
-  position: fixed;
-  pointer-events: none;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 100%;
+/* .retry-modal-header img {
+  width: 50px;
+  height: 50px;
+  margin-right: 10px;
 }
 
-.grid {
-  display: grid;
-  height: 100%;
-  width: 100%;
-  grid-template-columns: repeat(4, 4vw);
-  gap: 21%;
-}
+.retry-modal-header h3 {
+  font-size: 24px;
+} */
 
-.cell {
-  width: 2vw;
-  height: 2vw;
-  background-color: black;
-  border-radius: 50%;
-  transition: background-color 0.2s;
-  position: relative;
-}
-
-.cell.active {
-  background-color: #3498db;
-}
-
-.larger-font {
-  font-size: 40px;
-}
-
-#buttonHome:hover,
-#buttonRestart:hover {
-  opacity: 0.7;
-}
 </style>

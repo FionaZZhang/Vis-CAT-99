@@ -1,0 +1,305 @@
+.modal-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+}
+
+
+.custom-modal {
+  background-color: #b8e3ff;
+  border-radius: 10px;
+  padding: 20px;
+  text-align: center;
+  align-items: center;
+}
+
+.custom-modal-header {
+  margin-bottom: 10px;
+}
+
+.custom-modal-buttons button {
+  margin: 5px;
+}
+
+.interPage-modal {
+  position: fixed;
+  left: 23.2vw;
+  top: 25vh;
+  background-color: #fff0e6;
+  border-radius: 10px;
+  padding: 20px;
+  width: 50vw;
+  height: 50vh;
+  text-align: center;
+  align-items: center;
+}
+
+.instructionPopUp-modal {
+  position: fixed;
+  left: 7.5vw;
+  top: 7.5vh;
+  background-color: #fff0e6;
+  border-radius: 10px;
+  /* padding: 20px; */
+  width: 85vw;
+  height: 85vh;
+  text-align: center;
+  align-items: center;
+}
+
+.next_level {
+  position: absolute;
+  left: 10%;
+  top: 10%;
+  width: 42vw;
+  height: 11vw;
+}
+
+.instructionGIF{
+  position: absolute;
+  left: 10%;
+  top: 0%;
+  width: 80%;
+  height: 80%;
+}
+
+.button_next_level {
+  position: absolute;
+  left: 38.5%;
+  bottom: 12%;
+  width: 12vw;
+  height: 12vw;
+}
+
+.instructionConfirm{
+  position: absolute;
+  left: 40%;
+  top: 82%;
+  width: 20%;
+  height: 16%;
+}
+
+.cute-button {
+  background-color: #dcebea; /* Cute pink color */
+  color: #000000;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  font-size: 18px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.cute-button:hover {
+  background-color: #bebdbd; /* Slightly darker pink on hover */
+}
+
+#InsPage {
+  background-color: #fff0e6;
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+}
+
+nav {
+  padding: 0px;
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: space-between;
+  height: 13%;
+}
+
+#catPink {
+  position: relative;
+  right: 3%;
+  top: 3%;
+  height: 100%;
+}
+
+.Icon {
+  display: flex;
+  position: relative;
+  flex-direction: row;
+  left: 3%;
+  top: 3%;
+  width: 20%;
+  height: 100%;
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  gap: 10%;
+  height: 70%;
+}
+
+#instruction {
+  display: flex;
+  height: 100%;
+}
+
+.grid-wrapper {
+  display: flex;
+  width: 35%;
+  height: 270%;
+}
+
+header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+}
+
+#textGoal {
+  position: relative;
+  width: 40%;
+  height: 100%;
+}
+
+section {
+  display: flex;
+  flex-direction: row;
+  padding-left: 15%;
+  padding-right: 15%;
+  justify-content: space-between;
+}
+
+#buttonReverse {
+  display: flex;
+  position: fixed;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin-left: 49%;
+  height: 10%;
+  width: 15%;
+  bottom: 3%;
+  border-radius: 20px;
+  border-width: 0px;
+  box-shadow: 1px 2px 3px #bebdbd;
+}
+
+#buttonClear {
+  display: flex;
+  position: fixed;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin-left: 65%;
+  height: 10%;
+  width: 15%;
+  bottom: 3%;
+  border-radius: 20px;
+  border-width: 0px;
+  box-shadow: 1px 2px 3px #bebdbd;
+}
+
+#buttonConfirm {
+  display: flex;
+  position: fixed;
+  justify-content: center;
+  align-items: center;
+  background-color: #dcebea;
+  height: 10%;
+  width: 15%;
+  right: 4%;
+  bottom: 3%;
+  border-radius: 20px;
+  border-width: 0px;
+  box-shadow: 1px 2px 3px #bebdbd;
+}
+
+#textReverse {
+  font-weight: bold;
+  font-size: 2em;
+  font-family: sans-serif;
+  display: flex;
+}
+
+#textClear {
+  font-weight: bold;
+  font-size: 2em;
+  font-family: sans-serif;
+  display: flex;
+}
+
+#textConfirm{
+  font-weight: bold;
+  font-size: 2em;
+  font-family: sans-serif;
+  display: flex;
+}
+
+footer {
+  display: flex;
+  height: 15%;
+  align-items: flex-end;
+}
+
+.connector {
+  position: absolute;
+  pointer-events: none;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+}
+
+.grid {
+  display: grid;
+  height: 100%;
+  width: 100%;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 21%;
+}
+
+.cell {
+  width: 2vw;
+  height: 2vw;
+  background-color: black;
+  border-radius: 50%;
+  transition: background-color 0.2s;
+  position: relative;
+  transition: background-color 0.2s, transform 0.2s;
+  transform-origin: center center;
+  box-shadow: 0 0 1px rgba(0,0,0,0);
+}
+
+.cell:hover {
+  transform: scale(1.2); 
+}
+.cell.active {
+  background-color: #3498db;
+}
+
+.dot {
+  width: 2vw;
+  height: 2vw;
+  background-color: black;
+  border-radius: 50%;
+  transition: background-color 0.2s;
+  position: relative;
+}
+
+.dot.active {
+  background-color: black;
+}
+
+#buttonHome:hover,
+#buttonReplay:hover,
+#buttonReverse:hover,
+#buttonConfirm:hover,
+.instructionConfirm:hover,
+#buttonNextLevel:hover {
+  opacity: 0.7;
+}
