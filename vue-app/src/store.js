@@ -20,6 +20,8 @@ export const store = createStore({
     studentId: false,
     school: "",
     class: "",
+    arrowSize: 60,
+    strokeWidth: 15,
   },
 
   actions: {

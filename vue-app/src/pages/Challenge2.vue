@@ -76,7 +76,7 @@ import { defineComponent } from "vue";
 import * as checker from ".//Checker.js";
 import "@/assets/gamepage.css"
 import {store} from "@/store";
-import { speak } from "./Speech.js";
+// import { speak } from "./Speech.js";
 export default defineComponent({
   name: "AppChallenge2",
   data() {
@@ -96,7 +96,7 @@ export default defineComponent({
   },
   mounted() {
     this.instructionPopUp = true;
-    speak("Imagine that this pattern is now flipped over like this.");
+    // speak("Imagine that this pattern is now flipped over like this.");
     this.svg = this.$el.querySelector('.connector');
     document.addEventListener('touchmove', this.preventScroll, { passive: false });
     // this.loadPatternAndConnect(this.originalPattern);
@@ -135,7 +135,7 @@ export default defineComponent({
         if (this.secondTry) {
           this.showModal = true;
           this.secondTry = false;
-          speak("Do you think your pattern looks like it's been flipped correctly?")
+          // speak("Do you think your pattern looks like it's been flipped correctly?")
         } else {
           this.$router.push("/Finish");
         }
@@ -144,7 +144,7 @@ export default defineComponent({
 
     CloseInstruction(){
       this.instructionPopUp = false;
-      speak("I want you to draw how the pattern would look on this set of dots");
+      // speak("I want you to draw how the pattern would look on this set of dots");
     },
 
     YesRetry() {
@@ -221,7 +221,7 @@ export default defineComponent({
       line.setAttribute('x2', rect2.left + rect2.width / 2);
       line.setAttribute('y2', rect2.top + rect2.height / 2);
       line.setAttribute('stroke', '#3498db');
-      line.setAttribute('stroke-width', '5');
+      line.setAttribute('stroke-width', store.state.strokeWidth);
       this.svg.appendChild(line);
     },
     loadPatternAndConnect(patternDots) {
@@ -252,14 +252,14 @@ export default defineComponent({
         line.setAttribute('x2', x2);
         line.setAttribute('y2', y2);
         line.setAttribute('stroke', 'black');
-        line.setAttribute('stroke-width', '5');
+        line.setAttribute('stroke-width', store.state.strokeWidth);
         svg.appendChild(line);
 
         if (i === patternDots.length - 2) {
           // Calculate the angle of the line segment and reverse it
           const angle = Math.atan2(y2 - y1, x2 - x1) - Math.PI;
           // Rest of the code remains the same
-          const arrowSize = 40; // Adjust the size of the arrowhead
+          const arrowSize = store.state.arrowSize; // Adjust the size of the arrowhead
           const arrowX = x2 - arrowSize * Math.cos(angle);
           const arrowY = y2 - arrowSize * Math.sin(angle);
           const arrow = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
