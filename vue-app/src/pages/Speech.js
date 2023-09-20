@@ -1,17 +1,11 @@
+import { store } from "@/store";
+
 export let voiceOn = true;
 
 export const voices = ['anita'];
 export let currentVoice = '';
 
 let audio = null;
-
-// export function speak(readText){
-//     speech.text = readText;
-//     speech.voice = currentVoice_2;
-//     if (voiceOn){
-//         window.speechSynthesis.speak(speech);
-//     }
-// }
 
 export function setVoice(selectedVoice){
     currentVoice = selectedVoice;
@@ -34,7 +28,25 @@ export function speak(file){
         }
         let sound = require('@/assets/audio/' + currentVoice + '/' + file + '.mp3');
         audio = new Audio(sound);
+        if (store.state.isMute){
+            audio.volume = 0;
+        }
+        else {
+            audio.volume = 1;
+        }
         audio.play();
+    }
+}
+
+export function muteAudio(){
+    if (audio){
+        audio.volume = 0;
+    }
+}
+
+export function playAudio(){
+    if (audio){
+        audio.volume = 1;
     }
 }
 
