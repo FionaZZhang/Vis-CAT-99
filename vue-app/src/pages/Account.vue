@@ -80,13 +80,16 @@
       <img class="houseIcon" alt="" src="../assets/house@2x.png" />
     </div>
   </div>
+  <div :class="soundButton" @click="changeSound">
+    <img class="soundButtonIcon" alt="" :src="soundButtonSrc" />
+  </div>
 </template>
 
 <script>
 import { defineComponent } from "vue";
 import jsQR from 'jsqr';
 import {store} from "@/store";
-import { speak } from "./Speech.js";
+import { speak, playAudio, muteAudio } from "./Speech.js";
 
 export default defineComponent({
   name: "AppAccount",
@@ -106,7 +109,23 @@ export default defineComponent({
   beforeUnmount() {
     this.stopVideo();
   },
+  computed: {
+    soundButtonSrc(){
+      return store.state.isMute
+        ? require("../assets/sound_off.png")
+        : require("../assets/sound_on.png");
+    },
+  },
   methods: {
+    changeSound(){
+      store.state.isMute = !(store.state.isMute);
+      if (store.state.isMute){
+        muteAudio();
+      }
+      else {
+        playAudio();
+      }
+    },
     handleContainerScroll(event) {
       this.containerScrollTop = event.target.scrollTop;
     },
@@ -254,12 +273,22 @@ export default defineComponent({
       this.selectedStudentConfirm = this.selectedStudent;
     }
   },
-  computed: {
-  },
 });
 </script>
 <style scoped>
-
+.soundButtonIcon {
+    position: absolute;
+    top: 5.6%;
+    left: 37.5%;
+    bottom: 80%;
+    right: 15%;
+    width: 10vw;
+    height: 10vw;
+    overflow: hidden;
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: cover;
+  }
 .QRContainer {
 }
 
