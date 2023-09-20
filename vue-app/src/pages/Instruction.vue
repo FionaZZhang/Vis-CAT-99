@@ -164,7 +164,7 @@ export default defineComponent({
 
     StartInstruction(){
       this.instructionPopUp = true;
-      speak("Have a look at this pattern, see how the lines have been made to join the dots.");
+      speak("Lateral_Vertical_1");
     },
 
     CloseInstruction(){

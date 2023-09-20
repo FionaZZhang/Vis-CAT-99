@@ -1,6 +1,6 @@
 export let voiceOn = true;
 
-export const voices = ['Anita'];
+export const voices = ['anita'];
 export let currentVoice = '';
 
 // export function speak(readText){
