@@ -3,8 +3,10 @@
     <nav>
       <div class="Icon">
         <img src="../assets/button_home.png" alt="Button Home" id="buttonHome" @click="navigateToLobby">
-        <img src="../assets/button_restart.png" alt="Button Restart" id="buttonRestart" @click="clearPattern">
+        <img src="../assets/button_restart.png" alt="Button Replay" id="buttonReplay" @click="StartInstruction">
+        <img :src="soundButtonSrc" alt="Button Sound" id="buttonSound" @click="changeSound">
       </div>
+      <h3>Time used: {{ elapsedTime }}</h3>
       <img src="../assets/pink-cat@2x.png" alt="Cat Icon" id="catPink">
     </nav>
     <main>
@@ -44,7 +46,8 @@
     </main>
     <footer>
       <button @click="revertPattern" v-if="pattern.length > 0" id="buttonReverse"><span id="textReverse"> Reverse </span></button>
-      <button @click="navigateToStart"  id="buttonConfirm"><span id="textConfirm"> OK</span></button>
+      <button @click="clearPattern" v-if="pattern.length > 0" id="buttonClear"><span id="textClear"> Clear </span></button>
+      <button @click="navigateToStart(); stopTimer()"  id="buttonConfirm"><span id="textConfirm"> OK</span></button>
     </footer>
     <div id="modal" v-if="showModal" class="modal-container">
       <div class="custom-modal">
@@ -53,7 +56,7 @@
             <h3>Have another go?</h3>
           </div>
           <div class="custom-modal-buttons">
-            <button class="cute-button" @click="YesRetry">Yes, please!</button>
+            <button class="cute-button" @click="YesRetry(); restartTimer()">Yes, please!</button>
             <button class="cute-button" @click="NoGiveup">No, thanks</button>
           </div>
         </div>
@@ -71,7 +74,7 @@
       <div class="instructionPopUp-modal">
         <div class="inter_page_content">
           <img class="instructionGIF" src="../assets/lateralFlip.gif" alt="instructionGIF">
-          <img class="instructionConfirm" id="buttonInstructionConfirm" src="../assets/button_confirm.png" @click="CloseInstruction(); loadPatternAndConnect(this.originalPattern)">
+          <img class="instructionConfirm" id="buttonInstructionConfirm" src="../assets/button_confirm.png" @click="CloseInstruction(); loadPatternAndConnect(this.originalPattern); startTimer()">
         </div>   
       </div>
     </div>
@@ -83,7 +86,7 @@ import { defineComponent } from "vue";
 import * as checker from ".//Checker.js";
 import "@/assets/gamepage.css"
 import {store} from "@/store";
-import { speak } from "./Speech.js";
+import { speak, playAudio, muteAudio} from "./Speech.js";
 export default defineComponent({
   name: "AppInstruction2",
   data() {
@@ -97,19 +100,54 @@ export default defineComponent({
       instructionPopUp: false,
       // originalPattern: [1, 2, 3, 4, 7, 10 ,13],
       originalPattern: [1, 2, 3, 4, 8, 7, 10, 11, 5, 9, 13, 14, 15, 16],
+      timer: null,
+      elapsedTime: 0,
+      timerStarted: false,
     };
   },
   mounted() {
-    this.instructionPopUp = true;
-    speak("I want you to imagine that this pattern is now flipped over like this.");
+    this.StartInstruction();
     this.svg = this.$el.querySelector('.connector');
     document.addEventListener('touchmove', this.preventScroll, { passive: false });
     // this.loadPatternAndConnect(this.originalPattern);
   },
   beforeUnmount() {
     document.removeEventListener('touchmove', this.preventScroll);
+    clearInterval(this.timer);
+  },
+  computed: {
+    soundButtonSrc(){
+      return store.state.isMute
+        ? require("../assets/sound_off.png")
+        : require("../assets/sound_on.png");
+    },
   },
   methods: {
+    changeSound(){
+      store.state.isMute = !(store.state.isMute);
+      if (store.state.isMute){
+        muteAudio();
+      }
+      else {
+        playAudio();
+      }
+    },
+    startTimer() {
+      if (!this.timerStarted) {
+        this.timerStarted = true; 
+        this.timer = setInterval(() => { this.elapsedTime += 1; }, 1000);         
+      }
+    },
+    stopTimer() {
+      if (this.timerStarted) {
+        clearInterval(this.timer); 
+        this.timerStarted = false; 
+      }
+    },
+    restartTimer() {
+      this.elapsedTime = 0;
+      this.startTimer();
+    },
     navigateToStart() {
       if (checker.checkCorrectness(this.originalPattern, "lateral", this.pattern)) {
         if (this.secondTry) {
@@ -123,16 +161,21 @@ export default defineComponent({
         if (this.secondTry) {
           this.showModal = true;
           this.secondTry = false;
-          speak("Do you think your pattern looks like it's been flipped correctly?")
+          speak("Lateral_Vertical_3");
         } else {
           this.$router.push("/Finish");
         }
       }
     },
 
+    StartInstruction(){
+      this.instructionPopUp = true;
+      speak("Lateral_Vertical_1");
+    },
+
     CloseInstruction(){
       this.instructionPopUp = false;
-      speak("I want you to now draw the flipped pattern of lines on this next set of empty dots");
+      speak("Lateral_Vertical_2");
     },
 
     YesRetry() {

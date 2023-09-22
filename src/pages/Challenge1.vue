@@ -3,7 +3,7 @@
     <nav>
       <div class="Icon">
         <img src="../assets/button_home.png" alt="Button Home" id="buttonHome" @click="navigateToLobby">
-        <img src="../assets/button_restart.png" alt="Button Replay" id="buttonReplay" @click="StartInstruction">
+        <img src="../assets/button_restart.png" alt="Button Restart" id="buttonRestart" @click="clearPattern">
         <img :src="soundButtonSrc" alt="Button Sound" id="buttonSound" @click="changeSound">
       </div>
       <h3>Time used: {{ elapsedTime }}</h3>
@@ -11,7 +11,7 @@
     </nav>
     <main>
       <header>
-        <img src="../assets/text_goal3.png" alt="Goal Text" id="textGoal">
+        <img src="../assets/challenge_text1.png" alt="Goal Text" id="textGoal">
       </header>
       <section id = "graphArea">
         <div class="grid-wrapper">
@@ -46,7 +46,6 @@
     </main>
     <footer>
       <button @click="revertPattern" v-if="pattern.length > 0" id="buttonReverse"><span id="textReverse"> Reverse </span></button>
-      <button @click="clearPattern" v-if="pattern.length > 0" id="buttonClear"><span id="textClear"> Clear </span></button>
       <button @click="navigateToStart(); stopTimer()"  id="buttonConfirm"><span id="textConfirm"> OK</span></button>
     </footer>
     <div id="modal" v-if="showModal" class="modal-container">
@@ -62,17 +61,25 @@
         </div>
       </div>
     </div>
+    <div v-if="interPage" class="modal-container">
+      <div class="interPage-modal">
+        <div class="inter_page_content">
+          <img class="next_level" src="../assets/next_level.png">
+          <img class="button_next_level" id="buttonNextLevel" src="../assets/button_next_level.png" @click="navigateToPage3">
+        </div>
+      </div>
+    </div>
     <div v-if="instructionPopUp" class="modal-container">
       <div class="instructionPopUp-modal">
         <div class="inter_page_content">
-          <img class="instructionGIF" src="../assets/verticalFlip.gif" alt="instructionGIF">
+          <img class="instructionGIF" src="../assets/lateralFlip.gif" alt="instructionGIF">
           <img class="instructionConfirm" id="buttonInstructionConfirm" src="../assets/button_confirm.png" @click="CloseInstruction(); loadPatternAndConnect(this.originalPattern); startTimer()">
         </div>   
       </div>
     </div>
   </body>
 </template>
-
+  
 <script>
 import { defineComponent } from "vue";
 import * as checker from ".//Checker.js";
@@ -80,7 +87,7 @@ import "@/assets/gamepage.css"
 import {store} from "@/store";
 import { speak, playAudio, muteAudio } from "./Speech.js";
 export default defineComponent({
-  name: "AppInstruction3",
+  name: "AppChallenge1",
   data() {
     return {
       isDrawing: false,
@@ -88,6 +95,7 @@ export default defineComponent({
       svg: null,
       showModal: false,
       secondTry: true,
+      interPage: false,
       instructionPopUp: false,
       // originalPattern: [1, 2, 3, 4, 7, 10 ,13],
       originalPattern: [1, 2, 3, 4, 8, 7, 10, 11, 5, 9, 13, 14, 15, 16],
@@ -97,7 +105,8 @@ export default defineComponent({
     };
   },
   mounted() {
-    this.StartInstruction();
+    this.instructionPopUp = true;
+    speak("Lateral_Vertical_1");
     this.svg = this.$el.querySelector('.connector');
     document.addEventListener('touchmove', this.preventScroll, { passive: false });
     // this.loadPatternAndConnect(this.originalPattern);
@@ -140,13 +149,13 @@ export default defineComponent({
       this.startTimer();
     },
     navigateToStart() {
-      if (checker.checkCorrectness(this.originalPattern, "vertical", this.pattern)) {
+      if (checker.checkCorrectness(this.originalPattern, "rotate180", this.pattern)) {
         if (this.secondTry) {
-          store.state.vertical = 2;
+            store.state.rotate180 = 2;
         } else {
-          store.state.vertical = 1;
+            store.state.rotate180 = 1;
         }
-        this.$router.push("/Finish");
+        this.interPage = true;
       }
       else {
         if (this.secondTry) {
@@ -157,11 +166,6 @@ export default defineComponent({
           this.$router.push("/Finish");
         }
       }
-    },
-
-    StartInstruction(){
-      this.instructionPopUp = true;
-      speak("Lateral_Vertical_1");
     },
 
     CloseInstruction(){
@@ -182,6 +186,9 @@ export default defineComponent({
       while (this.svg.firstChild) {
         this.svg.removeChild(this.svg.lastChild);
       }
+    },
+    navigateToPage3() {
+      this.$router.push("/challenge2");
     },
     preventScroll() {
       document.getElementById('noScrollArea').addEventListener('touchmove', function(event) {
@@ -319,7 +326,12 @@ export default defineComponent({
   },
 });
 </script>
-
+  
 <style scoped>
-
+#InsPage {
+  background-color: #dceae1;
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+}
 </style>
