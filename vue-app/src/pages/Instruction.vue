@@ -370,7 +370,7 @@ export default defineComponent({
         line.setAttribute('x2', x2);
         line.setAttribute('y2', y2);
         line.setAttribute('stroke', '#3498db');
-        line.setAttribute('stroke-width', '5');
+        line.setAttribute('stroke-width', store.state.strokeWidth);
         svg.appendChild(line);
 
         // if (i === patternDots.length - 2) {
