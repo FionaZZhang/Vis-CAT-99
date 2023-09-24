@@ -4,6 +4,7 @@
       <div class="Icon">
         <img src="../assets/button_home.png" alt="Button Home" id="buttonHome" @click="navigateToLobby">
         <img src="../assets/button_restart.png" alt="Button Restart" id="buttonRestart" @click="clearPattern">
+        <img :src="soundButtonSrc" alt="Button Sound" id="buttonSound" @click="changeSound">
       </div>
       <img src="../assets/pink-cat@2x.png" alt="Cat Icon" id="catPink">
     </nav>
@@ -39,8 +40,9 @@
 
 <script>
 import { defineComponent } from "vue";
-// import { speak } from "./Speech.js";
-import {store} from "@/store";
+import { store } from "@/store";
+import { muteAudio, playAudio } from "./Speech.js";
+
 import "@/assets/gamepage.css"
 export default defineComponent({
   name: "AppPlayground",
@@ -58,8 +60,23 @@ export default defineComponent({
   beforeUnmount() {
     document.removeEventListener('touchmove', this.preventScroll);
   },
+  computed: {
+    soundButtonSrc(){
+      return store.state.isMute
+        ? require("../assets/sound_off.png")
+        : require("../assets/sound_on.png");
+    },
+  },
   methods: {
-
+    changeSound(){
+      store.state.isMute = !(store.state.isMute);
+      if (store.state.isMute){
+        muteAudio();
+      }
+      else {
+        playAudio();
+      }
+    },
     navigateToLobby() {
       this.$router.push("/Lobby");
       while (this.svg.firstChild) {

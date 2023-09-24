@@ -102,6 +102,7 @@
 }
 
 #InsPage {
+  overflow-y: auto;
   background-color: #fff0e6;
   position: absolute;
   width: 100vw;

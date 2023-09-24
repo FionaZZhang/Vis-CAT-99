@@ -3,7 +3,8 @@
     <nav>
       <div class="Icon">
         <img src="../assets/button_home.png" alt="Button Home" id="buttonHome" @click="navigateToLobby">
-        <img src="../assets/button_restart.png" alt="Button Restart" id="buttonRestart" @click="clearPattern">
+        <img src="../assets/button_restart.png" alt="Button Restart" id="buttonRestart" @click="StartInstruction">
+        <img :src="soundButtonSrc" alt="Button Sound" id="buttonSound" @click="changeSound">
       </div>
       <h3>Time used: {{ elapsedTime }}</h3>
       <img src="../assets/pink-cat@2x.png" alt="Cat Icon" id="catPink">
@@ -45,6 +46,7 @@
     </main>
     <footer>
       <button @click="revertPattern" v-if="pattern.length > 0" id="buttonReverse"><span id="textReverse"> Reverse </span></button>
+      <button @click="clearPattern" v-if="pattern.length > 0" id="buttonClear"><span id="textClear"> Clear </span></button>
       <button @click="navigateToStart(); stopTimer()"  id="buttonConfirm"><span id="textConfirm"> OK</span></button>
     </footer>
     <div id="modal" v-if="showModal" class="modal-container">
@@ -64,7 +66,7 @@
       <div class="interPage-modal">
         <div class="inter_page_content">
           <img class="next_level" src="../assets/next_level.png">
-          <img class="button_next_level" id="buttonNextLevel" src="../assets/button_next_level.png" @click="navigateToPage3">
+          <img class="button_next_level" id="buttonNextLevel" src="../assets/button_next_level.png" @click="navigateToPage5">
         </div>
       </div>
     </div>
@@ -84,7 +86,7 @@ import { defineComponent } from "vue";
 import * as checker from ".//Checker.js";
 import "@/assets/gamepage.css"
 import {store} from "@/store";
-import { speak } from "./Speech.js";
+import { speak, playAudio, muteAudio } from "./Speech.js";
 export default defineComponent({
   name: "AppChallenge1",
   data() {
@@ -104,17 +106,86 @@ export default defineComponent({
     };
   },
   mounted() {
-    this.instructionPopUp = true;
-    speak("Lateral_Vertical_2");
+    // clear all the existing lines;
+    
     this.svg = this.$el.querySelector('.connector');
     document.addEventListener('touchmove', this.preventScroll, { passive: false });
+    window.addEventListener('scroll', this.ReallignCells);
+    window.addEventListener('resize', this.ReallignCells);
+    this.StartInstruction();
     // this.loadPatternAndConnect(this.originalPattern);
   },
   beforeUnmount() {
-    document.removeEventListener('touchmove', this.preventScroll);
     clearInterval(this.timer);
+    this.clearPattern;
+    document.removeEventListener('touchmove', this.preventScroll);
+    window.removeEventListener('scroll', this.ReallignCells);
+    window.removeEventListener('resize', this.ReallignCells);
+  },
+
+  computed: {
+    soundButtonSrc(){
+      return store.state.isMute
+        ? require("../assets/sound_off.png")
+        : require("../assets/sound_on.png");
+    },
   },
   methods: {
+    changeSound(){
+      store.state.isMute = !(store.state.isMute);
+      if (store.state.isMute){
+        muteAudio();
+      }
+      else {
+        playAudio();
+      }
+    },
+    
+    navigateToPage5() {
+      this.$router.push("/Challenge2");
+    },
+   
+    StartInstruction(){
+      this.instructionPopUp = true;
+      speak("Copy_1");
+    },
+
+    CloseInstruction(){
+      this.instructionPopUp = false;
+      speak("Copy_2");
+    },
+
+    navigateToStart() {
+      if (checker.checkCorrectness(this.originalPattern, "rotate180", this.pattern)) {
+        if (store.state.isButtonOn4){
+          if (this.secondTry) {
+            store.state.copy = 2;
+          } else {
+            store.state.copy = 1;
+          }
+          this.$router.push("/Finish");
+        }
+        else{
+          if (this.secondTry) {
+            store.state.copy = 2;
+          } else {
+            store.state.copy = 1;
+          }
+          this.interPage = true;
+          // this.$router.push("/instruction2");
+        }
+      }
+      else {
+        if (this.secondTry) {
+          this.showModal = true;
+          this.secondTry = false;
+          speak("Copy_3");
+        } else {
+          this.$router.push("/Finish");
+        }
+      }
+    },
+
     startTimer() {
       if (!this.timerStarted) {
         this.timerStarted = true; 
@@ -127,33 +198,10 @@ export default defineComponent({
         this.timerStarted = false; 
       }
     },
+
     restartTimer() {
       this.elapsedTime = 0;
       this.startTimer();
-    },
-    navigateToStart() {
-      if (checker.checkCorrectness(this.originalPattern, "rotate180", this.pattern)) {
-        if (this.secondTry) {
-            store.state.rotate180 = 2;
-        } else {
-            store.state.rotate180 = 1;
-        }
-        this.interPage = true;
-      }
-      else {
-        if (this.secondTry) {
-          this.showModal = true;
-          this.secondTry = false;
-          speak("Lateral_Vertical_3")
-        } else {
-          this.$router.push("/Finish");
-        }
-      }
-    },
-
-    CloseInstruction(){
-      this.instructionPopUp = false;
-      speak("Lateral_Vertical_1");
     },
 
     YesRetry() {
@@ -165,18 +213,18 @@ export default defineComponent({
       this.$router.push("/Finish");
     },
     navigateToLobby() {
+      speak("Home_page");
       this.$router.push("/Lobby");
       while (this.svg.firstChild) {
         this.svg.removeChild(this.svg.lastChild);
       }
     },
-    navigateToPage3() {
-      this.$router.push("/challenge2");
-    },
+    
     preventScroll() {
-      document.getElementById('noScrollArea').addEventListener('touchmove', function(event) {
+      document.getElementById('graphArea').addEventListener('touchmove', function(event) {
       event.preventDefault();}, { passive: false });
     },
+
     startDrawing(event) {
       const cell = event.target;
       var lastId = -1;
@@ -193,6 +241,7 @@ export default defineComponent({
         }
       }
     },
+
     handleMouseOver(event) {
       const cell = event.target;
       const id = cell.dataset.id;
@@ -206,7 +255,12 @@ export default defineComponent({
           this.drawLine(prevCell, cell);
         }
       }
+
+      if (this.pattern.length > 0){
+        this.ReallignCells();
+      }
     },
+
     handleTouchMove(event) {
       const touch = event.touches[0];
       const element = document.elementFromPoint(touch.clientX, touch.clientY);
@@ -223,7 +277,12 @@ export default defineComponent({
           }
         }
       }
+
+      if (this.pattern.length > 0){
+        this.ReallignCells();
+      }
     },
+
     drawLine(cell1, cell2) {
       const rect1 = cell1.getBoundingClientRect();
       const rect2 = cell2.getBoundingClientRect();
@@ -236,6 +295,7 @@ export default defineComponent({
       line.setAttribute('stroke-width', store.state.strokeWidth);
       this.svg.appendChild(line);
     },
+
     loadPatternAndConnect(patternDots) {
       const dots = document.querySelectorAll('.dot');
       const svg = document.querySelector('.connector');
@@ -281,6 +341,54 @@ export default defineComponent({
         }
       }
     },
+
+    
+    RedrawPatternWhenScroll(patternDots) {
+      const dots = document.querySelectorAll('.cell');
+      const svg = document.querySelector('.connector');
+
+      for (const dot of dots) {
+        const dotId = parseInt(dot.dataset.id);
+        if (patternDots.includes(dotId)) {
+          dot.classList.add('active');
+        }
+      }
+
+      for (let i = 0; i < patternDots.length - 1; i++) {
+        const dotId1 = patternDots[i];
+        const dotId2 = patternDots[i + 1];
+        const dot1 = document.querySelector(`.cell[data-id="${dotId1}"]`);
+        const dot2 = document.querySelector(`.cell[data-id="${dotId2}"]`);
+
+        const x1 = dot1.offsetLeft + dot1.offsetWidth / 2;
+        const y1 = dot1.offsetTop + dot1.offsetHeight / 2;
+        const x2 = dot2.offsetLeft + dot2.offsetWidth / 2;
+        const y2 = dot2.offsetTop + dot2.offsetHeight / 2;
+
+        const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+        line.setAttribute('x1', x1);
+        line.setAttribute('y1', y1);
+        line.setAttribute('x2', x2);
+        line.setAttribute('y2', y2);
+        line.setAttribute('stroke', '#3498db');
+        line.setAttribute('stroke-width', '5');
+        svg.appendChild(line);
+
+        // if (i === patternDots.length - 2) {
+        //   // Calculate the angle of the line segment and reverse it
+        //   const angle = Math.atan2(y2 - y1, x2 - x1) - Math.PI;
+        //   // Rest of the code remains the same
+        //   const arrowSize = 40; // Adjust the size of the arrowhead
+        //   const arrowX = x2 - arrowSize * Math.cos(angle);
+        //   const arrowY = y2 - arrowSize * Math.sin(angle);
+        //   const arrow = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
+        //   arrow.setAttribute('points', `${arrowX},${arrowY} ${(arrowX + arrowSize * Math.cos(angle - Math.PI / 6))},${(arrowY + arrowSize * Math.sin(angle - Math.PI / 6))} ${(arrowX + arrowSize * Math.cos(angle + Math.PI / 6))},${(arrowY + arrowSize * Math.sin(angle + Math.PI / 6))}`);
+        //   arrow.setAttribute('fill', 'black'); // Arrowhead color
+        //   svg.appendChild(arrow);
+        // }
+      }
+    },
+
     endDrawing() {
       this.isDrawing = false;
     },
@@ -294,6 +402,24 @@ export default defineComponent({
         this.svg.removeChild(this.svg.lastChild);
       }
     },
+
+
+    ReallignCells() {
+      if (this.pattern.length == 0){
+        this.loadPatternAndConnect(this.originalPattern);
+      }
+      
+      while (this.svg.childElementCount > 0) {
+        this.svg.removeChild(this.svg.lastChild);
+      }
+      this.loadPatternAndConnect(this.originalPattern);
+      if (this.pattern.length > 0){
+        this.RedrawPatternWhenScroll(this.pattern);
+      }
+      
+      
+    },
+
     revertPattern() {
       if (this.pattern.length === 0) return;
       // Remove the last item from the pattern arrays
@@ -309,12 +435,12 @@ export default defineComponent({
   },
 });
 </script>
-  
+
 <style scoped>
 #InsPage {
   background-color: #dceae1;
   position: fixed;
   width: 100vw;
   height: 100vh;
-}
+}  
 </style>
