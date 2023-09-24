@@ -146,7 +146,7 @@ export default defineComponent({
    
     StartInstruction(){
       this.instructionPopUp = true;
-      speak("Lateral_Vertical_1");
+      speak("Copy_1");
     },
 
     CloseInstruction(){
