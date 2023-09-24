@@ -73,7 +73,7 @@
       <div class="instructionPopUp-modal">
         <div class="inter_page_content">
           <img class="instructionGIF" src="../assets/copyPattern.gif" alt="instructionGIF">
-          <img class="instructionConfirm" id="buttonInstructionConfirm" src="../assets/button_confirm.png" @click="CloseInstruction(); startTimer()">
+          <img class="instructionConfirm" id="buttonInstructionConfirm" src="../assets/button_confirm.png" @click="CloseInstruction(); loadPatternAndConnect(this.originalPattern); startTimer()">
         </div>   
       </div>
     </div>
@@ -97,7 +97,6 @@ export default defineComponent({
       secondTry: true,
       interPage: false,
       instructionPopUp: false,
-      // originalPattern: [1, 2, 3, 4, 7, 10 ,13],
       originalPattern: [1, 2, 3, 4, 8, 7, 10, 11, 5, 9, 13, 14, 15, 16],
       timer: null,
       elapsedTime: 0,
@@ -106,36 +105,37 @@ export default defineComponent({
   },
   mounted() {
     // clear all the existing lines;
-    this.StartInstruction();
-    this.loadPatternAndConnect(this.originalPattern);
-    this.ReallignCells();
+    
     this.svg = this.$el.querySelector('.connector');
     document.addEventListener('touchmove', this.preventScroll, { passive: false });
     window.addEventListener('scroll', this.ReallignCells);
     window.addEventListener('resize', this.ReallignCells);
+    this.StartInstruction();
     // this.loadPatternAndConnect(this.originalPattern);
   },
   beforeUnmount() {
-    document.removeEventListener('touchmove', this.preventScroll);
     clearInterval(this.timer);
+    this.clearPattern;
+    document.removeEventListener('touchmove', this.preventScroll);
+    window.removeEventListener('scroll', this.ReallignCells);
+    window.removeEventListener('resize', this.ReallignCells);
   },
+
   methods: {
-    startTimer() {
-      if (!this.timerStarted) {
-        this.timerStarted = true; 
-        this.timer = setInterval(() => { this.elapsedTime += 1; }, 1000);         
-      }
+    navigateToPage2() {
+      this.$router.push("/instruction2");
     },
-    stopTimer() {
-      if (this.timerStarted) {
-        clearInterval(this.timer); 
-        this.timerStarted = false; 
-      }
+
+    StartInstruction(){
+      this.instructionPopUp = true;
+      speak("Lateral_Vertical_1");
     },
-    restartTimer() {
-      this.elapsedTime = 0;
-      this.startTimer();
+
+    CloseInstruction(){
+      this.instructionPopUp = false;
+      speak("Copy_2");
     },
+
     navigateToStart() {
       if (checker.checkCorrectness(this.originalPattern, "copy", this.pattern)) {
         if (store.state.isButtonOn4){
@@ -167,14 +167,22 @@ export default defineComponent({
       }
     },
 
-    StartInstruction(){
-      this.instructionPopUp = true;
-      speak("Lateral_Vertical_1");
+    startTimer() {
+      if (!this.timerStarted) {
+        this.timerStarted = true; 
+        this.timer = setInterval(() => { this.elapsedTime += 1; }, 1000);         
+      }
+    },
+    stopTimer() {
+      if (this.timerStarted) {
+        clearInterval(this.timer); 
+        this.timerStarted = false; 
+      }
     },
 
-    CloseInstruction(){
-      this.instructionPopUp = false;
-      speak("Copy_2");
+    restartTimer() {
+      this.elapsedTime = 0;
+      this.startTimer();
     },
 
     YesRetry() {
@@ -191,13 +199,12 @@ export default defineComponent({
         this.svg.removeChild(this.svg.lastChild);
       }
     },
-    navigateToPage2() {
-      this.$router.push("/instruction2");
-    },
+    
     preventScroll() {
       document.getElementById('graphArea').addEventListener('touchmove', function(event) {
       event.preventDefault();}, { passive: false });
     },
+
     startDrawing(event) {
       const cell = event.target;
       var lastId = -1;
@@ -376,18 +383,21 @@ export default defineComponent({
       }
     },
 
+
     ReallignCells() {
-      if (this.pattern.length > 0){
-        // const cells = this.$el.querySelectorAll('.cell.active');
-        // cells.forEach(cell => {
-        // cell.classList.remove('active');
-        // });
-        while (this.svg.childElementCount > 0) {
-          this.svg.removeChild(this.svg.lastChild);
-        }
+      if (this.pattern.length == 0){
         this.loadPatternAndConnect(this.originalPattern);
+      }
+      
+      while (this.svg.childElementCount > 0) {
+        this.svg.removeChild(this.svg.lastChild);
+      }
+      this.loadPatternAndConnect(this.originalPattern);
+      if (this.pattern.length > 0){
         this.RedrawPatternWhenScroll(this.pattern);
-      }   
+      }
+      
+      
     },
 
     revertPattern() {
