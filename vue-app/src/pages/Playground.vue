@@ -42,6 +42,7 @@
 import { defineComponent } from "vue";
 import { store } from "@/store";
 import { muteAudio, playAudio } from "./Speech.js";
+
 import "@/assets/gamepage.css"
 export default defineComponent({
   name: "AppPlayground",
@@ -142,7 +143,7 @@ export default defineComponent({
       line.setAttribute('x2', rect2.left + rect2.width / 2);
       line.setAttribute('y2', rect2.top + rect2.height / 2);
       line.setAttribute('stroke', '#3498db');
-      line.setAttribute('stroke-width', '5');
+      line.setAttribute('stroke-width', store.state.strokeWidth);
       this.svg.appendChild(line);
     },
     endDrawing() {

@@ -280,7 +280,7 @@ export default defineComponent({
       line.setAttribute('x2', rect2.left + rect2.width / 2);
       line.setAttribute('y2', rect2.top + rect2.height / 2);
       line.setAttribute('stroke', '#3498db');
-      line.setAttribute('stroke-width', '5');
+      line.setAttribute('stroke-width', store.state.strokeWidth);
       this.svg.appendChild(line);
     },
 
@@ -312,14 +312,14 @@ export default defineComponent({
         line.setAttribute('x2', x2);
         line.setAttribute('y2', y2);
         line.setAttribute('stroke', 'black');
-        line.setAttribute('stroke-width', '5');
+        line.setAttribute('stroke-width', store.state.strokeWidth);
         svg.appendChild(line);
 
         if (i === patternDots.length - 2) {
           // Calculate the angle of the line segment and reverse it
           const angle = Math.atan2(y2 - y1, x2 - x1) - Math.PI;
           // Rest of the code remains the same
-          const arrowSize = 40; // Adjust the size of the arrowhead
+          const arrowSize = store.state.arrowSize; // Adjust the size of the arrowhead
           const arrowX = x2 - arrowSize * Math.cos(angle);
           const arrowY = y2 - arrowSize * Math.sin(angle);
           const arrow = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
@@ -359,7 +359,7 @@ export default defineComponent({
         line.setAttribute('x2', x2);
         line.setAttribute('y2', y2);
         line.setAttribute('stroke', '#3498db');
-        line.setAttribute('stroke-width', '5');
+        line.setAttribute('stroke-width', store.state.strokeWidth);
         svg.appendChild(line);
 
         // if (i === patternDots.length - 2) {
