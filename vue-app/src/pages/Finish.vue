@@ -26,7 +26,7 @@
   import { defineComponent } from "vue";
   import {store} from "@/store";
   import axios from 'axios';
-import { speak, muteAudio, playAudio } from "./Speech";
+  import { speak, muteAudio, playAudio } from "./Speech";
 
 
   export default defineComponent({
@@ -57,7 +57,7 @@ import { speak, muteAudio, playAudio } from "./Speech";
       },
     },
     mounted() {
-      speak("Well_done");
+      speak("victory");
       let total = store.state.copy + store.state.lateral + store.state.vertical;
       console.log(store.state.studentId);
 

@@ -53,11 +53,11 @@
       <div class="custom-modal">
         <div class="custom-modal-content">
           <div class="custom-modal-header">
-            <h3>Have another go?</h3>
+            <h3>Do you think your pattern looks like it's been rotated correctly?</h3>
           </div>
           <div class="custom-modal-buttons">
-            <button class="cute-button" @click="YesRetry(); restartTimer()">Yes, please!</button>
-            <button class="cute-button" @click="NoGiveup">No, thanks</button>
+            <button class="cute-button" @click="YesRetry(); restartTimer()">No, try again</button>
+            <button class="cute-button" @click="NoGiveup">Yes, submit</button>
           </div>
         </div>
       </div>
