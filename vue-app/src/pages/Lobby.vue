@@ -19,6 +19,10 @@
         <img class="playIcon" alt="" src="../assets/play-icon@2x.png"/>
       </div>
 
+      <div :class="soundButton" @click="changeSound">
+        <img class="soundButtonIcon" alt="" :src="soundButtonSrc" />
+      </div>
+
       <div class="buttonPlayground" @click="navigateToPlayground">
         <img class="buttonPlaygroundIcon" alt="" src="../assets/button-playground.svg"/>
         <div class="playgroundButtonText">Playground</div>
@@ -54,7 +58,8 @@
 </template>
 <script>
   import { defineComponent } from "vue";
-  import { speak } from "./Speech.js";
+  import { speak, muteAudio, playAudio } from "./Speech.js";
+  import { store } from "@/store";
 
   export default defineComponent({
     name: "AppLobby",
@@ -66,6 +71,13 @@
       document.removeEventListener('touchmove', this.preventScroll);
       // window.removeEventListener('orientationchange', this.preventRotation);
     },
+    computed: {
+      soundButtonSrc(){
+        return store.state.isMute
+          ? require("../assets/sound_off.png")
+          : require("../assets/sound_on.png");
+      },
+    },
     methods: {
       // preventScroll(e) {
       //   e.preventDefault();
@@ -73,32 +85,50 @@
       // preventRotation(e) {
       //   e.preventDefault();
       // },
+      changeSound(){
+        store.state.isMute = !(store.state.isMute);
+        if (store.state.isMute){
+          muteAudio();
+        }
+        else {
+          playAudio();
+        }
+      },
       navigateToSettings() {
-        speak("Settings");
+        speak("Settings_page");
         this.$router.push("/Settings");
       },
       navigateToPlayground() {
-        speak("Playground");
+        // speak("Playground");
         this.$router.push("/Playground");
       },
       navigateToInstruction(){	
-        speak("Starting test. Please follow the instructions on the screen.");
         this.$router.push("/Instruction");	
       },
       navigateToAccount(){
-        speak("Accounts page");
+        speak("Accounts_page");
         this.$router.push("/Account");
       },
-      navigateToFinish(){
-        this.$router.push("/Finish");
-      },
       playLobbyInstructions(){
-        speak("Welcome! Click start to take the test!");
+        speak("Lobby_welcome");
       }
     }
   });
 </script>
 <style scoped>
+  .soundButtonIcon {
+    position: absolute;
+    top: -24%;
+    left: 37.5%;
+    bottom: 80%;
+    right: 15%;
+    width: 10vw;
+    height: 10vw;
+    overflow: hidden;
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: cover;
+  }
   .mapIcon {
     position: fixed;
     display: block;

@@ -17,25 +17,47 @@
     <img :class="$style.flagPole1" alt="" src="../assets/flag-pole-1.png" />
     <img :class="$style.flagPole2" alt="" src="../assets/flag-pole-2.png" />
     <img :class="$style.finishFlagIcon" alt="" src="../assets/finish-flag.png" />
+    <div :class="$stylesoundButton" @click="changeSound">
+      <img :class="$style.soundButtonIcon" alt="" :src="soundButtonSrc" />
+    </div>
   </div>
 </template>
 <script>
   import { defineComponent } from "vue";
   import {store} from "@/store";
   import axios from 'axios';
+import { speak, muteAudio, playAudio } from "./Speech";
 
 
   export default defineComponent({
     name: "AppFinish",
+    computed: {
+      soundButtonSrc(){
+        return store.state.isMute
+          ? require("../assets/sound_off.png")
+          : require("../assets/sound_on.png");
+      },
+    },
     methods: {
       navigateToLobby() {
+        speak("Home_page");
         this.$router.push("/Lobby");
       },
       navigateToChallenge() {
         this.$router.push("/Challenge1");
-      }
+      },
+      changeSound(){
+        store.state.isMute = !(store.state.isMute);
+        if (store.state.isMute){
+          muteAudio();
+        }
+        else {
+          playAudio();
+        }
+      },
     },
     mounted() {
+      speak("Well_done");
       let total = store.state.copy + store.state.lateral + store.state.vertical;
       console.log(store.state.studentId);
 
@@ -56,6 +78,18 @@
   });
 </script>
 <style module>
+  .soundButtonIcon {
+    position: absolute;
+    top: 4.9%;
+    right: 50.5%;
+    bottom: 78.78%;
+    left: 52.27%;
+    width: 11.5vw;
+    height: 11.5vw;
+    overflow: hidden;
+    max-width: 100%;
+    max-height: 100%;
+  }
   .grassIcon {
     position: fixed;
     height: 22.36%;

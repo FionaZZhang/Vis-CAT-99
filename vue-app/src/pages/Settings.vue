@@ -34,6 +34,10 @@
       <span class="partialMode1">Partial Mode</span>
       <span> if you only want to play the first level.</span>
     </div>
+
+    <div :class="soundButton" @click="changeSound">
+      <img class="soundButtonIcon" alt="" :src="soundButtonSrc" />
+    </div>
     
     <img class="settingsboard" alt="" src="../assets/settingsboard.png" />
     <div class="settingsboard">
@@ -49,32 +53,6 @@
         </div>
         <div class="buttonoff1" @click="switch1('buttonoff1')">
           <img class="buttonlanguageIcon1" alt="" :src="buttonoffSrc1" />
-          <div class="off">OFF</div>
-        </div>
-      </div>
-
-      <div class="line2">
-        <img alt="" src="../assets/line-2.png" />
-        <div class="settingText">Display Results</div>
-        <div class="buttonon2" @click="switch2('buttonon2')">
-          <img class="buttonlanguageIcon1" alt="" :src="buttononSrc2" />
-          <div class="on">ON</div>
-        </div>
-        <div class="buttonoff2" @click="switch2('buttonoff2')">
-          <img class="buttonlanguageIcon1" alt="" :src="buttonoffSrc2" />
-          <div class="off">OFF</div>
-        </div>
-      </div>
-
-      <div class="line3">
-        <img alt="" src="../assets/line-2.png" />
-        <div class="settingText">Send Results</div>
-        <div class="buttonon3" @click="switch3('buttonon3')">
-          <img class="buttonlanguageIcon1" alt="" :src="buttononSrc3" />
-          <div class="on">ON</div>
-        </div>
-        <div class="buttonoff3" @click="switch3('buttonoff3')">
-          <img class="buttonlanguageIcon1" alt="" :src="buttonoffSrc3" />
           <div class="off">OFF</div>
         </div>
       </div>
@@ -97,7 +75,7 @@
         <div class="settingText">Voice Selection</div>
         <div class="dropdown" @click="loadVoices">
           <select v-model="selectedVoice" class="custom-dropdown" @change="voiceChanged">
-            <option v-for="voice in voices" :key="voice.name" :value="voice">{{ voice.name }}</option>
+            <option v-for="voice in voices" :key="voice" :value="voice">{{ voice }}</option>
           </select>
         </div>
       </div>
@@ -107,13 +85,13 @@
 <script>
   import { defineComponent } from "vue";
   import { store } from "@/store";
-  import { setVoice, speak, currentVoice, setVoiceFlag } from "./Speech.js";
+  import { setVoice, currentVoice, setVoiceFlag, getVoices, speak, muteAudio, playAudio } from "./Speech.js";
   export default defineComponent({
     name: "AppSettings",
     data() {
       return {
         selectedVoice: currentVoice,
-        voices: window.speechSynthesis.getVoices(),
+        voices: getVoices(),
       };
     },
     computed: {
@@ -127,26 +105,6 @@
           ? require("../assets/Unchosen.svg")
           : require("../assets/Chosen.svg");
       },
-      buttononSrc2() {
-        return store.state.isButtonOn2
-          ? require("../assets/Chosen.svg")
-          : require("../assets/Unchosen.svg");
-      },
-      buttonoffSrc2() {
-        return store.state.isButtonOn2
-          ? require("../assets/Unchosen.svg")
-          : require("../assets/Chosen.svg");
-      },
-      buttononSrc3() {
-        return store.state.isButtonOn3
-          ? require("../assets/Chosen.svg")
-          : require("../assets/Unchosen.svg");
-      },
-      buttonoffSrc3() {
-        return store.state.isButtonOn3
-          ? require("../assets/Unchosen.svg")
-          : require("../assets/Chosen.svg");
-      },
       buttononSrc4() {
         return store.state.isButtonOn4
           ? require("../assets/Chosen.svg")
@@ -157,68 +115,59 @@
           ? require("../assets/Unchosen.svg")
           : require("../assets/Chosen.svg");
       },
+      soundButtonSrc(){
+        return store.state.isMute
+          ? require("../assets/sound_off.png")
+          : require("../assets/sound_on.png");
+      },
     },
 
     methods: {
+      changeSound(){
+        store.state.isMute = !(store.state.isMute);
+        if (store.state.isMute){
+          muteAudio();
+        }
+        else {
+          playAudio();
+        }
+      },
       playSettingInstructions(){
         if (store.state.isButtonOn1){
-          speak("Turn on Partial Mode if you only want to play the first level");
+          speak("Settings_instruction");
         }
       },
       voiceChanged(){
         setVoice(this.selectedVoice);
       },
       loadVoices(){
-        this.voices = window.speechSynthesis.getVoices();
-      },
-      textToSpeech(text){
-        if (store.state.isButtonOn1){
-          speak(text);
-        }
+        this.voices = getVoices();
       },
       navigateToLobby() {
-        speak("Home page");
+        speak("Home_page");
         this.$router.push("/Lobby");
       },
       navigateToAccount() {
-        speak("Accounts page");
+        speak("Accounts_page");
         this.$router.push("/Account");
       },
       switch1(button) {
         if (button === "buttonon1") {
           store.state.isButtonOn1 = true;
           setVoiceFlag(store.state.isButtonOn1);
-          this.textToSpeech("Voice instructions activated");
+          speak("Settings_voice_on");
         } else {
           store.state.isButtonOn1 = false;
           setVoiceFlag(store.state.isButtonOn1);
         }
       },
-      switch2(button) {
-        if (button === "buttonon2") {
-          store.state.isButtonOn2 = true;
-          this.textToSpeech("Display results activated");
-        } else {
-          store.state.isButtonOn2 = false;
-          this.textToSpeech("Display results deactivated");
-        }
-      },
-      switch3(button) {
-        if (button === "buttonon3") {
-          store.state.isButtonOn3 = true;
-          this.textToSpeech("Send results activated");
-        } else {
-          store.state.isButtonOn3 = false;
-          this.textToSpeech("Send results deactivated");
-        }
-      },
       switch4(button) {
         if (button === "buttonon4") {
           store.state.isButtonOn4 = true;
-          this.textToSpeech("Partial mode activated");
+          speak("Settings_partial_on");
         } else {
           store.state.isButtonOn4 = false;
-          this.textToSpeech("Partial mode deactivated");
+          speak("Settings_partial_off");
         }
       },
     }
@@ -234,13 +183,6 @@
     font-size: 2.5vw; 
     text-align: center;
   }
-  .line5 {
-    position: absolute;
-    top: 77%;
-    left: 4%;
-    width: 32vw;
-    height: 0.5vw;
-  }
   select {
     position: absolute;
     top: -500%;
@@ -255,6 +197,19 @@
     background-size: cover;
     cursor: pointer;
     text-overflow: ellipsis;
+  }
+  .soundButtonIcon {
+    position: absolute;
+    top: 5.6%;
+    left: 37.5%;
+    bottom: 80%;
+    right: 15%;
+    width: 10vw;
+    height: 10vw;
+    overflow: hidden;
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: cover;
   }
   .settingsIcon {
     position: absolute;
@@ -386,21 +341,14 @@
     width: 32vw;
     height: 0.5vw;
   }
-  .line2 {
-    position: absolute;
-    top: 44%;
-    left: 4%;
-    width: 32vw;
-    height: 0.5vw;
-  }
-  .line3 {
-    position: absolute;
-    top: 55%;
-    left: 4%;
-    width: 32vw;
-    height: 0.5vw;
-  }
   .line4 {
+    position: absolute;
+    top: 49.5%;
+    left: 4%;
+    width: 32vw;
+    height: 0.5vw;
+  }
+  .line5 {
     position: absolute;
     top: 66%;
     left: 4%;
@@ -424,7 +372,6 @@
     color: var(--color-black);
     font-family: var(--font-jua);
   }
-
   .buttonon1 {
     position: relative;
     top: -1200%;
@@ -432,38 +379,7 @@
     width: 6vw;
     height: 3vw;
   }
-
   .buttonoff1 {
-    position: relative;
-    top: -1800%;
-    right: -110%;
-    width: 6vw;
-    height: 3vw;
-  }
-  .buttonon2 {
-    position: relative;
-    top: -1200%;
-    right: -90%;
-    width: 6vw;
-    height: 3vw;
-  }
-
-  .buttonoff2 {
-    position: relative;
-    top: -1800%;
-    right: -110%;
-    width: 6vw;
-    height: 3vw;
-  }
-  .buttonon3 {
-    position: relative;
-    top: -1200%;
-    right: -90%;
-    width: 6vw;
-    height: 3vw;
-  }
-
-  .buttonoff3 {
     position: relative;
     top: -1800%;
     right: -110%;
@@ -477,7 +393,6 @@
     width: 6vw;
     height: 3vw;
   }
-
   .buttonoff4 {
     position: relative;
     top: -1800%;
@@ -486,17 +401,11 @@
     height: 3vw;
   }
 
-
-
     /* Hover effects for buttons */
 
   .iconSettings:hover .settingsIcon,
   .buttonon1:hover,
   .buttonoff1:hover,
-  .buttonon2:hover,
-  .buttonoff2:hover,
-  .buttonon3:hover,
-  .buttonoff3:hover,
   .buttonon4:hover,
   .buttonoff4:hover {
     transform: scale(1.25);
