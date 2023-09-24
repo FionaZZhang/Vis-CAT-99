@@ -152,7 +152,7 @@ export default defineComponent({
 
     CloseInstruction(){
       this.instructionPopUp = false;
-      speak("Copy_2");
+      speak("Lateral_Vertical_2");
     },
 
     navigateToStart() {
@@ -179,7 +179,7 @@ export default defineComponent({
         if (this.secondTry) {
           this.showModal = true;
           this.secondTry = false;
-          speak("Copy_3");
+          speak("Lateral_Vertical__3");
         } else {
           this.$router.push("/Finish");
         }
