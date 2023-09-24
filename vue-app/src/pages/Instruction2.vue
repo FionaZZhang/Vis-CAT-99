@@ -179,7 +179,7 @@ export default defineComponent({
         if (this.secondTry) {
           this.showModal = true;
           this.secondTry = false;
-          speak("Lateral_Vertical__3");
+          speak("Lateral_Vertical_3");
         } else {
           this.$router.push("/Finish");
         }
