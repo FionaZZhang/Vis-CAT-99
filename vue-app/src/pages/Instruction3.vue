@@ -188,19 +188,6 @@ export default defineComponent({
       }
     },
 
-    startTimer() {
-      if (!this.timerStarted) {
-        this.timerStarted = true; 
-        this.timer = setInterval(() => { this.elapsedTime += 1; }, 1000);         
-      }
-    },
-    stopTimer() {
-      if (this.timerStarted) {
-        clearInterval(this.timer); 
-        this.timerStarted = false; 
-      }
-    },
-
     restartTimer() {
       this.elapsedTime = 0;
       this.startTimer();
