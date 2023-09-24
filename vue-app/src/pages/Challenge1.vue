@@ -72,7 +72,7 @@
       <div class="instructionPopUp-modal">
         <div class="inter_page_content">
           <img class="instructionGIF" src="../assets/lateralFlip.gif" alt="instructionGIF">
-          <img class="instructionConfirm" id="buttonInstructionConfirm" src="../assets/button_confirm.png" @click="CloseInstruction(); startTimer()">
+          <img class="instructionConfirm" id="buttonInstructionConfirm" src="../assets/button_confirm.png" @click="CloseInstruction(); loadPatternAndConnect(this.originalPattern); startTimer()">
         </div>   
       </div>
     </div>
@@ -108,10 +108,9 @@ export default defineComponent({
     speak("Lateral_Vertical_2");
     this.svg = this.$el.querySelector('.connector');
     document.addEventListener('touchmove', this.preventScroll, { passive: false });
-    this.loadPatternAndConnect(this.originalPattern);
+    // this.loadPatternAndConnect(this.originalPattern);
   },
   beforeUnmount() {
-    this.clearPattern;
     document.removeEventListener('touchmove', this.preventScroll);
     clearInterval(this.timer);
   },
