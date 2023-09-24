@@ -86,7 +86,19 @@ body {
   left: 2.51%;
   color: var(--color-plum);
 }
-
+.soundButtonIcon {
+  position: fixed;
+  top: 6.4%;
+  left: 35.6%;
+  bottom: 80%;
+  right: 15%;
+  width: 9vw;
+  height: 9vw;
+  overflow: hidden;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: cover;
+}
 .buttonYellow {
   position: absolute;
   height: 100%;

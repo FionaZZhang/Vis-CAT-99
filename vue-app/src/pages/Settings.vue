@@ -198,19 +198,6 @@
     cursor: pointer;
     text-overflow: ellipsis;
   }
-  .soundButtonIcon {
-    position: absolute;
-    top: 5.6%;
-    left: 37.5%;
-    bottom: 80%;
-    right: 15%;
-    width: 10vw;
-    height: 10vw;
-    overflow: hidden;
-    max-width: 100%;
-    max-height: 100%;
-    object-fit: cover;
-  }
   .settingsIcon {
     position: absolute;
     height: 79.17%;
