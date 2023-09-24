@@ -4,6 +4,7 @@
       <div class="Icon">
         <img src="../assets/button_home.png" alt="Button Home" id="buttonHome" @click="navigateToLobby">
         <img src="../assets/button_restart.png" alt="Button Replay" id="buttonReplay" @click="StartInstruction">
+        <img :src="soundButtonSrc" alt="Button Sound" id="buttonSound" @click="changeSound">
       </div>
       <h3>Time used: {{ elapsedTime }}</h3>
       <img src="../assets/pink-cat@2x.png" alt="Cat Icon" id="catPink">
@@ -77,7 +78,7 @@ import { defineComponent } from "vue";
 import * as checker from ".//Checker.js";
 import "@/assets/gamepage.css"
 import {store} from "@/store";
-import { speak } from "./Speech.js";
+import { speak, playAudio, muteAudio } from "./Speech.js";
 export default defineComponent({
   name: "AppInstruction3",
   data() {
@@ -112,12 +113,43 @@ export default defineComponent({
     window.removeEventListener('scroll', this.ReallignCells);
     window.removeEventListener('resize', this.ReallignCells);
   },
-
+  
+  computed: {
+    soundButtonSrc(){
+      return store.state.isMute
+        ? require("../assets/sound_off.png")
+        : require("../assets/sound_on.png");
+    },
+  },
+  
   methods: {
-
+    changeSound(){
+      store.state.isMute = !(store.state.isMute);
+      if (store.state.isMute){
+        muteAudio();
+      }
+      else {
+        playAudio();
+      }
+    },
+    
     StartInstruction(){
       this.instructionPopUp = true;
       speak("Lateral_Vertical_1");
+    },
+    
+    startTimer() {
+      if (!this.timerStarted) {
+        this.timerStarted = true; 
+        this.timer = setInterval(() => { this.elapsedTime += 1; }, 1000);         
+      }
+    },
+    
+    stopTimer() {
+      if (this.timerStarted) {
+        clearInterval(this.timer); 
+        this.timerStarted = false; 
+      }
     },
 
     CloseInstruction(){

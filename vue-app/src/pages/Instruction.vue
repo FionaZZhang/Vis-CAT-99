@@ -4,6 +4,7 @@
       <div class="Icon">
         <img src="../assets/button_home.png" alt="Button Home" id="buttonHome" @click="navigateToLobby">
         <img src="../assets/button_restart.png" alt="Button Replay" id="buttonReplay" @click="StartInstruction">
+        <img :src="soundButtonSrc" alt="Button Sound" id="buttonSound" @click="changeSound">
       </div>
       <h3>Time used: {{ elapsedTime }}</h3>
       <img src="../assets/pink-cat@2x.png" alt="Cat Icon" id="catPink">
@@ -84,7 +85,7 @@
 import { defineComponent } from "vue";
 import { store } from "@/store";
 import * as checker from ".//Checker.js";
-import { speak } from "./Speech.js";
+import { speak, muteAudio, playAudio } from "./Speech.js";
 import "@/assets/gamepage.css"
 export default defineComponent({
   name: "AppInstruction",
@@ -121,11 +122,28 @@ export default defineComponent({
     window.removeEventListener('resize', this.ReallignCells);
   },
 
+  computed: {
+    soundButtonSrc(){
+      return store.state.isMute
+        ? require("../assets/sound_off.png")
+        : require("../assets/sound_on.png");
+    },
+  },
   methods: {
+    changeSound(){
+      store.state.isMute = !(store.state.isMute);
+      if (store.state.isMute){
+        muteAudio();
+      }
+      else {
+        playAudio();
+      }
+    },
+    
     navigateToPage2() {
       this.$router.push("/instruction2");
     },
-
+   
     StartInstruction(){
       this.instructionPopUp = true;
       speak("Lateral_Vertical_1");
@@ -194,6 +212,7 @@ export default defineComponent({
       this.$router.push("/Finish");
     },
     navigateToLobby() {
+      speak("Home_page");
       this.$router.push("/Lobby");
       while (this.svg.firstChild) {
         this.svg.removeChild(this.svg.lastChild);
@@ -417,7 +436,6 @@ export default defineComponent({
 </script>
 
 <style scoped>
-
 
 /* p {
   font-size: 18px;
