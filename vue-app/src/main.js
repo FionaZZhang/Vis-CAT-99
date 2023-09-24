@@ -12,7 +12,7 @@ import AppAccount from "./pages/Account.vue";
 import AppFinish from "./pages/Finish.vue";
 import AppChallenge1 from "./pages/Challenge1.vue"
 import AppChallenge2 from "./pages/Challenge2.vue"
-import store from './store';
+import { store } from './store';
 
 import "./global.css";
 
