@@ -139,7 +139,7 @@ main {
   display: flex;
   flex-direction: column;
   justify-content: start;
-  gap: 10%;
+  gap: 5%;
   height: 70%;
 }
 
@@ -150,8 +150,8 @@ main {
 
 .grid-wrapper {
   display: flex;
-  width: 35%;
-  height: 270%;
+  width: 39%;
+  height: 230%;
 }
 
 header {
@@ -261,12 +261,13 @@ footer {
   height: 100%;
   width: 100%;
   grid-template-columns: repeat(4, 1fr);
-  gap: 21%;
+  gap: 18%;
 }
 
 .cell {
-  width: 2vw;
-  height: 2vw;
+  position: fixed;
+  width: 3vw;
+  height: 3vw;
   background-color: black;
   border-radius: 50%;
   transition: background-color 0.2s;
@@ -284,8 +285,8 @@ footer {
 }
 
 .dot {
-  width: 2vw;
-  height: 2vw;
+  width: 3vw;
+  height: 3vw;
   background-color: black;
   border-radius: 50%;
   transition: background-color 0.2s;
