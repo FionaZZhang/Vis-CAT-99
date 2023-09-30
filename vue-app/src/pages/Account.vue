@@ -73,6 +73,8 @@
         <div class="dotDecor" />
       </div>
       <div id="classnum" class="class"></div>
+      <div class="loginButton" @click="login">Login</div>
+      <div class="registerButton" @click="register">Register</div>
       <div class="scanButton" @click="openQrScanner">
         <div class="scanText">Scan</div>
         <img class="scanIcon" alt="" src="../assets/scan-icon@2x.png" />
@@ -90,6 +92,7 @@ import { defineComponent } from "vue";
 import jsQR from 'jsqr';
 import {store} from "@/store";
 import { speak, playAudio, muteAudio } from "./Speech.js";
+import axios from 'axios';
 
 export default defineComponent({
   name: "AppAccount",
@@ -104,11 +107,15 @@ export default defineComponent({
       buttonText: store.state.studentId ? 'Selected' : 'Select',
       selectedRef: [],
       containerScrollTop: 0,
+      appData: {
+        classes: [],
+      },
     };
   },
   beforeUnmount() {
     this.stopVideo();
   },
+
   computed: {
     soundButtonSrc(){
       return store.state.isMute
@@ -206,7 +213,76 @@ export default defineComponent({
         this.showQR = false;
       }
     },
+    login() {
+      const className = prompt('Enter class name:');
+      if (className && typeof className === 'string') {
+        this.selectedStudentIndex = -1;
+        this.students = [];
+        this.selectedStudent = [];
 
+        axios.get('http://localhost:3000/api/classes', {
+          params: {
+            className: className,
+          },
+        })
+          .then(response => {
+            try {
+              console.log(response.data)
+              const loginData = this.parseJsonData(response.data);
+              this.displayResult(loginData);
+              store.state.students = this.students;
+            } catch (error) {
+              console.error('Not in correct format', error);
+            }
+          })
+          .catch(error => {
+            console.error('Error fetching data:', error);
+            alert('Failed to fetch class data');
+          });
+    } else {
+      alert('Invalid class name');
+    }
+    },
+    register() {
+      const newClassName = prompt('Enter new class name:');
+
+      if (newClassName && typeof newClassName === 'string') {
+        const students = [];
+        let addAnotherStudent = true;
+
+        while (addAnotherStudent) {
+          const studentName = prompt('Enter student name:');
+          const studentId = prompt('Enter student ID:');
+
+          if (studentName && studentId && typeof studentName === 'string' && typeof studentId === 'string') {
+            students.push({ name: studentName, id: studentId });
+          } else {
+            alert('Invalid student name or ID. Student not added.');
+          }
+          addAnotherStudent = confirm('Do you want to add another student?');
+        }
+        axios.post('http://localhost:3000/api/classes', { className: newClassName, students })
+      } else {
+        alert('Invalid class name');
+      }
+    },
+    parseJsonData(jsonData) {
+      try {
+        const students = jsonData.students.map(student => {
+          return {
+            name: student.name,
+            id: student.id
+          };
+        });
+
+        return {
+          students
+        };
+      } catch (error) {
+        console.error('Error parsing JSON data:', error);
+        throw new Error('Invalid JSON data format');
+      }
+    },
     parseQRCodeData(qrData) {
       const lines = qrData.split('\n');
 
@@ -276,6 +352,54 @@ export default defineComponent({
 });
 </script>
 <style scoped>
+
+.loginButton {
+    cursor: pointer;
+    padding: 1vw;
+    margin: 1vw;
+    border: 0.4vw solid #3498db;
+    border-radius: 1vw;
+    color: #3498db;
+    background-color: #fff;
+    font-size: 2vw;
+    transition: background-color 0.3s, color 0.3s;
+    width: 17%;
+    height: 2%;
+    position: absolute;
+    top: 43%;
+    left: 18%;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.registerButton {
+    cursor: pointer;
+    padding: 1vw;
+    margin: 1vw;
+    border: 0.4vw solid #3498db;
+    border-radius: 1vw;
+    color: #3498db;
+    background-color: #fff;
+    font-size: 2vw;
+    transition: background-color 0.3s, color 0.3s;
+    width: 17%;
+    height: 2%;
+    position: absolute;
+    top: 55%;
+    left: 18%;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.loginButton:hover, .registerButton:hover {
+  background-color: #3498db;
+  color: #fff;
+}
+
 .QRContainer {
 }
 

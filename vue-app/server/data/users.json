@@ -1,0 +1,68 @@
+{
+  "classes": [
+    {
+      "className": "ClassA",
+      "students": [
+        {
+          "name": "John Doe",
+          "id": "123"
+        },
+        {
+          "name": "Jane Doe",
+          "id": "456"
+        }
+      ]
+    },
+    {
+      "className": "ClassB",
+      "students": [
+        {
+          "name": "Alice Smith",
+          "id": "789"
+        },
+        {
+          "name": "Bob Johnson",
+          "id": "101"
+        }
+      ]
+    },
+    {
+      "className": "ClassC",
+      "students": []
+    },
+    {
+      "className": "ClassD",
+      "students": []
+    },
+    {
+      "className": "ClassE",
+      "students": [
+        {
+          "name": "Fiona Zhang",
+          "id": "123"
+        },
+        {
+          "name": "Anita Y",
+          "id": "345"
+        }
+      ]
+    },
+    {
+      "className": "Balalala",
+      "students": [
+        {
+          "name": "Aaa BB",
+          "id": "1234"
+        },
+        {
+          "name": "CCC dd",
+          "id": "333"
+        },
+        {
+          "name": "EEEf fff",
+          "id": "99090"
+        }
+      ]
+    }
+  ]
+}
