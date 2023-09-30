@@ -252,16 +252,16 @@ export default defineComponent({
 
         while (addAnotherStudent) {
           const studentName = prompt('Enter student name:');
-          const studentId = prompt('Enter student ID:');
 
-          if (studentName && studentId && typeof studentName === 'string' && typeof studentId === 'string') {
-            students.push({ name: studentName, id: studentId });
+          if (studentName && typeof studentName === 'string') {
+            students.push({name: studentName});
           } else {
-            alert('Invalid student name or ID. Student not added.');
+            alert('Student not added.');
           }
           addAnotherStudent = confirm('Do you want to add another student?');
         }
         axios.post('http://localhost:3000/api/classes', { className: newClassName, students })
+
       } else {
         alert('Invalid class name');
       }

@@ -61,7 +61,7 @@
       let total = store.state.copy + store.state.lateral + store.state.vertical;
       console.log(store.state.studentId);
 
-      axios.post('/api/send-total', { id: store.state.studentId, score: total})
+      axios.post('http://localhost:3000/api/send-total', { id: store.state.studentId, score: total})
         .then(response => {
           // Handle the response from the backend if needed
           console.log('Data sent successfully:', response.data);
