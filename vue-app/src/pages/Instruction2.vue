@@ -6,7 +6,7 @@
         <img src="../assets/button_restart.png" alt="Button Replay" id="buttonReplay" @click="StartInstruction">
         <img :src="soundButtonSrc" alt="Button Sound" id="buttonSound" @click="changeSound">
       </div>
-      <h3>Time used: {{ elapsedTime }}</h3>
+      <h3>Time used: {{ minutes }}:{{ secondsFormatted }}</h3>
       <img src="../assets/pink-cat@2x.png" alt="Cat Icon" id="catPink">
     </nav>
     <main>
@@ -128,6 +128,12 @@ export default defineComponent({
       return store.state.isMute
         ? require("../assets/sound_off.png")
         : require("../assets/sound_on.png");
+    },
+    minutes() {
+      return Math.floor(this.elapsedTime / 60);
+    },
+    secondsFormatted() {
+      return (this.elapsedTime % 60).toString().padStart(2, '0');
     },
   },
   methods: {
