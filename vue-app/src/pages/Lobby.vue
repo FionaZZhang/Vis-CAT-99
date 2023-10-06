@@ -14,25 +14,24 @@
       <img class="yellowCatIcon" alt="" src="../assets/yellow-cat@2x.png" >
       <img class="greyCatIcon" alt="" src="../assets/grey_cat@2x.png" >
       
-      <div class="buttonStart" @mouseover="play" @click="navigateToInstruction">
+      <div class="buttonStart" @click="navigateToInstruction">
         <img class="buttonStartIcon" alt="" src="../assets/button-start.svg" />
         <div class="startButtonText">Start</div>
         <img class="playIcon" alt="" src="../assets/play-icon@2x.png"/>
       </div>
-
-      <div class="buttonPlayground" @mouseover="play" @click="navigateToPlayground">
+      <div class="buttonPlayground" @click="navigateToPlayground">
         <img class="buttonPlaygroundIcon" alt="" src="../assets/button-playground.svg"/>
         <div class="playgroundButtonText">Playground</div>
         <img class="playgroundPlayButtonIcon" alt="" src="../assets/playground-play-button@2x.png"/>
       </div>
 
-      <div class="buttonChallenge" @mouseover="play" @click="navigateToChallenge">
+      <div class="buttonChallenge" @click="navigateToChallenge">
         <img class="buttonChallengeIcon" alt="" src="../assets/button-challenge.svg"/>
         <div class="challengeButtonText">Challenge</div>
         <img class="challengePlayButtonIcon" alt="" src="../assets/playground-play-button@2x.png"/>
       </div>
 
-      <div class="welcomeText" @mouseover="play" @click="playLobbyInstructions">
+      <div class="welcomeText" @click="playLobbyInstructions">
         <img class="brownCatIcon" alt="" src="../assets/brown-cat@2x.png"/>
         <p class="welcome">Welcome!</p>
         <p class="welcome">Click 'Start' to take the test!</p>
@@ -66,17 +65,9 @@
   import { defineComponent } from "vue";
   import { speak, muteAudio, playAudio } from "./Speech.js";
   import { store } from "@/store";
-  import { useSound } from '@vueuse/sound';
-  import buttonClick from '../assets/sound-effect/button-click.mp3'
 
   export default defineComponent({
     name: "AppLobby",
-    setup() {
-      const {play} = useSound(buttonClick)
-      return {
-        play,
-      }
-    },
     mounted() {
       document.addEventListener('touchmove', this.preventScroll, { passive: false });
       // window.addEventListener('orientationchange', this.preventRotation);
@@ -120,6 +111,11 @@
         this.$router.push("/Challenge1");
       },
       navigateToInstruction(){
+        // if (!store.selectedStudent) {
+        //   alert('Please log in first!');
+        // } else {
+        //   this.$router.push("/Instruction");
+        // }
         this.$router.push("/Instruction");
       },
       navigateToAccount(){
