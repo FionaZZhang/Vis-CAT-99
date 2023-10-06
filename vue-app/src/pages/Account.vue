@@ -443,10 +443,9 @@ export default defineComponent({
   display: flex;
   flex-direction: column;
   align-items: center;
-  top: 0rem;
-  left: -0.25rem;
+  top: 0;
+  left: 0;
   border-radius: 12px;
-
   z-index: 99999;
 }
 
@@ -479,10 +478,10 @@ export default defineComponent({
 
 .selectedSheet {
   position: absolute;
-  top: 25vw;
-  left: 48vh;
-  width: 30vw;
-  height: 30vh;
+  top: 40%;
+  left: 26%;
+  width: 18%;
+  height: 25%;
   z-index: 99999;
   font-size: var(--font-size-xl);
 }
