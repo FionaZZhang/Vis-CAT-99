@@ -25,7 +25,7 @@
         <img class="playgroundPlayButtonIcon" alt="" src="../assets/playground-play-button@2x.png"/>
       </div>
 
-      <div class="buttonChallenge" @click="navigateToChallenge">
+      <div class="buttonChallenge" @click="displayDialogue">
         <img class="buttonChallengeIcon" alt="" src="../assets/button-challenge.svg"/>
         <div class="challengeButtonText">Challenge</div>
         <img class="challengePlayButtonIcon" alt="" src="../assets/challenge-play-button@2x.svg"/>
@@ -60,14 +60,35 @@
   <div :class="soundButton" @click="changeSound">
     <img class="soundButtonIcon" alt="" :src="soundButtonSrc" />
   </div>
+
+  <div id="modal" v-if="showModal" class="modal-container">
+      <div class="custom-modal">
+        <div class="custom-modal-content">
+          <div class="custom-modal-header">
+            <h3>Are you ready to challenge yourself?</h3>
+          </div>
+          <div class="custom-modal-buttons">
+            <button class="cute-button" @click="navigateToChallenge">Yes, let's start</button>
+            <button class="cute-button" @click="cancelDialogue">No, give up</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
 </template>
 <script>
   import { defineComponent } from "vue";
   import { speak, muteAudio, playAudio } from "./Speech.js";
   import { store } from "@/store";
+  import "@/assets/gamepage.css";
 
   export default defineComponent({
     name: "AppLobby",
+    data() {
+      return {
+        showModal: false
+      }
+    },
     mounted() {
       document.addEventListener('touchmove', this.preventScroll, { passive: false });
       // window.addEventListener('orientationchange', this.preventRotation);
@@ -106,6 +127,12 @@
       navigateToPlayground() {
         // speak("Playground");
         this.$router.push("/Playground");
+      },
+      displayDialogue() {
+        this.showModal = true;
+      },
+      cancelDialogue() {
+        this.showModal = false;
       },
       navigateToChallenge() {
         this.$router.push("/Challenge1");
@@ -423,5 +450,13 @@
     flex-direction: column;
     justify-content: space-around;
     gap: 20%;
+  }
+
+  .custom-modal {
+    background-color: #f3d09a;
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+    align-items: center;
   }
 </style>
