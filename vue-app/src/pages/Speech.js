@@ -29,24 +29,32 @@ export function speak(file){
         let sound = require('@/assets/audio/' + currentVoice + '/' + file + '.mp3');
         audio = new Audio(sound);
         if (store.state.isMute){
-            audio.volume = 0;
+            audio.muted = true;
         }
         else {
-            audio.volume = 1;
+            audio.muted = false;
         }
         audio.play();
     }
 }
 
 export function muteAudio(){
-    if (audio){
-        audio.volume = 0;
+    try {
+        if (audio){
+            audio.muted = true;
+        }
+    } catch (error) {
+        console.error('Error muting audio:', error);
     }
 }
 
 export function playAudio(){
-    if (audio){
-        audio.volume = 1;
+    try {
+        if (audio){
+            audio.muted = false;
+        }
+    } catch (error) {
+        console.error('Error muting audio:', error);
     }
 }
 
