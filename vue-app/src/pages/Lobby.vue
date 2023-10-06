@@ -28,7 +28,7 @@
       <div class="buttonChallenge" @click="navigateToChallenge">
         <img class="buttonChallengeIcon" alt="" src="../assets/button-challenge.svg"/>
         <div class="challengeButtonText">Challenge</div>
-        <img class="challengePlayButtonIcon" alt="" src="../assets/playground-play-button@2x.png"/>
+        <img class="challengePlayButtonIcon" alt="" src="../assets/challenge-play-button@2x.svg"/>
       </div>
 
       <div class="welcomeText" @click="playLobbyInstructions">
@@ -357,16 +357,16 @@
   .challengeButtonText {
     position: absolute;
     top: 25.42%;
-    left: 29%;
+    left: 30%;
     font-size: 3.5vw;
     text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     -webkit-text-stroke: 1px #000;
   }
   .challengePlayButtonIcon {
     position: absolute;
-    height: 60.49%;
-    width: 22%;
-    top: 17.86%;
+    height: 66%;
+    width: 24%;
+    top: 18.86%;
     right: 72.54%;
     bottom: 18.64%;
     left: 4.79%;
@@ -379,8 +379,8 @@
     position: absolute;
     top: 90%;
     right: 27%;
-    width: 26vw;
-    height: 8.5vw;
+    width: 27vw;
+    height: 9vw;
     font-family: var(--font-inder);
   }
   .appLobby {
