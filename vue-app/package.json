@@ -16,6 +16,7 @@
     "cors": "^2.8.5",
     "express": "^4.18.2",
     "jsqr": "^1.4.0",
+    "qrcode-generator": "^1.4.4",
     "uuid": "^9.0.1",
     "vue": "^3.2.13",
     "vue-chartjs": "^5.2.0",

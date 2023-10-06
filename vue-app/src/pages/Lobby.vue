@@ -148,7 +148,7 @@
       justify-content: center;
   }
 
-  dataDashboard:hover {
+  .dataDashboard:hover {
     background-color: #3498db;
     color: #fff;
   }
