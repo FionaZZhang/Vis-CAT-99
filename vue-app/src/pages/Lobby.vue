@@ -12,19 +12,23 @@
 
       <img class="pinkCatIcon" alt="" src="../assets/pink-cat@2x.png" >
       <img class="yellowCatIcon" alt="" src="../assets/yellow-cat@2x.png" >
+      <img class="greyCatIcon" alt="" src="../assets/grey_cat@2x.png" >
       
       <div class="buttonStart" @click="navigateToInstruction">
         <img class="buttonStartIcon" alt="" src="../assets/button-start.svg" />
         <div class="startButtonText">Start</div>
         <img class="playIcon" alt="" src="../assets/play-icon@2x.png"/>
       </div>
-
-
-
       <div class="buttonPlayground" @click="navigateToPlayground">
         <img class="buttonPlaygroundIcon" alt="" src="../assets/button-playground.svg"/>
         <div class="playgroundButtonText">Playground</div>
         <img class="playgroundPlayButtonIcon" alt="" src="../assets/playground-play-button@2x.png"/>
+      </div>
+
+      <div class="buttonChallenge" @click="navigateToChallenge">
+        <img class="buttonChallengeIcon" alt="" src="../assets/button-challenge.svg"/>
+        <div class="challengeButtonText">Challenge</div>
+        <img class="challengePlayButtonIcon" alt="" src="../assets/playground-play-button@2x.png"/>
       </div>
 
       <div class="welcomeText" @click="playLobbyInstructions">
@@ -103,6 +107,9 @@
         // speak("Playground");
         this.$router.push("/Playground");
       },
+      navigateToChallenge() {
+        this.$router.push("/Challenge1");
+      },
       navigateToInstruction(){
         // if (!store.selectedStudent) {
         //   alert('Please log in first!');
@@ -137,7 +144,7 @@
   }
   .pinkCatIcon{
     position: absolute;
-    top: 1%;
+    top: 0%;
     left: 75%;
     bottom: 80%;
     right: 15%;
@@ -163,12 +170,25 @@
     position: absolute;
     width: 12vw;
     height: 12vw;
-    top: 45%;
+    top: 40%;
     right: 25%;
     bottom: 30.14%;
     left: 65%;
     max-width: 100%;
     overflow: hidden;
+    max-height: 100%;
+    object-fit: cover;
+  }
+  .greyCatIcon{
+    position: absolute;
+    top: 85%;
+    left: 73%;
+    bottom: 80%;
+    right: 15%;
+    width: 12vw;
+    height: 12vw;
+    overflow: hidden;
+    max-width: 100%;
     max-height: 100%;
     object-fit: cover;
   }
@@ -270,8 +290,8 @@
   }
   .buttonStart {
     position: absolute;
-    top: 49%;
-    right: 34.4%;
+    top: 44%;
+    right: 35.4%;
     width: 20vw;
     height: 10vw;
     font-family: var(--font-inder);
@@ -315,10 +335,52 @@
   }
   .buttonPlayground {
     position: absolute;
-    top: 1.9%;
+    top: 0%;
     right: 25%;
     width: 30vw;
     height: 10vw;
+    font-family: var(--font-inder);
+  }
+  .buttonChallengeIcon {
+    position: absolute;
+    height: 106.78%;
+    width: 100%;
+    top: 0%;
+    right: 1.01%;
+    bottom: -6.78%;
+    left: -1.01%;
+    border-radius: var(--br-21xl);
+    max-width: 100%;
+    overflow: hidden;
+    max-height: 100%;
+  }
+  .challengeButtonText {
+    position: absolute;
+    top: 25.42%;
+    left: 29%;
+    font-size: 3.5vw;
+    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    -webkit-text-stroke: 1px #000;
+  }
+  .challengePlayButtonIcon {
+    position: absolute;
+    height: 60.49%;
+    width: 22%;
+    top: 17.86%;
+    right: 72.54%;
+    bottom: 18.64%;
+    left: 4.79%;
+    max-width: 100%;
+    overflow: hidden;
+    max-height: 100%;
+    object-fit: cover;
+  }
+  .buttonChallenge {
+    position: absolute;
+    top: 90%;
+    right: 27%;
+    width: 26vw;
+    height: 8.5vw;
     font-family: var(--font-inder);
   }
   .appLobby {
@@ -338,6 +400,10 @@
   .buttonHome:hover,
   .buttonStart:hover,
   .buttonPlayground:hover {
+    opacity: 0.7;
+    transition: opacity 0.3s;
+  }
+  .buttonChallenge:hover {
     opacity: 0.7;
     transition: opacity 0.3s;
   }
