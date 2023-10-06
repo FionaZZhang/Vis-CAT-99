@@ -11,6 +11,8 @@ app.use(cors());  // Use the cors middleware
 app.use(bodyParser.json());
 
 const usersFilePath = 'server/data/users.json';
+const resultsFilePath = 'server/data/results.json';
+
 
 // Get classes from the JSON file
 app.get('/api/classes', (req, res) => {
@@ -31,6 +33,31 @@ app.get('/api/classes', (req, res) => {
   }
 });
 
+// Get users from the JSON file
+app.get('/api/users', (req, res) => {
+  const data = JSON.parse(fs.readFileSync(usersFilePath));
+
+  if (data && data.classes) {
+    const allStudents = data.classes.flatMap(cls => cls.students);
+    res.json({ students: allStudents });
+    console.log(allStudents)
+  } else {
+    res.status(500).json({ error: 'Error reading users data' });
+  }
+});
+
+// Get results from the JSON file
+app.get('/api/results', (req, res) => {
+
+  try {
+    const data = JSON.parse(fs.readFileSync("server/data/results.json"));
+
+    res.json({data});
+  } catch (error) {
+    console.error('Error reading JSON file:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
 
 // Add a new class to the JSON file
 app.post('/api/classes', (req, res) => {

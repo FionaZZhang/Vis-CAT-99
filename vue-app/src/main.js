@@ -12,6 +12,7 @@ import AppAccount from "./pages/Account.vue";
 import AppFinish from "./pages/Finish.vue";
 import AppChallenge1 from "./pages/Challenge1.vue"
 import AppChallenge2 from "./pages/Challenge2.vue"
+import AppDashboard from "./pages/Dashboard.vue"
 import { store } from './store';
 
 import "./global.css";
@@ -76,6 +77,11 @@ const routes = [
     path: "/Challenge2",
     name: "Challenge2",
     component: AppChallenge2,
+  },
+  {
+    path: "/Dashboard",
+    name: "Dashboard",
+    component: AppDashboard,
   }
 ];
 
