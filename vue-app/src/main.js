@@ -21,7 +21,7 @@ import "./global.css";
 const routes = [
   {
   path: "/",
-  redirect: "/Lobby"
+  redirect: "/Account"
   },
   {
     path: "/Lobby",
