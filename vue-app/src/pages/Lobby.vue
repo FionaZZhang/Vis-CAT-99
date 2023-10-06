@@ -104,7 +104,11 @@
         this.$router.push("/Playground");
       },
       navigateToInstruction(){
-        this.$router.push("/Instruction");
+        if (!store.selectedStudent) {
+          alert('Please log in first!');
+        } else {
+          this.$router.push("/Instruction");
+        }
       },
       navigateToAccount(){
         speak("Accounts_page");
