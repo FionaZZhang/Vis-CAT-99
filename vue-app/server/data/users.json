@@ -101,6 +101,19 @@
           "id": 13336
         }
       ]
+    },
+    {
+      "className": "魔仙堡",
+      "students": [
+        {
+          "name": "Joyce Moxian",
+          "id": 12990
+        },
+        {
+          "name": "Dahua Moxian",
+          "id": 17034
+        }
+      ]
     }
   ]
 }
