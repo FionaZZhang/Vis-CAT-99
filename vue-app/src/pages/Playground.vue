@@ -94,7 +94,7 @@ export default defineComponent({
    
     StartInstruction(){
       this.instructionPopUp = true;
-      speak("Copy_1");
+      speak("Playground_instruction");
     },
 
     CloseInstruction(){

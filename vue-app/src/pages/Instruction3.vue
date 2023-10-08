@@ -141,7 +141,7 @@ export default defineComponent({
     
     StartInstruction(){
       this.instructionPopUp = true;
-      speak("Lateral_Vertical_1");
+      speak("Vertical_1");
     },
     
     startTimer() {
@@ -160,7 +160,7 @@ export default defineComponent({
 
     CloseInstruction(){
       this.instructionPopUp = false;
-      speak("Lateral_Vertical_2");
+      speak("Vertical_2");
     },
 
     navigateToStart() {
@@ -187,7 +187,7 @@ export default defineComponent({
         if (this.secondTry) {
           this.showModal = true;
           this.secondTry = false;
-          speak("Lateral_Vertical_3");
+          speak("Vertical_3");
         } else {
           this.$router.push("/Finish");
         }

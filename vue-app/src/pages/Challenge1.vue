@@ -153,12 +153,12 @@ export default defineComponent({
    
     StartInstruction(){
       this.instructionPopUp = true;
-      speak("Copy_1");
+      speak("Challenge1_1");
     },
 
     CloseInstruction(){
       this.instructionPopUp = false;
-      speak("Copy_2");
+      speak("Challenge1_2");
     },
 
     navigateToStart() {
@@ -185,7 +185,7 @@ export default defineComponent({
         if (this.secondTry) {
           this.showModal = true;
           this.secondTry = false;
-          speak("Copy_3");
+          speak("Challenge1_3");
         } else {
           this.$router.push("/Finish");
         }
