@@ -35,7 +35,7 @@
       <span> if you only want to play the first level.</span>
     </div>
 
-    <div :class="soundButton" @click="changeSound">
+    <div class="soundButton" @click="changeSound">
       <img class="soundButtonIcon" alt="" :src="soundButtonSrc" />
     </div>
     
