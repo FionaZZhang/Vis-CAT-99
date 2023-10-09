@@ -6,7 +6,7 @@
         <img src="../assets/button_restart.png" alt="Button Replay" id="buttonReplay" @click="StartInstruction">
         <img :src="soundButtonSrc" alt="Button Sound" id="buttonSound" @click="changeSound">
       </div>
-      <h3>Time used: {{ elapsedTime }}</h3>
+      <h3>Time used: {{ minutes }}:{{ secondsFormatted }}</h3>
       <img src="../assets/pink-cat@2x.png" alt="Cat Icon" id="catPink">
     </nav>
     <main>
@@ -73,7 +73,7 @@
     <div v-if="instructionPopUp" class="modal-container">
       <div class="instructionPopUp-modal">
         <div class="inter_page_content">
-          <img class="instructionGIF" src="../assets/copyPattern.gif" alt="instructionGIF">
+          <img class="instructionGIF" src="../assets/copy_pattern.gif" alt="instructionGIF">
           <img class="instructionConfirm" id="buttonInstructionConfirm" src="../assets/button_confirm.png" @click="CloseInstruction(); loadPatternAndConnect(this.originalPattern); startTimer()">
         </div>   
       </div>
@@ -88,7 +88,7 @@ import * as checker from ".//Checker.js";
 import { speak, muteAudio, playAudio } from "./Speech.js";
 import "@/assets/gamepage.css"
 export default defineComponent({
-  name: "AppInstruction",
+  name: "AppTest1",
   data() {
     return {
       isDrawing: false,
@@ -128,6 +128,12 @@ export default defineComponent({
         ? require("../assets/sound_off.png")
         : require("../assets/sound_on.png");
     },
+    minutes() {
+      return Math.floor(this.elapsedTime / 60);
+    },
+    secondsFormatted() {
+      return (this.elapsedTime % 60).toString().padStart(2, '0');
+    }
   },
   methods: {
     changeSound(){
@@ -141,7 +147,7 @@ export default defineComponent({
     },
     
     navigateToPage2() {
-      this.$router.push("/instruction2");
+      this.$router.push("/Test2");
     },
    
     StartInstruction(){

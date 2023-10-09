@@ -3,10 +3,10 @@
     <nav>
       <div class="Icon">
         <img src="../assets/button_home.png" alt="Button Home" id="buttonHome" @click="navigateToLobby">
-        <img src="../assets/button_restart.png" alt="Button Restart" id="buttonRestart" @click="navigateToLobby">
+        <img src="../assets/button_restart.png" alt="Button Restart" id="buttonReplay" @click="StartInstruction">
         <img :src="soundButtonSrc" alt="Button Sound" id="buttonSound" @click="changeSound">
       </div>
-      <h3>Time used: {{ elapsedTime }}</h3>
+      <h3>Time used: {{ minutes }}:{{ secondsFormatted }}</h3>
       <img src="../assets/pink-cat@2x.png" alt="Cat Icon" id="catPink">
     </nav>
     <main>
@@ -65,7 +65,7 @@
     <div v-if="instructionPopUp" class="modal-container">
       <div class="instructionPopUp-modal">
         <div class="inter_page_content">
-          <img class="instructionGIF" src="../assets/verticalFlip.gif" alt="instructionGIF">
+          <img class="instructionGIF" src="../assets/xy_flip.gif" alt="instructionGIF">
           <img class="instructionConfirm" id="buttonInstructionConfirm" src="../assets/button_confirm.png" @click="CloseInstruction(); loadPatternAndConnect(this.originalPattern); startTimer()">
         </div>   
       </div>
@@ -121,6 +121,12 @@ export default defineComponent({
         ? require("../assets/sound_off.png")
         : require("../assets/sound_on.png");
     },
+    minutes() {
+      return Math.floor(this.elapsedTime / 60);
+    },
+    secondsFormatted() {
+      return (this.elapsedTime % 60).toString().padStart(2, '0');
+    },
   },
   
   methods: {
@@ -136,7 +142,7 @@ export default defineComponent({
     
     StartInstruction(){
       this.instructionPopUp = true;
-      speak("Lateral_Vertical_1");
+      speak("Challenge2_1");
     },
     
     startTimer() {
@@ -155,7 +161,7 @@ export default defineComponent({
 
     CloseInstruction(){
       this.instructionPopUp = false;
-      speak("Lateral_Vertical_2");
+      speak("Challenge2_2");
     },
 
     navigateToStart() {
@@ -182,7 +188,7 @@ export default defineComponent({
         if (this.secondTry) {
           this.showModal = true;
           this.secondTry = false;
-          speak("Lateral_Vertical_3");
+          speak("Challenge2_3");
         } else {
           this.$router.push("/Finish");
         }

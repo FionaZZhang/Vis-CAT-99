@@ -82,7 +82,7 @@
       <img class="houseIcon" alt="" src="../assets/house@2x.png" />
     </div>
   </div>
-  <div :class="soundButton" @click="changeSound">
+  <div class="soundButton" @click="changeSound">
     <img class="soundButtonIcon" alt="" :src="soundButtonSrc" />
   </div>
 

@@ -6,12 +6,12 @@
         <img src="../assets/button_restart.png" alt="Button Replay" id="buttonReplay" @click="StartInstruction">
         <img :src="soundButtonSrc" alt="Button Sound" id="buttonSound" @click="changeSound">
       </div>
-      <h3>Time used: {{ elapsedTime }}</h3>
+      <h3>Time used: {{ minutes }}:{{ secondsFormatted }}</h3>
       <img src="../assets/pink-cat@2x.png" alt="Cat Icon" id="catPink">
     </nav>
     <main>
       <header>
-        <img src="../assets/text_goal2.png" alt="Goal Text" id="textGoal">
+        <img src="../assets/text_goal3.png" alt="Goal Text" id="textGoal">
       </header>
       <section id = "graphArea">
         <div class="grid-wrapper">
@@ -62,18 +62,10 @@
         </div>
       </div>
     </div>
-    <div v-if="interPage" class="modal-container">
-      <div class="interPage-modal">
-        <div class="inter_page_content">
-          <img class="next_level" src="../assets/next_level.png">
-          <img class="button_next_level" id="buttonNextLevel" src="../assets/button_next_level.png" @click="navigateToPage3">
-        </div>
-      </div>
-    </div>
     <div v-if="instructionPopUp" class="modal-container">
       <div class="instructionPopUp-modal">
         <div class="inter_page_content">
-          <img class="instructionGIF" src="../assets/lateralFlip.gif" alt="instructionGIF">
+          <img class="instructionGIF" src="../assets/vertical_flip.gif" alt="instructionGIF">
           <img class="instructionConfirm" id="buttonInstructionConfirm" src="../assets/button_confirm.png" @click="CloseInstruction(); loadPatternAndConnect(this.originalPattern); startTimer()">
         </div>   
       </div>
@@ -86,9 +78,9 @@ import { defineComponent } from "vue";
 import * as checker from ".//Checker.js";
 import "@/assets/gamepage.css"
 import {store} from "@/store";
-import { speak, playAudio, muteAudio} from "./Speech.js";
+import { speak, playAudio, muteAudio } from "./Speech.js";
 export default defineComponent({
-  name: "AppInstruction2",
+  name: "AppTest3",
   data() {
     return {
       isDrawing: false,
@@ -96,7 +88,6 @@ export default defineComponent({
       svg: null,
       showModal: false,
       secondTry: true,
-      interPage: false,
       instructionPopUp: false,
       // originalPattern: [1, 2, 3, 4, 7, 10 ,13],
       originalPattern: [1, 2, 3, 4, 8, 7, 10, 11, 5, 9, 13, 14, 15, 16],
@@ -122,14 +113,21 @@ export default defineComponent({
     window.removeEventListener('scroll', this.ReallignCells);
     window.removeEventListener('resize', this.ReallignCells);
   },
-
+  
   computed: {
     soundButtonSrc(){
       return store.state.isMute
         ? require("../assets/sound_off.png")
         : require("../assets/sound_on.png");
     },
+    minutes() {
+      return Math.floor(this.elapsedTime / 60);
+    },
+    secondsFormatted() {
+      return (this.elapsedTime % 60).toString().padStart(2, '0');
+    },
   },
+  
   methods: {
     changeSound(){
       store.state.isMute = !(store.state.isMute);
@@ -141,22 +139,32 @@ export default defineComponent({
       }
     },
     
-    navigateToPage3() {
-      this.$router.push("/instruction3");
-    },
-
     StartInstruction(){
       this.instructionPopUp = true;
-      speak("Lateral_Vertical_1");
+      speak("Vertical_1");
+    },
+    
+    startTimer() {
+      if (!this.timerStarted) {
+        this.timerStarted = true; 
+        this.timer = setInterval(() => { this.elapsedTime += 1; }, 1000);         
+      }
+    },
+    
+    stopTimer() {
+      if (this.timerStarted) {
+        clearInterval(this.timer); 
+        this.timerStarted = false; 
+      }
     },
 
     CloseInstruction(){
       this.instructionPopUp = false;
-      speak("Lateral_Vertical_2");
+      speak("Vertical_2");
     },
 
     navigateToStart() {
-      if (checker.checkCorrectness(this.originalPattern, "lateral", this.pattern)) {
+      if (checker.checkCorrectness(this.originalPattern, "vertical", this.pattern)) {
         if (store.state.isButtonOn4){
           if (this.secondTry) {
             store.state.copy = 2;
@@ -172,30 +180,17 @@ export default defineComponent({
             store.state.copy = 1;
           }
           this.interPage = true;
-          // this.$router.push("/instruction2");
+          this.$router.push("/Finish");
         }
       }
       else {
         if (this.secondTry) {
           this.showModal = true;
           this.secondTry = false;
-          speak("Lateral_Vertical_3");
+          speak("Vertical_3");
         } else {
           this.$router.push("/Finish");
         }
-      }
-    },
-
-    startTimer() {
-      if (!this.timerStarted) {
-        this.timerStarted = true; 
-        this.timer = setInterval(() => { this.elapsedTime += 1; }, 1000);         
-      }
-    },
-    stopTimer() {
-      if (this.timerStarted) {
-        clearInterval(this.timer); 
-        this.timerStarted = false; 
       }
     },
 
