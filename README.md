@@ -26,12 +26,10 @@ Maybe also install these if needed:
 5. Backend (for testing): app.py
 5. DO NOT PUSH: `vue-app/node_modules`
 
-# How to run front-end and back-end (with pre-build):
+# How to run back-end server:
 2. `cd vue-app`
-3. `npm run build`
-4. `cd ..`
-5. `python app.py`
-6. Go to `127.0.0.1:5000`
+3. `node server/server.js`
+4. Server will be running on port 3000
 
 # How to convert HTTP link to HTTPS to enable scan functionality on iPad or phone:
 1. npm install -g ngrok
