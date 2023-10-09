@@ -56,12 +56,37 @@
     mounted() {
       speak("victory");
       let total = store.state.copy + store.state.lateral + store.state.vertical;
+      const csvData = `${store.state.studentId},${total}`;
       console.log(store.state.studentId);
+
+      axios.post('http://viscat.shop:5002/api/auth/score', { studentId: "123", testScore: "B"})
+        .then(response => {
+          // Handle the response from the backend if needed
+          console.log('Data sent successfully backend1:', response.data);
+        })
+        .catch(error => {
+          // Handle any errors that occur during the request
+          console.error('Error sending data:', error);
+        });
 
       axios.post('/api/send-total', { id: store.state.studentId, score: total})
         .then(response => {
           // Handle the response from the backend if needed
-          console.log('Data sent successfully:', response.data);
+          console.log('Data sent successfully our backend:', response.data);
+        })
+        .catch(error => {
+          // Handle any errors that occur during the request
+          console.error('Error sending data:', error);
+        });
+
+      axios.post('https://vis-cat-77d80383cce0.herokuapp.com/users/student/mark/all', csvData, {
+          headers: {
+            'Content-Type': 'text/csv',
+          }
+        })
+        .then(response => {
+          // Handle the response from the backend if needed
+          console.log('Data sent successfully csv backend:', response.data);
         })
         .catch(error => {
           // Handle any errors that occur during the request
@@ -71,8 +96,9 @@
       store.state.copy = 0;
       store.state.lateral = 0;
       store.state.vertical = 0;
-    }
-  });
+    },
+  })
+
 </script>
 <style module>
   .soundButtonIcon {
