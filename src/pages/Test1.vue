@@ -88,7 +88,7 @@ import * as checker from ".//Checker.js";
 import { speak, muteAudio, playAudio } from "./Speech.js";
 import "@/assets/gamepage.css"
 export default defineComponent({
-  name: "AppInstruction",
+  name: "AppTest1",
   data() {
     return {
       isDrawing: false,
@@ -147,7 +147,7 @@ export default defineComponent({
     },
     
     navigateToPage2() {
-      this.$router.push("/instruction2");
+      this.$router.push("/Test2");
     },
    
     StartInstruction(){

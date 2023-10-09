@@ -1,7 +1,7 @@
 <template>
   <div :class="$style.appfinish">
     <img :class="$style.grassIcon" alt="" src="../assets/grass.png" />
-    <img :class="$style.yellowCatIcon" alt="" src="../assets/yellow-cat@2x.png" @click="navigateToChallenge"/>
+    <img :class="$style.yellowCatIcon" alt="" src="../assets/yellow-cat@2x.png" />
     <!-- <img :class="$style.appfinishChild" alt="" src="/line-1.svg" /> -->
     <div :class="$style.iconViscat">
       <div :class="$style.viscatIcon" />
@@ -26,7 +26,7 @@
   import { defineComponent } from "vue";
   import {store} from "@/store";
   import axios from 'axios';
-import { speak, muteAudio, playAudio } from "./Speech";
+  import { speak, muteAudio, playAudio } from "./Speech";
 
 
   export default defineComponent({
@@ -43,9 +43,6 @@ import { speak, muteAudio, playAudio } from "./Speech";
         speak("Home_page");
         this.$router.push("/Lobby");
       },
-      navigateToChallenge() {
-        this.$router.push("/Challenge1");
-      },
       changeSound(){
         store.state.isMute = !(store.state.isMute);
         if (store.state.isMute){
@@ -57,7 +54,7 @@ import { speak, muteAudio, playAudio } from "./Speech";
       },
     },
     mounted() {
-      speak("Well_done");
+      speak("victory");
       let total = store.state.copy + store.state.lateral + store.state.vertical;
       console.log(store.state.studentId);
 

@@ -80,7 +80,7 @@
       <img class="houseIcon" alt="" src="../assets/house@2x.png" />
     </div>
   </div>
-  <div :class="soundButton" @click="changeSound">
+  <div class="soundButton" @click="changeSound">
     <img class="soundButtonIcon" alt="" :src="soundButtonSrc" />
   </div>
 </template>
@@ -276,19 +276,6 @@ export default defineComponent({
 });
 </script>
 <style scoped>
-.soundButtonIcon {
-    position: absolute;
-    top: 5.6%;
-    left: 37.5%;
-    bottom: 80%;
-    right: 15%;
-    width: 10vw;
-    height: 10vw;
-    overflow: hidden;
-    max-width: 100%;
-    max-height: 100%;
-    object-fit: cover;
-  }
 .QRContainer {
 }
 
@@ -456,10 +443,9 @@ export default defineComponent({
   display: flex;
   flex-direction: column;
   align-items: center;
-  top: 0rem;
-  left: -0.25rem;
+  top: 0;
+  left: 0;
   border-radius: 12px;
-
   z-index: 99999;
 }
 
@@ -492,10 +478,10 @@ export default defineComponent({
 
 .selectedSheet {
   position: absolute;
-  top: 25vw;
-  left: 48vh;
-  width: 30vw;
-  height: 30vh;
+  top: 40%;
+  left: 26%;
+  width: 18%;
+  height: 25%;
   z-index: 99999;
   font-size: var(--font-size-xl);
 }

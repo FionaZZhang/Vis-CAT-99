@@ -35,7 +35,7 @@
       <span> if you only want to play the first level.</span>
     </div>
 
-    <div :class="soundButton" @click="changeSound">
+    <div class="soundButton" @click="changeSound">
       <img class="soundButtonIcon" alt="" :src="soundButtonSrc" />
     </div>
     
@@ -197,19 +197,6 @@
     background-size: cover;
     cursor: pointer;
     text-overflow: ellipsis;
-  }
-  .soundButtonIcon {
-    position: absolute;
-    top: 5.6%;
-    left: 37.5%;
-    bottom: 80%;
-    right: 15%;
-    width: 10vw;
-    height: 10vw;
-    overflow: hidden;
-    max-width: 100%;
-    max-height: 100%;
-    object-fit: cover;
   }
   .settingsIcon {
     position: absolute;
