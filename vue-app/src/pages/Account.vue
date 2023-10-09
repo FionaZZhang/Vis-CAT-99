@@ -65,7 +65,6 @@
     </div>
 
     <div class="container">
-      <!-- <div id="result" class="results"></div> -->
       <div id="schoolname" class="schoolName"></div>
 
       <img class="dotLineIcon" alt="" src="../assets/dot-line.svg" />
@@ -73,6 +72,9 @@
         <div class="dotDecor" />
       </div>
       <div id="classnum" class="class"></div>
+      <div class="loginButton" @click="login">Login</div>
+      <div class="registerButton" @click="register">Register</div>
+      <div class="getQRButton" @click="generateQR">Get QR Code</div>
       <div class="scanButton" @click="openQrScanner">
         <div class="scanText">Scan</div>
         <img class="scanIcon" alt="" src="../assets/scan-icon@2x.png" />
@@ -83,6 +85,14 @@
   <div class="soundButton" @click="changeSound">
     <img class="soundButtonIcon" alt="" :src="soundButtonSrc" />
   </div>
+
+  <div v-if="generatedQR" class="qr-overlay">
+    <div class="qr-frame">
+      <button class="closeButton" @click="closeQR">X</button>
+      <img :src="generatedQR" alt="QR Code">
+    </div>
+  </div>
+
 </template>
 
 <script>
@@ -90,6 +100,8 @@ import { defineComponent } from "vue";
 import jsQR from 'jsqr';
 import {store} from "@/store";
 import { speak, playAudio, muteAudio } from "./Speech.js";
+import axios from 'axios';
+import QRCode from 'qrcode-generator';
 
 export default defineComponent({
   name: "AppAccount",
@@ -104,11 +116,16 @@ export default defineComponent({
       buttonText: store.state.studentId ? 'Selected' : 'Select',
       selectedRef: [],
       containerScrollTop: 0,
+      generatedQR: false,
+      appData: {
+        classes: [],
+      },
     };
   },
   beforeUnmount() {
     this.stopVideo();
   },
+
   computed: {
     soundButtonSrc(){
       return store.state.isMute
@@ -117,6 +134,9 @@ export default defineComponent({
     },
   },
   methods: {
+    closeQR() {
+      this.generatedQR = false;
+    },
     changeSound(){
       store.state.isMute = !(store.state.isMute);
       if (store.state.isMute){
@@ -206,7 +226,102 @@ export default defineComponent({
         this.showQR = false;
       }
     },
+    login() {
+      const className = prompt('Enter class name:');
+      if (className && typeof className === 'string') {
+        this.selectedStudentIndex = -1;
+        this.students = [];
+        this.selectedStudent = [];
 
+        axios.get('http://localhost:3000/api/classes', {
+          params: {
+            className: className,
+          },
+        })
+          .then(response => {
+            try {
+              console.log(response.data)
+              const loginData = this.parseJsonData(response.data);
+              this.displayResult(loginData);
+              store.state.students = this.students;
+            } catch (error) {
+              console.error('Not in correct format', error);
+            }
+          })
+          .catch(error => {
+            console.error('Error fetching data:', error);
+            alert('Failed to fetch class data');
+          });
+    } else {
+      alert('Invalid class name');
+    }
+    },
+    generateQR() {
+      const studentsCSV = this.students.map(student => `${student.studentName}, ${student.studentId}`).join('\n');
+      const qr = QRCode(0, 'L'); // Create a QRCode object
+      qr.addData(studentsCSV); // Add data to the QRCode
+      qr.make(); // Generate QR code data
+
+      const canvas = document.createElement('canvas');
+      canvas.width = qr.getModuleCount() * 2; // Adjust width based on the QR code size
+      canvas.height = qr.getModuleCount() * 2; // Adjust height based on the QR code size
+      const context = canvas.getContext('2d');
+
+      // Draw the QR code on the canvas
+      for (let row = 0; row < qr.getModuleCount(); row++) {
+        for (let col = 0; col < qr.getModuleCount(); col++) {
+          context.fillStyle = qr.isDark(row, col) ? '#000000' : '#ffffff';
+          context.fillRect(col * 2, row * 2, 2, 2);
+        }
+      }
+
+      const qrDataURL = canvas.toDataURL(); // Get the data URL of the QR code image
+      this.generatedQR = qrDataURL;
+      console.log('QR Code Data URL:', qrDataURL);
+
+    },
+
+    register() {
+      const newClassName = prompt('Enter new class name:');
+
+      if (newClassName && typeof newClassName === 'string') {
+        const students = [];
+        let addAnotherStudent = true;
+
+        while (addAnotherStudent) {
+          const studentName = prompt('Enter student name:');
+
+          if (studentName && typeof studentName === 'string') {
+            students.push({name: studentName});
+          } else {
+            alert('Student not added.');
+          }
+          addAnotherStudent = confirm('Do you want to add another student?');
+        }
+        axios.post('http://localhost:3000/api/classes', { className: newClassName, students })
+
+      } else {
+        alert('Invalid class name');
+      }
+    },
+
+    parseJsonData(jsonData) {
+      try {
+        const students = jsonData.students.map(student => {
+          return {
+            name: student.name,
+            id: student.id
+          };
+        });
+
+        return {
+          students
+        };
+      } catch (error) {
+        console.error('Error parsing JSON data:', error);
+        throw new Error('Invalid JSON data format');
+      }
+    },
     parseQRCodeData(qrData) {
       const lines = qrData.split('\n');
 
@@ -276,6 +391,75 @@ export default defineComponent({
 });
 </script>
 <style scoped>
+
+.loginButton {
+    cursor: pointer;
+    padding: 1vw;
+    margin: 1vw;
+    border: 0.4vw solid #3498db;
+    border-radius: 1vw;
+    color: #3498db;
+    background-color: #fff;
+    font-size: 2vw;
+    transition: background-color 0.3s, color 0.3s;
+    width: 17%;
+    height: 2%;
+    position: absolute;
+    top: 43%;
+    left: 18%;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.registerButton {
+    cursor: pointer;
+    padding: 1vw;
+    margin: 1vw;
+    border: 0.4vw solid #3498db;
+    border-radius: 1vw;
+    color: #3498db;
+    background-color: #fff;
+    font-size: 2vw;
+    transition: background-color 0.3s, color 0.3s;
+    width: 17%;
+    height: 2%;
+    position: absolute;
+    top: 55%;
+    left: 18%;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.getQRButton {
+    cursor: pointer;
+    padding: 1vw;
+    margin: 1vw;
+    border: 0.4vw solid #3498db;
+    border-radius: 1vw;
+    color: #3498db;
+    background-color: #fff;
+    font-size: 2vw;
+    transition: background-color 0.3s, color 0.3s;
+    width: 25%;
+    height: 2%;
+    position: absolute;
+    top: 79%;
+    left: 45%;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.loginButton:hover, .registerButton:hover, .getQRButton:hover {
+  background-color: #3498db;
+  color: #fff;
+}
+
 .QRContainer {
 }
 
@@ -570,6 +754,44 @@ export default defineComponent({
   object-fit: cover;
 }
 
+.qr-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.qr-frame {
+  background-color: #fff;
+  border: 20px solid #fff; /* Adjust the border size based on your preference */
+  border-radius: 20px; /* Adjust the border radius based on your preference */
+}
+
+.qr-frame img {
+  width: 50vw;
+  height: auto;
+}
+
+.closeButton {
+  position: absolute;
+  top: 5%;
+  right: 10%;
+  width: 35px;
+  height: 35px;
+  padding: 10px;
+  background-color: #fff;
+  border: 1px solid #000;
+  border-radius: 50%;
+  cursor: pointer;
+  text-align: center;
+}
+
 .appAccounts {
   position: fixed;
   background-color: #b8e3ff;
@@ -579,4 +801,6 @@ export default defineComponent({
   font-size: var(--font-size-17xl);
   color: var(--color-black);
   font-family: var(--font-jua);
-}</style>
+}
+
+</style>

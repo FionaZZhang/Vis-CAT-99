@@ -19,6 +19,7 @@
         <div class="startButtonText">Start</div>
         <img class="playIcon" alt="" src="../assets/play-icon@2x.png"/>
       </div>
+      <div class="dataDashboard" @click="navigateToDashboard">Data Dashboard</div>
       <div class="buttonPlayground" @click="navigateToPlayground">
         <img class="buttonPlaygroundIcon" alt="" src="../assets/button-playground.svg"/>
         <div class="playgroundButtonText">Playground</div>
@@ -149,6 +150,9 @@
         speak("Accounts_page");
         this.$router.push("/Account");
       },
+      navigateToDashboard(){
+        this.$router.push("/Dashboard");
+      },
       playLobbyInstructions(){
         speak("Lobby_welcome");
       }
@@ -156,6 +160,34 @@
   });
 </script>
 <style scoped>
+
+
+  .dataDashboard {
+      cursor: pointer;
+      padding: 1vw;
+      margin: 1vw;
+      border: 0.4vw solid #3498db;
+      border-radius: 1vw;
+      color: #3498db;
+      background-color: #fff;
+      font-size: 2vw;
+      transition: background-color 0.3s, color 0.3s;
+      width: 15%;
+      height: 5%;
+      position: absolute;
+      top: 100%;
+      left: 35%;
+      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+  }
+
+  .dataDashboard:hover {
+    background-color: #3498db;
+    color: #fff;
+  }
+
   .mapIcon {
     position: fixed;
     display: block;

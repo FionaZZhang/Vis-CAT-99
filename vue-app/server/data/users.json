@@ -1,0 +1,128 @@
+{
+  "classes": [
+    {
+      "className": "Unimelb",
+      "students": [
+        {
+          "name": "Feliks Kong",
+          "id": 14705
+        },
+        {
+          "name": "Anita Yang",
+          "id": 10220
+        },
+        {
+          "name": "Leo Shen",
+          "id": 13602
+        },
+        {
+          "name": "Vincent Ng",
+          "id": 15056
+        },
+        {
+          "name": "Fiona Zhang",
+          "id": 18414
+        }
+      ]
+    },
+    {
+      "className": "Viscat",
+      "students": [
+        {
+          "name": "Abd Def",
+          "id": 13499
+        },
+        {
+          "name": "Bcd Efg",
+          "id": 11417
+        },
+        {
+          "name": "Cde Fgh",
+          "id": 12874
+        }
+      ]
+    },
+    {
+      "className": "ClassBalabala",
+      "students": [
+        {
+          "name": "Fiona Zhang",
+          "id": 12100
+        },
+        {
+          "name": "Zhang Fiona",
+          "id": 15551
+        }
+      ]
+    },
+    {
+      "className": "testing",
+      "students": [
+        {
+          "name": "One Two",
+          "id": 13523
+        },
+        {
+          "name": "Three Four",
+          "id": 15886
+        },
+        {
+          "name": "Five Six",
+          "id": 15524
+        },
+        {
+          "name": "Seven Eight",
+          "id": 17563
+        }
+      ]
+    },
+    {
+      "className": "testingClass",
+      "students": [
+        {
+          "name": "Lalala Baba",
+          "id": 17482
+        },
+        {
+          "name": "Bababa Lala",
+          "id": 16578
+        }
+      ]
+    },
+    {
+      "className": "xxx",
+      "students": [
+        {
+          "name": "A B",
+          "id": 12956
+        },
+        {
+          "name": "C D",
+          "id": 13336
+        }
+      ]
+    },
+    {
+      "className": "魔仙堡",
+      "students": [
+        {
+          "name": "Joyce Moxian",
+          "id": 12990
+        },
+        {
+          "name": "Dahua Moxian",
+          "id": 17034
+        }
+      ]
+    },
+    {
+      "className": "Aaa",
+      "students": [
+        {
+          "name": "AAA BBBB",
+          "id": 17290
+        }
+      ]
+    }
+  ]
+}

@@ -78,6 +78,15 @@
           // Handle any errors that occur during the request
           console.error('Error sending data:', error);
         });
+      axios.post('http://localhost:3000/api/send-total', { id: store.state.studentId, score: total})
+        .then(response => {
+          // Handle the response from the backend if needed
+          console.log('Data sent successfully our backend:', response.data);
+        })
+        .catch(error => {
+          // Handle any errors that occur during the request
+          console.error('Error sending data:', error);
+        });
 
       axios.post('https://vis-cat-77d80383cce0.herokuapp.com/users/student/mark/all', csvData, {
           headers: {
