@@ -55,7 +55,8 @@
     },
     mounted() {
       speak("victory");
-      //let total = store.state.copy + store.state.lateral + store.state.vertical;
+      let total = store.state.copy + store.state.lateral + store.state.vertical;
+      const csvData = `${store.state.studentId},${total}`;
       console.log(store.state.studentId);
 
       axios.post('http://viscat.shop:5002/api/auth/score', { studentId: "123", testScore: "B"})
