@@ -14,7 +14,7 @@
       <img class="yellowCatIcon" alt="" src="../assets/yellow-cat@2x.png" >
       <img class="greyCatIcon" alt="" src="../assets/grey_cat@2x.png" >
       
-      <div class="buttonStart" @click="navigateToInstruction">
+      <div class="buttonStart" @click="navigateToTest">
         <img class="buttonStartIcon" alt="" src="../assets/button-start.svg" />
         <div class="startButtonText">Start</div>
         <img class="playIcon" alt="" src="../assets/play-icon@2x.png"/>
@@ -57,7 +57,7 @@
       </div>
     </div>
   </div>
-  <div :class="soundButton" @click="changeSound">
+  <div class="soundButton" @click="changeSound">
     <img class="soundButtonIcon" alt="" :src="soundButtonSrc" />
   </div>
 
@@ -137,13 +137,13 @@
       navigateToChallenge() {
         this.$router.push("/Challenge1");
       },
-      navigateToInstruction(){
+      navigateToTest(){
         // if (!store.selectedStudent) {
         //   alert('Please log in first!');
         // } else {
         //   this.$router.push("/Instruction");
         // }
-        this.$router.push("/Instruction");
+        this.$router.push("/Test1");
       },
       navigateToAccount(){
         speak("Accounts_page");

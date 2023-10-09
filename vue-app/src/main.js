@@ -5,9 +5,9 @@ import AppLobby from "./pages/Lobby.vue";
 import AppSettings from "./pages/Settings.vue";
 import AppPlayground from "./pages/Playground.vue";
 import AppStart from "./pages/Start.vue";
-import AppInstruction from "./pages/Instruction.vue";
-import AppInstruction2 from "./pages/Instruction2.vue";
-import AppInstruction3 from "./pages/Instruction3.vue";
+import AppTest1 from "./pages/Test1.vue";
+import AppTest2 from "./pages/Test2.vue";
+import AppTest3 from "./pages/Test3.vue";
 import AppAccount from "./pages/Account.vue";
 import AppFinish from "./pages/Finish.vue";
 import AppChallenge1 from "./pages/Challenge1.vue"
@@ -48,19 +48,19 @@ const routes = [
     component: AppStart,
   },
   {	
-    path: "/Instruction",	
-    name: "Instruction",	
-    component: AppInstruction,	
+    path: "/Test1",	
+    name: "Test1",	
+    component: AppTest1,	
   },
   {	
-    path: "/Instruction2",	
-    name: "Instruction2",	
-    component: AppInstruction2,	
+    path: "/Test2",	
+    name: "Test2",	
+    component: AppTest2,	
   },
   {	
-    path: "/Instruction3",	
-    name: "Instruction3",	
-    component: AppInstruction3,	
+    path: "/Test3",	
+    name: "Test3",	
+    component: AppTest3,	
   },
   {	
     path: "/Finish",	

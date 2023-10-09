@@ -188,7 +188,6 @@ body {
   font-size: var(--font-size-21xl);
 }
 
-
 .iconSettings:hover .settingsIcon,
 .iconUser:hover .userIcon,
 .iconHome:hover .homeIcon {
@@ -196,5 +195,8 @@ body {
   transition: 0.3s;
 }
 
+.soundButton:hover .soundButtonIcon {
+  opacity: 0.8;
+}
 
 

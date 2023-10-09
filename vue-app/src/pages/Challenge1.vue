@@ -3,7 +3,7 @@
     <nav>
       <div class="Icon">
         <img src="../assets/button_home.png" alt="Button Home" id="buttonHome" @click="navigateToLobby">
-        <img src="../assets/button_restart.png" alt="Button Restart" id="buttonRestart" @click="StartInstruction">
+        <img src="../assets/button_restart.png" alt="Button Restart" id="buttonReplay" @click="StartInstruction">
         <img :src="soundButtonSrc" alt="Button Sound" id="buttonSound" @click="changeSound">
       </div>
       <h3>Time used: {{ minutes }}:{{ secondsFormatted }}</h3>
