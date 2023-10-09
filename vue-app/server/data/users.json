@@ -114,6 +114,15 @@
           "id": 17034
         }
       ]
+    },
+    {
+      "className": "Aaa",
+      "students": [
+        {
+          "name": "AAA BBBB",
+          "id": 17290
+        }
+      ]
     }
   ]
 }
