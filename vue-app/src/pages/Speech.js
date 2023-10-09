@@ -2,7 +2,7 @@ import { store } from "@/store";
 
 export let voiceOn = true;
 
-export const voices = ['Anita', 'Fiona', 'Vincent'];
+export const voices = ['Anita', 'Fiona', 'Vincent', 'Feliks'];
 
 
 export let currentVoice = '';

@@ -73,7 +73,7 @@
     <div v-if="instructionPopUp" class="modal-container">
       <div class="instructionPopUp-modal">
         <div class="inter_page_content">
-          <img class="instructionGIF" src="../assets/copyPattern.gif" alt="instructionGIF">
+          <img class="instructionGIF" src="../assets/copy_pattern.gif" alt="instructionGIF">
           <img class="instructionConfirm" id="buttonInstructionConfirm" src="../assets/button_confirm.png" @click="CloseInstruction(); loadPatternAndConnect(this.originalPattern); startTimer()">
         </div>   
       </div>
