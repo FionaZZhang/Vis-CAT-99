@@ -21,7 +21,7 @@ export const store = createStore({
     school: "",
     class: "",
     arrowSize: 60,
-    strokeWidth: 15,
+    strokeWidth: 20,
   },
 
   actions: {

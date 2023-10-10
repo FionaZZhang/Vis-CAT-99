@@ -439,4 +439,16 @@ export default defineComponent({
   width: 100vw;
   height: 100vh;
 }  
+.instructionPopUp-modal {
+  position: fixed;
+  left: 7.5vw;
+  top: 7.5vh;
+  background-color: #dceae1;
+  border-radius: 10px;
+  /* padding: 20px; */
+  width: 85vw;
+  height: 85vh;
+  text-align: center;
+  align-items: center;
+}
 </style>
