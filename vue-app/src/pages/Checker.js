@@ -3,14 +3,12 @@ export function checkCorrectness(originalPattern, requirement, userInput) {
     if (originalPattern.length != userInput.length) {
         return false;
     }
-
     // unify data type to from array to list
     const targetPattern = originalPattern.map(int => Number(int));
     const userPattern = userInput.map(char => Number(char));
     // change cell id list to coordinate list
     const originalPath = toCoordinateList(targetPattern);
     const userPath = toCoordinateList(userPattern);
-
     let target;
     switch (requirement) {
         case "copy":

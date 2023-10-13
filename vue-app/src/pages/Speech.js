@@ -1,10 +1,6 @@
 import { store } from "@/store";
-
 export let voiceOn = true;
-
 export const voices = ['Anita', 'Fiona', 'Vincent', 'Feliks'];
-
-
 export let currentVoice = '';
 
 let audio = null;
@@ -24,7 +20,6 @@ export function getVoices(){
 export function speak(file){
     pauseAudio();
     if (voiceOn){
-        // If no voice selected, set first one as default 
         if (currentVoice === ''){
             currentVoice = voices[0];
         }
@@ -61,9 +56,8 @@ export function playAudio(){
 }
 
 export function pauseAudio() {
-    // If audio is not undefined and if is playing, pause it
     if (audio && !audio.paused) {
       audio.pause();
-      audio.currentTime = 0; // Rewind track to beginning (is you need this)
+      audio.currentTime = 0; 
     }
 }

@@ -21,7 +21,6 @@
         </div>
       </div>
     </div>
-
     <div class="frameChild">
       <div class="studentsContainer">
         <div v-for="(student, index) in students" :key="index" class="student">
@@ -50,9 +49,7 @@
       </button>
       <img class="selectLine1Icon" alt="" src="../assets/select-line2.svg" />
       <img class="selectLine2Icon" alt="" src="../assets/select-line2.svg" />
-
     </div>
-
     <div v-if="showQR" class="QRContainer">
       <div class="QRText">
         Scan QR code
@@ -63,11 +60,8 @@
         autoplay
       ></video>
     </div>
-
     <div class="container">
-      <!-- <div id="result" class="results"></div> -->
       <div id="schoolname" class="schoolName"></div>
-
       <img class="dotLineIcon" alt="" src="../assets/dot-line.svg" />
       <div class="dotLineIcon">
         <div class="dotDecor" />
@@ -90,7 +84,6 @@ import { defineComponent } from "vue";
 import jsQR from 'jsqr';
 import {store} from "@/store";
 import { speak, playAudio, muteAudio } from "./Speech.js";
-
 export default defineComponent({
   name: "AppAccount",
   data() {
@@ -134,7 +127,7 @@ export default defineComponent({
       this.selectedRef = this.$refs.selectedRef;
     },
     stopVideo() {
-      const video = document.getElementById('qrVideo'); // Access the video element by ID
+      const video = document.getElementById('qrVideo'); 
       if (video && video.srcObject) {
         video.srcObject.getTracks().forEach(track => track.stop());
         video.removeAttribute('src');
@@ -157,16 +150,12 @@ export default defineComponent({
         this.students = [];
         this.selectedStudent = [];
         this.showQR = true;
-
         const schoolNameDiv = document.getElementById('schoolname');
         schoolNameDiv.textContent = this.school;
         const classDiv = document.getElementById('classnum');
         classDiv.textContent = this.class;
-
         const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
         const video = document.getElementById('qrVideo');
-
-        // Check if the video element exists
         if (video) {
           video.srcObject = stream;
           await video.play();
@@ -175,13 +164,11 @@ export default defineComponent({
           this.showQR = false;
           return;
         }
-
         const canvas = document.createElement('canvas');
         const context = canvas.getContext('2d');
         canvas.width = video.videoWidth;
         canvas.height = video.videoHeight;
         context.clearRect(0, 0, canvas.width, canvas.height);
-
         const scanInterval = setInterval(() => {
           context.drawImage(video, 0, 0, canvas.width, canvas.height);
           const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
@@ -206,14 +193,9 @@ export default defineComponent({
         this.showQR = false;
       }
     },
-
     parseQRCodeData(qrData) {
       const lines = qrData.split('\n');
-
-      // Extract student data
       const studentsData = lines;
-
-      // Process student data into an array of objects
       const students = studentsData.map(studentInfo => {
         const [name, id] = studentInfo.split(',').map(part => part.trim());
         return {
@@ -221,16 +203,11 @@ export default defineComponent({
           id,
         };
       });
-
       return {
         students,
       };
     },
-
-
-
     displayResult(qrData) {
-
       const animalHeadIcons = [
         'elephant.png',
         'sheep.png',
@@ -239,9 +216,7 @@ export default defineComponent({
         'giraffe.png',
         'cheetah.png',
       ];
-
       let iconIndex = 0;
-
       this.students = qrData.students.map((student) => {
         const iconSrc = require(`@/assets/animals/${animalHeadIcons[iconIndex]}`);
         iconIndex = (iconIndex + 1) % animalHeadIcons.length;
@@ -275,38 +250,33 @@ export default defineComponent({
   },
 });
 </script>
+
 <style scoped>
 .QRContainer {
 }
-
 .selectButton {
   position: absolute;
   top: 18vh;
   left: 5vw;
-  background-color: #8B4513; /* Change this to your desired button color */
-  color: #fff; /* Change this to your desired text color */
+  background-color: #8B4513; 
+  color: #fff; 
   border: none;
   padding: 5px 10px;
   cursor: pointer;
-  z-index: 1; /* Ensure the button is on top of the images */
-  border-radius: 15px; /* Round border */
+  z-index: 1; 
+  border-radius: 15px; 
 }
-
 .button-selected {
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Apply drop shadow when selected */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); 
 }
-
 .selectButton:hover {
-  background-color: #654321; /* Darker brown on hover */
+  background-color: #654321; 
 }
-
-/* Styles for selected icon */
 .animalHeadIcon.selected {
   powition: relative;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* Lighter background shadow */
-  z-index: 99999999; /* Ensure it appears above other elements */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); 
+  z-index: 99999999; 
 }
-
 .QRText {
   position: absolute;
   top: calc(50% - 20%);
@@ -318,7 +288,6 @@ export default defineComponent({
   transform: translate(-50%, -50%);
   font-size: 50%;
 }
-
 .QRVideo {
   position: absolute;
   top: 50%;
@@ -330,7 +299,6 @@ export default defineComponent({
   border-radius: 10px;
   z-index: 99999;
 }
-
 .container {
   position: fixed;
   top: 20%;
@@ -342,50 +310,37 @@ export default defineComponent({
   justify-content: space-around;
   gap: 20%;
 }
-
 .studentsContainer {
   margin-top: 4vw;
   display: flex;
   justify-content: space-between;
-  /* Adjust as needed */
   max-width: 90%;
-  /* Ensure the containers fit within the available space */
   padding: 2vw;
-  /* Adjust padding as needed */
   box-sizing: border-box;
-  /* Include padding and border in the element's total width and height */
   flex-wrap: wrap;
 }
-
 .student {
   flex: 0 0 calc(33.33% - 2rem);
-  /* Adjust the width and margin as needed */
   display: flex;
   flex-direction: column;
   align-items: center;
   margin: 1rem;
   box-sizing: border-box;
-  /* Include padding and border in the element's total width and height */
 }
-
 .animalHeadIcon {
   max-width: 100%;
-  /* Ensure the image fits within the container */
   height: auto;
-  /* Auto-adjust the height to maintain aspect ratio */
   margin-bottom: 0.5rem;
 }
-
 .studentName {
   font-size: 16px;
   font-weight: bold;
 }
-
 .frameChild {
   position: fixed;
   display: block;
-  overflow-y: scroll; /* Enable vertical scrolling */
-  overflow-x: visible; /* Hide horizontal overflow */
+  overflow-y: scroll; 
+  overflow-x: visible; 
   top: 0%;
   right: 0%;
   bottom: 0%;
@@ -399,7 +354,6 @@ export default defineComponent({
   object-fit: cover;
   z-index: 999;
 }
-
 .userIcon {
   position: absolute;
   height: 97.5%;
@@ -413,7 +367,6 @@ export default defineComponent({
   max-height: 100%;
   object-fit: cover;
 }
-
 .iconUser {
   position: absolute;
   bottom: 30%;
@@ -421,15 +374,12 @@ export default defineComponent({
   width: 9vw;
   height: 9vw;
 }
-
 .accountsIconText {
   position: absolute;
   bottom: -38%;
   left: 0%;
   font-size: 2.5vw;
 }
-
-
 .selected {
   position: absolute;
   border-radius: 50%;
@@ -438,7 +388,6 @@ export default defineComponent({
   width: 20vw;
   height: 20vw;
 }
-
 .selectedSheetChild {
   display: flex;
   flex-direction: column;
@@ -448,34 +397,28 @@ export default defineComponent({
   border-radius: 12px;
   z-index: 99999;
 }
-
 .age {
   position: absolute;
   top: 4.56rem;
   left: 2.25rem;
 }
-
 .name {
   position: absolute;
   top: 1.19rem;
   left: 2.25rem;
 }
-
 .selectLine1Icon {
   position: absolute;
   top: 3.22rem;
   left: 1.5rem;
 
 }
-
 .selectLine2Icon {
   position: absolute;
   top: 6.38rem;
   left: 1.5rem;
 
 }
-
-
 .selectedSheet {
   position: absolute;
   top: 40%;
@@ -485,14 +428,12 @@ export default defineComponent({
   z-index: 99999;
   font-size: var(--font-size-xl);
 }
-
 .schoolName {
   position: absolute;
   top: 52%;
   left: 22%;
   font-size: 1.8vw;
 }
-
 .dotDecor {
   position: absolute;
   top: -160%;
@@ -502,7 +443,6 @@ export default defineComponent({
   width: 1.3vw;
   height: 1.3vw;
 }
-
 .dotLineIcon {
   position: absolute;
   top: 25.5%;
@@ -511,10 +451,8 @@ export default defineComponent({
   height: 0.3vw;
   object-fit: cover;
   max-width: 100%;
-  /* overflow: hidden; */
   max-height: 100%;
 }
-
 .class {
   position: absolute;
   top: 59%;
@@ -523,7 +461,6 @@ export default defineComponent({
   text-decoration: underline;
   color: var(--color-plum);
 }
-
 .scanText {
   position: absolute;
   top: 25%;
@@ -532,7 +469,6 @@ export default defineComponent({
   text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   -webkit-text-stroke: 1px #000;
 }
-
 .scanIcon {
   position: absolute;
   top: 5%;
@@ -544,7 +480,6 @@ export default defineComponent({
   overflow: hidden;
   max-height: 100%;
 }
-
 .scanButton {
   position: absolute;
   left: 18%;
@@ -557,7 +492,6 @@ export default defineComponent({
   background-color: var(--color-white);
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
-
 .houseIcon {
   position: absolute;
   top: 8%;
@@ -569,7 +503,6 @@ export default defineComponent({
   max-height: 100%;
   object-fit: cover;
 }
-
 .appAccounts {
   position: fixed;
   background-color: #b8e3ff;
@@ -579,4 +512,5 @@ export default defineComponent({
   font-size: var(--font-size-17xl);
   color: var(--color-black);
   font-family: var(--font-jua);
-}</style>
+}
+</style>
