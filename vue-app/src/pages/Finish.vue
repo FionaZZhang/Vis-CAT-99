@@ -289,5 +289,8 @@ export default defineComponent({
   opacity: 0.7;
   transition: opacity 0.3s;
 }
+.soundButtonIcon:hover {
+  opacity: 0.8;
+}
 </style>
 
