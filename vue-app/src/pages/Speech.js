@@ -60,7 +60,7 @@ export function playAudio(){
     }
 }
 
-function pauseAudio() {
+export function pauseAudio() {
     // If audio is not undefined and if is playing, pause it
     if (audio && !audio.paused) {
       audio.pause();
