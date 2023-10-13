@@ -78,7 +78,7 @@
 </template>
 <script>
   import { defineComponent } from "vue";
-  import { speak, muteAudio, playAudio } from "./Speech.js";
+  import { speak, muteAudio, playAudio, pauseAudio } from "./Speech.js";
   import { store } from "@/store";
   import "@/assets/gamepage.css";
 
@@ -130,9 +130,11 @@
       },
       displayDialogue() {
         this.showModal = true;
+        speak("Challenge_reminder");
       },
       cancelDialogue() {
         this.showModal = false;
+        pauseAudio();
       },
       navigateToChallenge() {
         this.$router.push("/Challenge1");
