@@ -13,7 +13,7 @@ import AppChallenge1 from "./pages/Challenge1.vue"
 import AppChallenge2 from "./pages/Challenge2.vue"
 import { store } from './store';
 import axios from 'axios';
-import "./global.css";
+import "./assets/global.css";
 
 axios.defaults.baseURL = 'http://localhost:3000';
 const routes = [
