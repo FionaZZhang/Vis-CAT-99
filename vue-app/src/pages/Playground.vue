@@ -41,7 +41,7 @@
 <script>
 import { defineComponent } from "vue";
 import { store } from "@/store";
-import { speak, muteAudio, playAudio } from "./Speech.js";
+import { speak, muteAudio, playAudio } from "../Speech.js";
 import "@/assets/gamepage.css";
 export default defineComponent({
   name: "AppPlayground",

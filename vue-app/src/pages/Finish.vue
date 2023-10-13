@@ -26,7 +26,7 @@
 import { defineComponent } from "vue";
 import {store} from "@/store";
 import axios from 'axios';
-import { speak, muteAudio, playAudio } from "./Speech";
+import { speak, muteAudio, playAudio } from "../Speech";
 export default defineComponent({
   name: "AppFinish",
   computed: {
