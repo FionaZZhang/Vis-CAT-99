@@ -68,8 +68,8 @@
             <h3>Are you ready to challenge yourself?</h3>
           </div>
           <div class="custom-modal-buttons">
-            <button class="cute-button" @click="navigateToChallenge">Yes, let's start</button>
-            <button class="cute-button" @click="cancelDialogue">No, give up</button>
+            <button class="cute-button" @click="navigateToChallenge">Yes, Let's start</button>
+            <button class="cute-button" @click="cancelDialogue">No, I need more time</button>
           </div>
         </div>
       </div>
