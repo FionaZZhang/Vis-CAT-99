@@ -1,5 +1,3 @@
-// store.js
-
 import { createStore } from 'vuex';
 
 export const store = createStore({
@@ -23,7 +21,6 @@ export const store = createStore({
     arrowSize: 60,
     strokeWidth: 20,
   },
-
   actions: {
   }
 });

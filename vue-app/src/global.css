@@ -7,39 +7,29 @@
 body {
   margin: 0;
   line-height: normal;
-  /* Set a base font size, 16px is usually the browser default */
   font-size: 16px;
 }
-
 :root {
-  /* fonts */
   --font-inder: 'Inder', sans-serif;
   --font-jua: 'Jua', sans-serif;
   --font-inter: Inter;
-
-  /* font sizes */
-  --font-size-21xl: 2.5rem;  /* 40/16 = 2.5rem (if base size is 16px) */
+  --font-size-21xl: 2.5rem; 
   --font-size-77xl: 6rem;
   --font-size-21xl: 2.5rem;
   --font-size-6xl: 1.56rem;
   --font-size-29xl: 48px;
   --font-size-17xl: 2.25rem;
   --font-size-xl: 1.25rem;
-
-  /* Colors */
   --color-black: #000;
   --color-white: #fff;
   --color-palegoldenrod: #feeaa5;
   --color-plum: #a478b8;
   --color-peachpuff: #f1c5ae;
-
-  /* border radiuses */
-  --br-21xl: 2.5rem;  /* 40/16 = 2.5rem (if base size is 16px) */
-  --br-11xl: 1.875rem;  /* 30/16 = 1.875rem (if base size is 16px) */
+  --br-21xl: 2.5rem;  
+  --br-11xl: 1.875rem; 
   --br-xl: 20px;
   --br-11xl: 30px;
 }
-
 .navigationBar {
   position: fixed;
   bottom: 2%;
@@ -50,7 +40,6 @@ body {
   width: 28.2vw;
   height: 10.5vw;
 }
-
 .viscatIcon {
   position: absolute;
   height: 100%;
@@ -111,7 +100,6 @@ body {
   background-color: var(--color-palegoldenrod);
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
-
 .settingsIcon {
   position: absolute;
   height: 79.17%;
@@ -132,7 +120,6 @@ body {
   width: 8.2vw;
   height: 8.2vw;
 }
-
 .userIcon {
   position: absolute;
   height: 97.5%;
@@ -153,7 +140,6 @@ body {
   width: 8.2vw;
   height: 8.2vw;
 }
-
 .buttonHome {
   position: absolute;
   height: 100%;
@@ -187,14 +173,12 @@ body {
   height: 8.2vw;
   font-size: var(--font-size-21xl);
 }
-
 .iconSettings:hover .settingsIcon,
 .iconUser:hover .userIcon,
 .iconHome:hover .homeIcon {
   transform: scale(1.1);
   transition: 0.3s;
 }
-
 .soundButton:hover .soundButtonIcon {
   opacity: 0.8;
 }

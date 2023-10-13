@@ -98,7 +98,6 @@ export default defineComponent({
       secondTry: true,
       interPage: false,
       instructionPopUp: false,
-      // originalPattern: [1, 2, 3, 4, 7, 10 ,13],
       originalPattern: [1, 2, 3, 4, 8, 7, 10, 11, 5, 9, 13, 14, 15, 16],
       timer: null,
       elapsedTime: 0,
@@ -106,14 +105,11 @@ export default defineComponent({
     };
   },
   mounted() {
-    // clear all the existing lines;
-    
     this.svg = this.$el.querySelector('.connector');
     document.addEventListener('touchmove', this.preventScroll, { passive: false });
     window.addEventListener('scroll', this.ReallignCells);
     window.addEventListener('resize', this.ReallignCells);
     this.StartInstruction();
-    // this.loadPatternAndConnect(this.originalPattern);
   },
   beforeUnmount() {
     clearInterval(this.timer);
@@ -122,7 +118,6 @@ export default defineComponent({
     window.removeEventListener('scroll', this.ReallignCells);
     window.removeEventListener('resize', this.ReallignCells);
   },
-
   computed: {
     soundButtonSrc(){
       return store.state.isMute
@@ -146,21 +141,17 @@ export default defineComponent({
         playAudio();
       }
     },
-    
     navigateToPage5() {
       this.$router.push("/Challenge2");
     },
-   
     StartInstruction(){
       this.instructionPopUp = true;
       speak("Challenge1_1");
     },
-
     CloseInstruction(){
       this.instructionPopUp = false;
       speak("Challenge1_2");
     },
-
     navigateToStart() {
       if (checker.checkCorrectness(this.originalPattern, "rotate180", this.pattern)) {
         if (store.state.isButtonOn4){
@@ -178,7 +169,6 @@ export default defineComponent({
             store.state.copy = 1;
           }
           this.interPage = true;
-          // this.$router.push("/instruction2");
         }
       }
       else {
@@ -191,7 +181,6 @@ export default defineComponent({
         }
       }
     },
-
     startTimer() {
       if (!this.timerStarted) {
         this.timerStarted = true; 
@@ -204,12 +193,10 @@ export default defineComponent({
         this.timerStarted = false; 
       }
     },
-
     restartTimer() {
       this.elapsedTime = 0;
       this.startTimer();
     },
-
     YesRetry() {
       this.clearPattern();
       this.showModal = false;
@@ -225,19 +212,16 @@ export default defineComponent({
         this.svg.removeChild(this.svg.lastChild);
       }
     },
-    
     preventScroll() {
       document.getElementById('graphArea').addEventListener('touchmove', function(event) {
       event.preventDefault();}, { passive: false });
     },
-
     startDrawing(event) {
       const cell = event.target;
       var lastId = -1;
       if (this.pattern.length != 0){
         lastId = this.pattern[this.pattern.length-1];
       }
-
       if (this.pattern.length == 0 || lastId == cell.dataset.id){
         this.isDrawing = true;
         const id = cell.dataset.id;
@@ -247,7 +231,6 @@ export default defineComponent({
         }
       }
     },
-
     handleMouseOver(event) {
       const cell = event.target;
       const id = cell.dataset.id;
@@ -261,12 +244,10 @@ export default defineComponent({
           this.drawLine(prevCell, cell);
         }
       }
-
       if (this.pattern.length > 0){
         this.ReallignCells();
       }
     },
-
     handleTouchMove(event) {
       const touch = event.touches[0];
       const element = document.elementFromPoint(touch.clientX, touch.clientY);
@@ -283,12 +264,10 @@ export default defineComponent({
           }
         }
       }
-
       if (this.pattern.length > 0){
         this.ReallignCells();
       }
     },
-
     drawLine(cell1, cell2) {
       const rect1 = cell1.getBoundingClientRect();
       const rect2 = cell2.getBoundingClientRect();
@@ -301,29 +280,24 @@ export default defineComponent({
       line.setAttribute('stroke-width', store.state.strokeWidth);
       this.svg.appendChild(line);
     },
-
     loadPatternAndConnect(patternDots) {
       const dots = document.querySelectorAll('.dot');
       const svg = document.querySelector('.connector');
-
       for (const dot of dots) {
         const dotId = parseInt(dot.dataset.id);
         if (patternDots.includes(dotId)) {
           dot.classList.add('active');
         }
       }
-
       for (let i = 0; i < patternDots.length - 1; i++) {
         const dotId1 = patternDots[i];
         const dotId2 = patternDots[i + 1];
         const dot1 = document.querySelector(`.dot[data-id="${dotId1}"]`);
         const dot2 = document.querySelector(`.dot[data-id="${dotId2}"]`);
-
         const x1 = dot1.offsetLeft + dot1.offsetWidth / 2;
         const y1 = dot1.offsetTop + dot1.offsetHeight / 2;
         const x2 = dot2.offsetLeft + dot2.offsetWidth / 2;
         const y2 = dot2.offsetTop + dot2.offsetHeight / 2;
-
         const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
         line.setAttribute('x1', x1);
         line.setAttribute('y1', y1);
@@ -332,45 +306,36 @@ export default defineComponent({
         line.setAttribute('stroke', 'black');
         line.setAttribute('stroke-width', store.state.strokeWidth);
         svg.appendChild(line);
-
         if (i === patternDots.length - 2) {
-          // Calculate the angle of the line segment and reverse it
           const angle = Math.atan2(y2 - y1, x2 - x1) - Math.PI;
-          // Rest of the code remains the same
-          const arrowSize = store.state.arrowSize; // Adjust the size of the arrowhead
+          const arrowSize = store.state.arrowSize; 
           const arrowX = x2 - arrowSize * Math.cos(angle);
           const arrowY = y2 - arrowSize * Math.sin(angle);
           const arrow = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
           arrow.setAttribute('points', `${arrowX},${arrowY} ${(arrowX + arrowSize * Math.cos(angle - Math.PI / 6))},${(arrowY + arrowSize * Math.sin(angle - Math.PI / 6))} ${(arrowX + arrowSize * Math.cos(angle + Math.PI / 6))},${(arrowY + arrowSize * Math.sin(angle + Math.PI / 6))}`);
-          arrow.setAttribute('fill', 'black'); // Arrowhead color
+          arrow.setAttribute('fill', 'black');
           svg.appendChild(arrow);
         }
       }
     },
-
-    
     RedrawPatternWhenScroll(patternDots) {
       const dots = document.querySelectorAll('.cell');
       const svg = document.querySelector('.connector');
-
       for (const dot of dots) {
         const dotId = parseInt(dot.dataset.id);
         if (patternDots.includes(dotId)) {
           dot.classList.add('active');
         }
       }
-
       for (let i = 0; i < patternDots.length - 1; i++) {
         const dotId1 = patternDots[i];
         const dotId2 = patternDots[i + 1];
         const dot1 = document.querySelector(`.cell[data-id="${dotId1}"]`);
         const dot2 = document.querySelector(`.cell[data-id="${dotId2}"]`);
-
         const x1 = dot1.offsetLeft + dot1.offsetWidth / 2;
         const y1 = dot1.offsetTop + dot1.offsetHeight / 2;
         const x2 = dot2.offsetLeft + dot2.offsetWidth / 2;
         const y2 = dot2.offsetTop + dot2.offsetHeight / 2;
-
         const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
         line.setAttribute('x1', x1);
         line.setAttribute('y1', y1);
@@ -379,22 +344,8 @@ export default defineComponent({
         line.setAttribute('stroke', '#3498db');
         line.setAttribute('stroke-width', store.state.strokeWidth);
         svg.appendChild(line);
-
-        // if (i === patternDots.length - 2) {
-        //   // Calculate the angle of the line segment and reverse it
-        //   const angle = Math.atan2(y2 - y1, x2 - x1) - Math.PI;
-        //   // Rest of the code remains the same
-        //   const arrowSize = 40; // Adjust the size of the arrowhead
-        //   const arrowX = x2 - arrowSize * Math.cos(angle);
-        //   const arrowY = y2 - arrowSize * Math.sin(angle);
-        //   const arrow = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
-        //   arrow.setAttribute('points', `${arrowX},${arrowY} ${(arrowX + arrowSize * Math.cos(angle - Math.PI / 6))},${(arrowY + arrowSize * Math.sin(angle - Math.PI / 6))} ${(arrowX + arrowSize * Math.cos(angle + Math.PI / 6))},${(arrowY + arrowSize * Math.sin(angle + Math.PI / 6))}`);
-        //   arrow.setAttribute('fill', 'black'); // Arrowhead color
-        //   svg.appendChild(arrow);
-        // }
       }
     },
-
     endDrawing() {
       this.isDrawing = false;
     },
@@ -408,13 +359,10 @@ export default defineComponent({
         this.svg.removeChild(this.svg.lastChild);
       }
     },
-
-
     ReallignCells() {
       if (this.pattern.length == 0){
         this.loadPatternAndConnect(this.originalPattern);
       }
-      
       while (this.svg.childElementCount > 0) {
         this.svg.removeChild(this.svg.lastChild);
       }
@@ -422,18 +370,12 @@ export default defineComponent({
       if (this.pattern.length > 0){
         this.RedrawPatternWhenScroll(this.pattern);
       }
-      
-      
     },
-
     revertPattern() {
       if (this.pattern.length === 0) return;
-      // Remove the last item from the pattern arrays
       const lastId = this.pattern.pop();
-      // Revert the UI change for the last cell
       const lastCell = this.$el.querySelector(`.cell[data-id="${lastId}"]`);
       lastCell.classList.remove('active');
-      // Remove the last SVG line
       if (this.svg.childElementCount > this.originalPattern.length) {
         this.svg.removeChild(this.svg.lastChild);
       }
@@ -455,7 +397,6 @@ export default defineComponent({
   top: 7.5vh;
   background-color: #dceae1;
   border-radius: 10px;
-  /* padding: 20px; */
   width: 85vw;
   height: 85vh;
   text-align: center;

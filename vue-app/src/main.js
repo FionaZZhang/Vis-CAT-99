@@ -4,7 +4,6 @@ import App from "./App.vue";
 import AppLobby from "./pages/Lobby.vue";
 import AppSettings from "./pages/Settings.vue";
 import AppPlayground from "./pages/Playground.vue";
-import AppStart from "./pages/Start.vue";
 import AppTest1 from "./pages/Test1.vue";
 import AppTest2 from "./pages/Test2.vue";
 import AppTest3 from "./pages/Test3.vue";
@@ -14,13 +13,9 @@ import AppChallenge1 from "./pages/Challenge1.vue"
 import AppChallenge2 from "./pages/Challenge2.vue"
 import { store } from './store';
 import axios from 'axios';
-
-
-
 import "./global.css";
+
 axios.defaults.baseURL = 'http://localhost:3000';
-
-
 const routes = [
   {
   path: "/",
@@ -45,11 +40,6 @@ const routes = [
     path: "/Playground",
     name: "Playground",
     component: AppPlayground,
-  },
-  {
-    path: "/Start",
-    name: "Start",
-    component: AppStart,
   },
   {	
     path: "/Test1",	
@@ -113,6 +103,5 @@ const app = createApp(App);
 app.use(router);
 app.use(store);
 app.mount("#app");
-
 
 export default router;
