@@ -76,7 +76,7 @@
 <script>
 import { defineComponent } from "vue";
 import { store } from "@/store";
-import { setVoice, currentVoice, setVoiceFlag, getVoices, speak, muteAudio, playAudio } from "./Speech.js";
+import { setVoice, currentVoice, setVoiceFlag, getVoices, speak, muteAudio, playAudio } from "../Speech.js";
 export default defineComponent({
   name: "AppSettings",
   data() {

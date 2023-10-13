@@ -69,7 +69,7 @@
 
 <script>
 import { defineComponent } from "vue";
-import { speak, muteAudio, playAudio, pauseAudio } from "./Speech.js";
+import { speak, muteAudio, playAudio, pauseAudio } from "../Speech.js";
 import { store } from "@/store";
 import "@/assets/gamepage.css";
 export default defineComponent({

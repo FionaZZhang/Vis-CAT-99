@@ -83,10 +83,10 @@
 
 <script>
 import { defineComponent } from "vue";
-import * as checker from ".//Checker.js";
+import * as checker from "../Checker.js";
 import "@/assets/gamepage.css"
 import {store} from "@/store";
-import { speak, playAudio, muteAudio} from "./Speech.js";
+import { speak, playAudio, muteAudio} from "../Speech.js";
 export default defineComponent({
   name: "AppTest2",
   data() {

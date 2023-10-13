@@ -75,10 +75,10 @@
   
 <script>
 import { defineComponent } from "vue";
-import * as checker from ".//Checker.js";
+import * as checker from "../Checker.js";
 import "@/assets/gamepage.css"
 import {store} from "@/store";
-import { speak, muteAudio, playAudio } from "./Speech.js";
+import { speak, muteAudio, playAudio } from "../Speech.js";
 export default defineComponent({
   name: "AppChallenge2",
   data() {
