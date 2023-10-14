@@ -20,6 +20,7 @@ export const store = createStore({
     class: "",
     arrowSize: 60,
     strokeWidth: 20,
+    isChallenge: false,
   },
   actions: {
   }

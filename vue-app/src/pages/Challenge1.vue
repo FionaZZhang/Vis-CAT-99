@@ -110,6 +110,7 @@ export default defineComponent({
     window.addEventListener('scroll', this.ReallignCells);
     window.addEventListener('resize', this.ReallignCells);
     this.StartInstruction();
+    store.state.isChallenge = true;
   },
   beforeUnmount() {
     clearInterval(this.timer);
