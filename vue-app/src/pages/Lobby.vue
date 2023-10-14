@@ -121,7 +121,11 @@ export default defineComponent({
       this.$router.push("/Challenge1");
     },
     navigateToTest(){
-      this.$router.push("/Test1");
+      if (!store.selectedStudent) {
+        alert('Please log in first!');
+      } else {
+        this.$router.push("/Test1");
+      }
     },
     navigateToAccount(){
       speak("Accounts_page");
