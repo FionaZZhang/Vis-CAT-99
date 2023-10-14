@@ -123,7 +123,11 @@ export default defineComponent({
     navigateToTest(){
       if (!store.state.selectedStudent) {
         alert('Please log in first!');
-      } else {
+      }
+      else if (store.state.resultSent) {
+        alert('Only one attempt allowed!');
+      }
+      else {
         this.$router.push("/Test1");
       }
     },

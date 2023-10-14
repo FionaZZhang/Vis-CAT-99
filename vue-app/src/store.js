@@ -21,6 +21,7 @@ export const store = createStore({
     arrowSize: 60,
     strokeWidth: 20,
     isChallenge: false,
+    resultSent: false,
   },
   actions: {
   }

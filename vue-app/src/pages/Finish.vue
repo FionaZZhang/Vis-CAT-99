@@ -86,6 +86,7 @@ export default defineComponent({
     store.state.copy = 0;
     store.state.lateral = 0;
     store.state.vertical = 0;
+    store.state.resultSent = true;
   },
 })
 </script>
