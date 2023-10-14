@@ -57,7 +57,7 @@ export default defineComponent({
     const csvData = `${store.state.studentId},${total}`;
     console.log(store.state.studentId);
     if (store.state.isChallenge == false) {
-      axios.post('http://viscat.shop:5002/api/auth/score', {studentId: "123", testScore: "B"})
+      axios.post('http://viscat.shop:5002/api/auth/score', {studentId: store.state.studentId, testScore: total})
           .then(response => {
             console.log('Data sent successfully backend1:', response.data);
           })
