@@ -121,7 +121,7 @@ export default defineComponent({
       this.$router.push("/Challenge1");
     },
     navigateToTest(){
-      if (!store.selectedStudent) {
+      if (!store.state.selectedStudent) {
         alert('Please log in first!');
       } else {
         this.$router.push("/Test1");

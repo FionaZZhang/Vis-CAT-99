@@ -2,7 +2,6 @@
   <body id="InsPage">
     <nav>
       <div class="Icon">
-        <img src="../assets/button_home.png" alt="Button Home" id="buttonHome" @click="navigateToLobby">
         <img src="../assets/button_restart.png" alt="Button Replay" id="buttonReplay" @click="StartInstruction">
         <img :src="soundButtonSrc" alt="Button Sound" id="buttonSound" @click="changeSound">
       </div>
@@ -204,12 +203,6 @@ export default defineComponent({
     NoGiveup() {
       this.showModal = false;
       this.$router.push("/Finish");
-    },
-    navigateToLobby() {
-      this.$router.push("/Lobby");
-      while (this.svg.firstChild) {
-        this.svg.removeChild(this.svg.lastChild);
-      }
     },
     preventScroll() {
       document.getElementById('graphArea').addEventListener('touchmove', function(event) {
