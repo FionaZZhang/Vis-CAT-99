@@ -236,6 +236,7 @@ export default defineComponent({
     selectStudentConfirm() {
       if (store.state.selectedStudentIndex === this.selectedStudentIndex) {
         store.state.selectedStudentIndex = -1;
+        store.state.selectedStudent = false;
         store.state.studentId = false;
         this.buttonText = "Select";
       } else {
