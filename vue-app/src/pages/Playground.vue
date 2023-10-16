@@ -43,6 +43,7 @@ import { defineComponent } from "vue";
 import { store } from "@/store";
 import { speak, muteAudio, playAudio } from "../Speech.js";
 import "@/assets/gamepage.css";
+import {handleLineThicknessBasedOnScreenSize} from "../utility.js"
 export default defineComponent({
   name: "AppPlayground",
   data() {
@@ -60,6 +61,7 @@ export default defineComponent({
     window.addEventListener('scroll', this.ReallignCells);
     window.addEventListener('resize', this.ReallignCells);
     this.StartInstruction();
+    handleLineThicknessBasedOnScreenSize();
   },
   beforeUnmount() {
     clearInterval(this.timer);
