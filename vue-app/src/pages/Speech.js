@@ -2,7 +2,7 @@ import { store } from "@/store";
 
 export let voiceOn = true;
 
-export const voices = ['Anita', 'Fiona', 'Vincent', 'Feliks'];
+export const voices = ['Anita', 'Feliks', 'Fiona', 'Leo', 'Vincent'];
 
 
 export let currentVoice = '';
@@ -13,8 +13,8 @@ export function setVoice(selectedVoice){
     currentVoice = selectedVoice;
 }
 
-export function setVoiceFlag(value){
-    voiceOn = value;
+export function setVoiceFlag(isValueOn){
+    voiceOn = isValueOn;
 }
 
 export function getVoices(){
