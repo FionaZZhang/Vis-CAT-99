@@ -51,33 +51,27 @@ export default defineComponent({
       }
     },
   },
-  mounted() {
+  async mounted() {
     speak("victory");
-    let total = store.state.copy + store.state.lateral + store.state.vertical;
-    const csvData = `${store.state.studentId},${total}`;
+    //let total = store.state.copy + store.state.lateral + store.state.vertical;
+    //const csvData = `${store.state.studentId},${total}`;
     console.log(store.state.studentId);
     if (store.state.isChallenge == false) {
-      axios.post('http://viscat.shop:5002/api/auth/score', {studentId: store.state.studentId, testScore: total})
-          .then(response => {
-            console.log('Data sent successfully backend1:', response.data);
-          })
-          .catch(error => {
-            console.error('Error sending data:', error);
-          });
-      axios.post('/api/send-total', {id: store.state.studentId, score: total})
-          .then(response => {
-            console.log('Data sent successfully our backend:', response.data);
-          })
-          .catch(error => {
-            console.error('Error sending data:', error);
-          });
-      axios.post('https://vis-cat-77d80383cce0.herokuapp.com/users/student/mark/all', csvData, {
-        headers: {
-          'Content-Type': 'text/csv',
-        }
+      // axios.post('http://viscat.shop:5002/api/auth/score', {studentId: store.state.studentId, testScore: total})
+      //     .then(response => {
+      //       console.log('Data sent successfully backend1:', response.data);
+      //     })
+      //     .catch(error => {
+      //       console.error('Error sending data:', error);
+      //     });
+
+      await axios({
+        method: "POST",
+        url: `https://vis-cat-77d80383cce0.herokuapp.com/users/student/mark/000002`,
+        data: { mark: 1 }
       })
           .then(response => {
-            console.log('Data sent successfully csv backend:', response.data);
+            console.log('Response:', response.data);
           })
           .catch(error => {
             console.error('Error sending data:', error);
