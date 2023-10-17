@@ -257,7 +257,7 @@ export default defineComponent({
 }
 .selectButton {
   position: absolute;
-  top: 65%;
+  bottom: 20%;
   left: 20%;
   background-color: #8B4513; 
   color: #fff; 
