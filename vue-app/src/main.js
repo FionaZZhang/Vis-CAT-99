@@ -19,7 +19,7 @@ axios.defaults.baseURL = 'http://localhost:3000';
 const routes = [
   {
   path: "/",
-  redirect: "/Account"
+  redirect: "/Lobby"
   },
   {
     path: "/Lobby",
