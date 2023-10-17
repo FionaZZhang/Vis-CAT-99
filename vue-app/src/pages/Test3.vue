@@ -146,6 +146,12 @@ export default defineComponent({
         clearInterval(this.timer); 
         this.timerStarted = false; 
       }
+      if (store.state.time3_1 == 0) {
+        store.state.time3_1 = this.elapsedTime;
+      }
+      else {
+        store.state.time3_2 = this.elapsedTime;
+      }
     },
     CloseInstruction(){
       this.instructionPopUp = false;

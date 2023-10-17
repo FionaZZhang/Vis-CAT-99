@@ -192,6 +192,12 @@ export default defineComponent({
         clearInterval(this.timer); 
         this.timerStarted = false; 
       }
+      if (store.state.time1_1 == 0) {
+        store.state.time1_1 = this.elapsedTime;
+      }
+      else {
+        store.state.time1_2 = this.elapsedTime;
+      }
     },
     restartTimer() {
       this.elapsedTime = 0;
