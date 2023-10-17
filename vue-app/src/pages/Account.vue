@@ -67,7 +67,7 @@
         <div class="dotDecor" />
       </div>
       <div id="classnum" class="class"></div>
-      <div class="scanButton" @click="openQrScanner">
+      <div class="scanButton" @click="initializeStudentInfo(); openQrScanner()">
         <div class="scanText">Scan</div>
         <img class="scanIcon" alt="" src="../assets/scan-icon@2x.png" />
       </div>
@@ -143,6 +143,15 @@ export default defineComponent({
     navigateToLobby() {
       speak("Home_page");
       this.$router.push("/Lobby");
+    },
+    initializeStudentInfo() {
+      store.state.students = [];
+      store.state.selectedStudent = false;
+      store.state.selectedStudentIndex = -1;
+      store.state.studentID = false;
+      store.state.class = "";
+      store.state.school = "";
+      this.buttonText = "Select";
     },
     async openQrScanner() {
       try {
