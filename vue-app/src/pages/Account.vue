@@ -205,9 +205,9 @@ export default defineComponent({
 
     parseQRCodeData(qrData) {
       const studentsData = qrData.split('\n');
-      const studentInGoodLength = studentsData.filter(student => student.split(',').length === 2);
-      const studentInGoodFormat = studentInGoodLength.filter(student => this.isNumeric(student.split(',')[1].trim()))
-      const students = studentInGoodFormat.map(studentInfo => {
+      const studentInValidLength = studentsData.filter(student => student.split(',').length === 2);
+      const studentInValidFormat = studentInValidLength.filter(student => this.isNumeric(student.split(',')[1].trim()))
+      const students = studentInValidFormat.map(studentInfo => {
         const [name, id] = studentInfo.split(',');
         return {
           name,
