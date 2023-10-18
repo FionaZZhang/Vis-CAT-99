@@ -262,8 +262,6 @@ export default defineComponent({
 </script>
 
 <style scoped>
-.QRContainer {
-}
 .selectButton {
   position: absolute;
   top: 65%;
@@ -283,7 +281,6 @@ export default defineComponent({
   background-color: #654321; 
 }
 .animalHeadIcon.selected {
-  powition: relative;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); 
   z-index: 99999999; 
 }
