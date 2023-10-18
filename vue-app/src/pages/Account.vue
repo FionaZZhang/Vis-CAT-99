@@ -202,20 +202,31 @@ export default defineComponent({
         this.showQR = false;
       }
     },
+
     parseQRCodeData(qrData) {
-      const lines = qrData.split('\n');
-      const studentsData = lines;
-      const students = studentsData.map(studentInfo => {
-        const [name, id] = studentInfo.split(',').map(part => part.trim());
+      const studentsData = qrData.split('\n');
+      const studentInGoodLength = studentsData.filter(student => student.split(',').length === 2);
+      const studentInGoodFormat = studentInGoodLength.filter(student => this.isNumeric(studentInGoodLength[0].split(',')[1].trim()))
+      const students = studentInGoodFormat.map(studentInfo => {
+        const [name, id] = studentInfo.split(',');
         return {
           name,
           id,
         };
       });
+      if (students.length == 0){
+        alert('QR code not in correct format');
+        throw new Error("QR code not in correct format");
+      }
       return {
         students,
       };
     },
+
+    isNumeric(str) {
+      return /^\d+$/.test(str);
+    },
+
     displayResult(qrData) {
       const animalHeadIcons = [
         'elephant.png',
