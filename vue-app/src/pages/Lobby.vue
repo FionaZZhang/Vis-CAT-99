@@ -53,18 +53,18 @@
     <img class="soundButtonIcon" alt="" :src="soundButtonSrc" />
   </div>
   <div id="modal" v-if="showModal" class="modal-container">
-      <div class="custom-modal">
-        <div class="custom-modal-content">
-          <div class="custom-modal-header">
-            <h3>Are you ready to challenge yourself?</h3>
-          </div>
-          <div class="custom-modal-buttons">
-            <button class="cute-button" @click="navigateToChallenge">Yes, Let's start</button>
-            <button class="cute-button" @click="cancelDialogue">No, I need more time</button>
-          </div>
+    <div class="custom-modal">
+      <div class="custom-modal-content">
+        <div class="custom-modal-header">
+          <h3>Are you ready to challenge yourself?</h3>
+        </div>
+        <div class="custom-modal-buttons">
+          <button class="cute-button" @click="navigateToChallenge">Yes, Let's start</button>
+          <button class="cute-button" @click="cancelDialogue">No, I need more time</button>
         </div>
       </div>
     </div>
+  </div>
 </template>
 
 <script>
