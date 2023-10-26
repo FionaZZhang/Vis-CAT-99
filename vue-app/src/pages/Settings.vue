@@ -1,4 +1,5 @@
 <template>
+  <transition name="fade" mode="out-in">
   <div class="appSettings">
     <div class="iconViscat">
       <div class="viscatIcon" />
@@ -7,7 +8,6 @@
     <div>
       <div class="navigationBar">
         <div class="iconSettings">
-          <div class="settingsIconText">Settings</div>
           <div class="buttonYellow" />
           <img class="settingsIcon" alt="" src="../assets/settings-icon1@2x.png" />
         </div>
@@ -20,21 +20,21 @@
           <img class="homeIcon" alt="" src="../assets/home-icon1@2x.png" />
         </div>
       </div>
-    </div>   
+    </div>
     <div class="welcomeText" @click="playSettingInstructions">
       <div class="cat">
         <img class="brownCatIcon" alt="" src="../assets/brown-cat@2x.png" />
       </div>
-      <img class="line" alt="" src="../assets/line-3.svg" />
-      <span>Turn on </span>
-      <span class="partialMode1">Partial Mode</span>
-      <span> if you only want to play the first level.</span>
+      <img class="line" ref="settingsLine" alt="" src="../assets/line-3.svg" />
+      <span class="partialMode0" ref="settingsFirst">Turn on </span>
+      <span class="partialMode1" ref="settingsSecond">Partial Mode</span>
+      <span class="partialMode0" ref="settingsThird"> if you only want to play the first level.</span>
     </div>
     <div class="soundButton" @click="changeSound">
       <img class="soundButtonIcon" alt="" :src="soundButtonSrc" />
-    </div>    
+    </div>
     <img class="settingsboard" alt="" src="../assets/settingsboard.png" />
-    <div class="settingsboard">      
+    <div class="settingsboard">
       <img class="settingsIcon1" alt="" src="../assets/settings-icon2@2x.png" />
       <div class="line1">
         <img alt="" src="../assets/line-2.png" />
@@ -71,6 +71,7 @@
       </div>
     </div>
   </div>
+  </transition>
 </template>
 
 <script>
@@ -84,6 +85,14 @@ export default defineComponent({
       selectedVoice: currentVoice,
       voices: getVoices(),
     };
+  },
+  mounted() {
+    setTimeout(() => {
+        this.$refs.settingsFirst.classList.add('animate');
+        this.$refs.settingsSecond.classList.add('animate');
+        this.$refs.settingsThird.classList.add('animate');
+        this.$refs.settingsLine.classList.add('animate');
+    }, 500);
   },
   computed: {
     buttononSrc1() {
@@ -126,6 +135,13 @@ export default defineComponent({
       if (store.state.isButtonOn1){
         speak("Settings_instruction");
       }
+      const brownCat = document.querySelector('.brownCatIcon');
+      if(brownCat) {
+        brownCat.classList.add('talking');
+        setTimeout(() => {
+            brownCat.classList.remove('talking');
+        }, 4000);  // 4000 milliseconds = 4 seconds
+      }
     },
     voiceChanged(){
       setVoice(this.selectedVoice);
@@ -165,6 +181,12 @@ export default defineComponent({
 </script>
 
 <style scoped>
+.fade-enter-active, .fade-leave-active {
+  transition: opacity 0.5s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active in <2.1.8 */ {
+  opacity: 0;
+}
 @font-face {
   font-family: 'Jua';
   src: url(../assets/Jua-Regular.ttf) format('truetype');
@@ -276,7 +298,11 @@ select {
   height: 12vw;
   object-fit: cover;
 }
+.partialMode0 {
+  opacity: 0;
+}
 .partialMode1 {
+  opacity: 0;
   color: var(--color-plum);
 }
 .welcomeText {
@@ -292,6 +318,7 @@ select {
   cursor: pointer;
 }
 .line {
+  opacity: 0;
   position: absolute;
   top: 140%;
   right: 44%;
@@ -318,12 +345,6 @@ select {
   left: 4%;
   width: 32vw;
   height: 0.5vw;
-}
-.settingsIconText {
-  position: absolute;
-  bottom: -38%;
-  left: 0%;
-  font-size: 2.5vw;
 }
 .appSettings {
   position: fixed;
@@ -371,5 +392,27 @@ select {
 .buttonoff4:hover {
   transform: scale(1.25);
   transition: transform 0.3s ease;
+}
+@keyframes talkingAnimation {
+  0%, 100% {
+    transform: scaleY(1);
+  }
+  50% {
+    transform: scaleY(1.05);
+  }
+}
+.talking {
+  animation: talkingAnimation 0.5s ease-in-out infinite;
+}
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+.animate {
+    animation: fadeIn 1s ease-in forwards;
 }
 </style>

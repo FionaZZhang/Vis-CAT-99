@@ -26,9 +26,9 @@
       </div>
       <div class="welcomeText" @click="playLobbyInstructions">
         <img class="brownCatIcon" alt="" src="../assets/brown-cat@2x.png"/>
-        <p class="welcome">Welcome!</p>
-        <p class="welcome">Click 'Start' to take the test!</p>
-        <img class="line" alt="" src="../assets/line-1.svg" />
+        <p class="welcome" ref="welcomeFirst">Welcome!</p>
+        <p class="welcome" ref="welcomeSecond">Click 'Start' to take the test!</p>
+        <img class="line" ref="welcomeLine" alt="" src="../assets/line-1.svg" />
       </div>
     </div>
     <div>
@@ -42,7 +42,6 @@
           <img class="userIcon" alt="" src="../assets/user-icon@2x.png" />
         </div>
         <div class="iconHome">
-          <div class="homeIconText">Home</div>
           <div class="buttonHome" />
           <img class="homeIcon" alt="" src="../assets/home-icon@2x.png" />
         </div>
@@ -81,6 +80,11 @@ export default defineComponent({
   },
   mounted() {
     document.addEventListener('touchmove', this.preventScroll, { passive: false });
+    setTimeout(() => {
+        this.$refs.welcomeFirst.classList.add('animate');
+        this.$refs.welcomeSecond.classList.add('animate');
+        this.$refs.welcomeLine.classList.add('animate');
+    }, 500);
   },
   beforeUnmount() {
     document.removeEventListener('touchmove', this.preventScroll);
@@ -133,6 +137,13 @@ export default defineComponent({
     },
     playLobbyInstructions(){
       speak("Lobby_welcome");
+      const brownCat = document.querySelector('.brownCatIcon');
+      if(brownCat) {
+        brownCat.classList.add('talking');
+        setTimeout(() => {
+            brownCat.classList.remove('talking');
+        }, 4000);  // 4000 milliseconds = 4 seconds
+      }
     }
   }
 });
@@ -204,6 +215,7 @@ export default defineComponent({
 }
 .welcome {
   margin: 0;
+  opacity: 0;
 }
 .welcomeText {
   position: absolute;
@@ -215,6 +227,7 @@ export default defineComponent({
   cursor: pointer;
 }
 .line {
+  opacity: 0;
   position: absolute;
   top: 100%;
   left: 0%;
@@ -223,12 +236,6 @@ export default defineComponent({
   max-width: 100%;
   overflow: hidden;
   max-height: 100%;
-}
-.homeIconText {
-  position: absolute;
-  bottom: -38%;
-  left: 14%;
-  font-size: 3vw;
 }
 .buttonHome {
   position: absolute;
@@ -415,7 +422,8 @@ export default defineComponent({
 }
 .iconHome:hover .homeIcon,
 .buttonStart:hover .playIcon,
-.buttonPlayground:hover .playgroundPlayButtonIcon {
+.buttonPlayground:hover .playgroundPlayButtonIcon,
+.buttonChallenge:hover .challengePlayButtonIcon{
   transform: scale(1.1);
   transition: transform 0.3s;
 }
@@ -436,5 +444,64 @@ export default defineComponent({
   padding: 20px;
   text-align: center;
   align-items: center;
+}
+:root {
+  --float-duration: 3s;
+  --float-amplitude: 10px;
+}
+
+/* Universal floating animation */
+@keyframes floatAnimation {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(calc(var(--float-amplitude) * -1));
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+.pinkCatIcon, .brownCatIcon, .yellowCatIcon, .greyCatIcon {
+  animation: floatAnimation var(--float-duration) ease-in-out infinite;
+}
+
+.pinkCatIcon {
+  --float-duration: 2.5s;
+  --float-amplitude: 10px;
+}
+
+.yellowCatIcon {
+  --float-duration: 2.8s;
+  --float-amplitude: 8px;
+}
+
+.greyCatIcon {
+  --float-duration: 3.2s;
+  --float-amplitude: 6px;
+}
+
+@keyframes talkingAnimation {
+  0%, 100% {
+    transform: scaleY(1);
+  }
+  50% {
+    transform: scaleY(1.05);
+  }
+}
+.talking {
+  animation: talkingAnimation 0.5s ease-in-out infinite;
+}
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+.animate {
+    animation: fadeIn 1s ease-in forwards;
 }
 </style>

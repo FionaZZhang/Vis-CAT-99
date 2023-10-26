@@ -126,6 +126,7 @@ export default defineComponent({
   overflow: hidden;
   max-height: 100%;
   object-fit: cover;
+  animation: bounce 2s infinite;
 }
 .viscatIcon {
   position: absolute;
@@ -293,5 +294,17 @@ export default defineComponent({
 .soundButtonIcon:hover {
   opacity: 0.8;
 }
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-10px);
+  }
+  60% {
+    transform: translateY(-5px);
+  }
+}
+
 </style>
 
