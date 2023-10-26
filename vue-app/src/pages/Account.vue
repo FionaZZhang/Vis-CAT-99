@@ -15,7 +15,6 @@
           <img class="homeIcon" alt="" src="../assets/home-icon1@2x.png" />
         </div>
         <div class="iconUser">
-          <div class="accountsIconText">Accounts</div>
           <div class="buttonYellow" />
           <img class="userIcon" alt="" src="../assets/user-icon1@2x.png" />
         </div>
@@ -51,14 +50,8 @@
       <img class="selectLine2Icon" alt="" src="../assets/select-line2.svg" />
     </div>
     <div v-if="showQR" class="QRContainer">
-      <div class="QRText">
-        Scan QR code
-      </div>
-      <video
-        id="qrVideo"
-        class="QRVideo"
-        autoplay
-      ></video>
+        <video id="qrVideo" class="QRVideo" autoplay></video>
+        <button class="closeButton" @click="stopVideo">X</button>
     </div>
     <div class="container">
       <div id="schoolname" class="schoolName"></div>
@@ -277,34 +270,51 @@ export default defineComponent({
   position: absolute;
   top: 65%;
   left: 20%;
-  background-color: #8B4513; 
-  color: #fff; 
+  background-color: #8B4513;
+  color: #fff;
   border: none;
   padding: 5px 10px;
   cursor: pointer;
-  z-index: 1; 
-  border-radius: 15px; 
+  z-index: 1;
+  border-radius: 15px;
 }
+
 .button-selected {
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); 
+  box-shadow: 0 0 0px rgba(0, 0, 0, 0.5);
 }
+
 .selectButton:hover {
-  background-color: #654321; 
+  background-color: #654321;
 }
+
+.animalHeadIcon {
+  max-width: 100%;
+  height: auto;
+  margin-bottom: 0.5rem;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  animation: float 2s infinite ease-in-out;
+}
+
+.animalHeadIcon:hover, .animalHeadIcon:focus {
+  transform: scale(1.07);
+}
+
 .animalHeadIcon.selected {
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); 
-  z-index: 99999999; 
-}
-.QRText {
-  position: absolute;
-  top: calc(50% - 20%);
-  left: 74%;
+  box-shadow: 0 0 0px rgba(0, 0, 0, 0.3);
   z-index: 99999999;
-  color: white;
-  font-weight: bold;
-  background: #a478b8d9;
-  transform: translate(-50%, -50%);
-  font-size: 50%;
+  animation: myAnimation 0.5s ease forwards;
+}
+
+@keyframes myAnimation {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+  100% { transform: scale(1.1); }
+}
+
+@keyframes float {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+    100% { transform: translateY(0); }
 }
 .QRVideo {
   position: absolute;
@@ -392,19 +402,13 @@ export default defineComponent({
   width: 9vw;
   height: 9vw;
 }
-.accountsIconText {
-  position: absolute;
-  bottom: -38%;
-  left: 0%;
-  font-size: 2.5vw;
-}
 .selected {
   position: absolute;
   border-radius: 50%;
   background-color: var(--color-palegoldenrod);
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-  width: 20vw;
-  height: 20vw;
+  width: 15vw;
+  height: 15vw;
 }
 .selectedSheetChild {
   display: flex;
@@ -509,6 +513,7 @@ export default defineComponent({
   border-radius: 34px;
   background-color: var(--color-white);
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  transition: background-color 0.3s ease, transform 0.3s ease;
 }
 .houseIcon {
   position: absolute;
@@ -530,5 +535,27 @@ export default defineComponent({
   font-size: var(--font-size-17xl);
   color: var(--color-black);
   font-family: var(--font-jua);
+}
+.scanButton:hover {
+    transform: scale(1.05);
+}
+.closeButton {
+    position: absolute;
+    top: 20vh;
+    right: 24.5vw;
+    background-color: #a478b8d9;
+    border: none;
+    border-radius: 50%;
+    width: 3vw;
+    height: 3vw;
+    color: white;
+    text-align: center;
+    line-height: 30px;
+    font-size: 16px;
+    cursor: pointer;
+    z-index: 99999999;
+}
+.closeButton:hover {
+    background-color: #8B4513;
 }
 </style>
