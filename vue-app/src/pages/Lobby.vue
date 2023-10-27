@@ -80,11 +80,19 @@ export default defineComponent({
   },
   mounted() {
     document.addEventListener('touchmove', this.preventScroll, { passive: false });
-    setTimeout(() => {
-        this.$refs.welcomeFirst.classList.add('animate');
-        this.$refs.welcomeSecond.classList.add('animate');
-        this.$refs.welcomeLine.classList.add('animate');
-    }, 500);
+    this.$nextTick(() => {
+        setTimeout(() => {
+            if (this.$refs.welcomeFirst) {
+                this.$refs.welcomeFirst.classList.add('animate');
+            }
+            if (this.$refs.welcomeSecond) {
+                this.$refs.welcomeSecond.classList.add('animate');
+            }
+            if (this.$refs.welcomeLine) {
+                this.$refs.welcomeLine.classList.add('animate');
+            }
+        }, 500);
+    });
   },
   beforeUnmount() {
     document.removeEventListener('touchmove', this.preventScroll);
