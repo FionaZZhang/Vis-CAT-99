@@ -87,12 +87,22 @@ export default defineComponent({
     };
   },
   mounted() {
-    setTimeout(() => {
-        this.$refs.settingsFirst.classList.add('animate');
-        this.$refs.settingsSecond.classList.add('animate');
-        this.$refs.settingsThird.classList.add('animate');
-        this.$refs.settingsLine.classList.add('animate');
-    }, 500);
+    this.$nextTick(() => {
+        setTimeout(() => {
+            if (this.$refs.settingsFirst) {
+                this.$refs.settingsFirst.classList.add('animate');
+            }
+            if (this.$refs.settingsSecond) {
+                this.$refs.settingsSecond.classList.add('animate');
+            }
+            if (this.$refs.settingsThird) {
+                this.$refs.settingsThird.classList.add('animate');
+            }
+            if (this.$refs.settingsLine) {
+                this.$refs.settingsLine.classList.add('animate');
+            }
+        }, 500);
+    });
   },
   computed: {
     buttononSrc1() {
