@@ -5,12 +5,14 @@
         <img src="../assets/button_home.png" alt="Button Home" id="buttonHome" @click="navigateToLobby">
         <img :src="soundButtonSrc" alt="Button Sound" id="buttonSound" @click="changeSound">
       </div>
-      <img src="../assets/pink-cat@2x.png" alt="Cat Icon" id="catPink">
+      <img src="../assets/pink-cat@2x.png" alt="Cat Icon" id="catPink" @mouseenter="handleMouseEnter" @mouseleave="handleMouseLeave">
     </nav>
     <main>
       <header>
         <img src="../assets/text_goal.png" alt="Goal Text" id="textGoal">
       </header>
+      <img id="greyCatIcon" alt="" src="../assets/grey_cat@2x.png" >
+      <img id="yellowCatIcon" alt="" src="../assets/yellow-cat@2x.png" >
       <section id = "graphArea">
         <div class="grid-wrapper">
           <svg class="connector"></svg>
@@ -30,11 +32,16 @@
           </div>
         </div>
       </section>
+      
     </main>
     <footer>
       <button @click="revertPattern" v-if="pattern.length > 0" id="buttonReverse"><span id="textReverse"> Reverse </span></button>
       <button @click="clearPattern" v-if="pattern.length > 0" id="buttonClear"><span id="textClear"> Clear </span></button>
     </footer>
+    <div class="hover-section" v-if="showImage">
+        <!-- acknowledgement -->
+        <img class="popup-image" src="../assets/acknowledgement.jpg" alt="Popup Image">
+      </div>
   </body>
 </template>
 
@@ -53,6 +60,7 @@ export default defineComponent({
       svg: null,
       showModal: false,
       originalPattern: [1, 2, 3, 4, 8, 7, 10, 11, 5, 9, 13, 14, 15, 16],
+      showImage: false,
     };
   },
   mounted() {
@@ -63,6 +71,7 @@ export default defineComponent({
     this.StartInstruction();
     handleLineThicknessBasedOnScreenSize();
   },
+
   beforeUnmount() {
     clearInterval(this.timer);
     this.clearPattern;
@@ -78,6 +87,15 @@ export default defineComponent({
     },
   },
   methods: {
+    handleMouseEnter() {
+      this.hoverTimer = setTimeout(() => {
+        this.showImage = true;
+      }, 3000); // 3 seconds
+    },
+    handleMouseLeave() {
+      clearTimeout(this.hoverTimer);
+      this.showImage = false;
+    },
     changeSound(){
       store.state.isMute = !(store.state.isMute);
       if (store.state.isMute){
@@ -284,5 +302,98 @@ section {
   border-radius: 20px;
   border-width: 0px;
   box-shadow: 1px 2px 3px #bebdbd;
+}
+
+#greyCatIcon{
+  position: absolute;
+  top: 30%;
+  left: 10%;
+  width: 12vw;
+  height: 12vw;
+  overflow: hidden;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: cover;
+  animation: rotateClockeiseAnimation 6s linear infinite forwards;
+}
+
+#yellowCatIcon {
+  position: absolute;
+  width: 15vw;
+  height: 15vw;
+  bottom: 30%;
+  right: 10%;
+  max-width: 100%;
+  overflow: hidden;
+  max-height: 100%;
+  object-fit: cover;
+  animation: rotateAnticlockeiseAnimation 6s linear infinite forwards;
+}
+
+#catPink {
+  position: relative;
+  right: 3%;
+  top: 3%;
+  height: 100%;
+  z-index: 1000;
+}
+#catPink:hover{
+  transform: scale(1.1)
+}
+
+.hover-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+  animation: changeTransparency 1s linear forwards
+}
+
+.popup-image {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 90%;
+    height: 50%;
+    animation: changeTransparency 1s linear forwards
+    /* opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.5s; */
+}
+
+@keyframes changeTransparency{
+  0% {
+    opacity: 0%
+  }
+  100& {
+    opacity: 100%
+  }
+}
+
+@keyframes rotateClockeiseAnimation {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes rotateAnticlockeiseAnimation {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(-360deg);
+  }
 }
 </style>
