@@ -1,6 +1,6 @@
 # Vis-CAT-99 Project Documentation
 
-Welcome to the Vis-CAT-99 project documentation. This document serves as a handover guide for developers and users, providing all necessary details for system configuration, installation, project structure, as well as additional information on changelog, detected bugs, test cases, and the traceability matrix.
+Welcome to the Vis-CAT-99 project documentation. This document serves as a handover guide for developers and users, providing all necessary details for system configuration, installation, project structure, as well as additional information on changelog, detected bugs, and testing.
 
 ## Table of Contents
 
