@@ -118,7 +118,7 @@ General Debugging:
 - Addressed miscellaneous bugs and performed general debugging to ensure stability and reliability. (`d2281b8`, `06fe794`, `53482f3`, `d50313a`)
 
 ### Documentation
-For other documentation (e.g. user stories, testing, traceability, deployment, etc.) please refer to the documentation directory `docs`.
+For other documentation (e.g. user stories, testing, traceability, deployment, etc.) please refer to the documentation directory `docs`. For enhanced visualization (e.g., GIFs, videos, which may not be retained in PDF format), please visit the Confluence workspace.
 - `docs/`
   - [Confluence workspace](https://fionazhang.atlassian.net/wiki/spaces/99Problems/overview?homepageId=164743)
   - `Adherence to agile ceremonies`
