@@ -39,7 +39,7 @@ To run the frontend application:
 ```bash
 cd vue-app
 npm run serve
-# Access the application at localhost:3030
+# Access the application at localhost:3000
 ```
 
 ### HTTPS Configuration for Mobile Access
@@ -137,6 +137,7 @@ For other documentation (e.g. user stories, testing, traceability, deployment, e
     - Coding standard
     - Testing
     - UX report
+    - Key algorithms
   - `Handover/`
     - User manual
     - Maintenance
