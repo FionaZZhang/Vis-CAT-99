@@ -2,6 +2,7 @@
 
 Welcome to the Vis-CAT-99 project documentation. This document serves as a handover guide for developers and users, providing all necessary details for system configuration, installation, project structure, as well as additional information on changelog, detected bugs, and testing.
 
+Handover related documents are in the [confluence workspace](https://fionazhang.atlassian.net/wiki/spaces/99Problems/pages/18087940/Handover). Please email `fiona.junfei@gmail.com` if you are having trouble accessing the confluence workspace.
 ## Table of Contents
 
 - [System Configuration and Installation](#system-configuration-and-installation)
@@ -138,7 +139,7 @@ For other documentation (e.g. user stories, testing, traceability, deployment, e
     - Testing
     - UX report
     - Key algorithms
-  - `Handover/`
+  - `Post-Development Documents/`
     - User manual
     - Maintenance
     - Product Trailer
